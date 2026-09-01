@@ -10,8 +10,6 @@
     font-family: -apple-system, "Segoe UI", Arial, sans-serif;
     background: #f2f0eb;
     padding: 16px;
-    max-width: 420px;
-    margin: 0 auto;
     display: flex;
     justify-content: center;
   }
@@ -81,6 +79,7 @@
     align-items: baseline;
     padding: 2px 0;
     font-size: 14px;
+    gap: 8px;
   }
   .schedule-time {
     min-width: 78px;
@@ -92,7 +91,7 @@
   .schedule-subj {
     color: #1f2937;
     font-size: 14px;
-    white-space: nowrap;
+    word-break: break-word;
   }
 
   .event {
@@ -107,7 +106,8 @@
   .event-top {
     display: flex;
     align-items: baseline;
-    flex-wrap: nowrap;
+    gap: 10px;
+    flex-wrap: wrap;
   }
   .time {
     min-width: 90px;
@@ -118,18 +118,16 @@
   }
   .desc {
     color: #1f2937;
-    padding-left: 6px;
     font-size: 17px;
     font-weight: 500;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    word-break: break-word;
+    flex: 1;
   }
   .desc .emoji { margin-right: 6px; }
   .event-detail {
     font-size: 14px;
     color: #6b7280;
-    padding-left: 96px;
+    padding-left: 100px;
     line-height: 1.5;
   }
   .event-detail .cabinet {
