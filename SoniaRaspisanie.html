@@ -10,8 +10,10 @@
     font-family: -apple-system, "Segoe UI", Arial, sans-serif;
     background: #f2f0eb;
     padding: 16px;
-    max-width: 480px;
+    max-width: 420px;
     margin: 0 auto;
+    display: flex;
+    justify-content: center;
   }
   .card {
     background: white;
@@ -19,18 +21,20 @@
     padding: 20px;
     margin-bottom: 16px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    width: 100%;
+    max-width: 420px;
   }
   .header {
     text-align: center;
     padding: 12px 0 8px 0;
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 700;
     color: #1e2b3c;
     letter-spacing: 0.5px;
   }
   .subheader {
     text-align: center;
-    font-size: 16px;
+    font-size: 15px;
     color: #7e8a98;
     margin-bottom: 12px;
   }
@@ -45,11 +49,9 @@
     padding-top: 0;
   }
   .day-name {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 700;
-    display: inline-block;
-    padding: 4px 16px 4px 0;
-    border-radius: 30px;
+    display: block;
     margin-bottom: 8px;
   }
   .day-name.mon { color: #2563eb; }
@@ -60,64 +62,100 @@
   .day-name.sat { color: #ea580c; }
   .day-name.sun { color: #6b7280; }
 
+  .schedule-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin: 8px 0 4px 0;
+  }
+
+  .schedule-table {
+    margin: 4px 0 8px 0;
+    padding-left: 8px;
+    border-left: 3px solid #e6e3dc;
+  }
+  .schedule-row {
+    display: flex;
+    align-items: baseline;
+    padding: 2px 0;
+    font-size: 14px;
+  }
+  .schedule-time {
+    min-width: 78px;
+    font-weight: 500;
+    color: #6b7280;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .schedule-subj {
+    color: #1f2937;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
   .event {
     display: flex;
     flex-direction: column;
     padding: 6px 0;
     border-bottom: 1px solid #f0ede8;
-    font-size: 18px;
-    line-height: 1.5;
   }
   .event:last-child {
     border-bottom: none;
   }
   .event-top {
     display: flex;
-    align-items: flex-start;
+    align-items: baseline;
+    flex-wrap: nowrap;
   }
   .time {
-    min-width: 96px;
+    min-width: 90px;
     font-weight: 600;
     color: #374151;
-    font-size: 17px;
+    font-size: 16px;
     flex-shrink: 0;
   }
   .desc {
     color: #1f2937;
     padding-left: 6px;
-    font-size: 18px;
+    font-size: 17px;
+    font-weight: 500;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .desc .emoji { margin-right: 6px; }
   .event-detail {
-    font-size: 15px;
+    font-size: 14px;
     color: #6b7280;
-    padding-left: 102px;
-    line-height: 1.6;
+    padding-left: 96px;
+    line-height: 1.5;
   }
   .event-detail .cabinet {
-    font-size: 14px;
+    font-size: 13px;
     color: #6b7280;
     background: #f3f4f6;
     padding: 1px 10px;
     border-radius: 30px;
     display: inline-block;
-    width: auto;
   }
   .event-detail .teacher {
-    font-size: 14px;
+    font-size: 13px;
     color: #6b7280;
+    display: block;
   }
   .event-detail .detail-line {
     display: block;
   }
+
   .badge {
     display: inline-block;
-    font-size: 13px;
-    padding: 2px 12px;
+    font-size: 12px;
+    padding: 2px 10px;
     border-radius: 30px;
     font-weight: 600;
-    margin-left: 8px;
+    margin-left: 6px;
   }
   .badge.school { background: #dbeafe; color: #1d4ed8; }
   .badge.music { background: #fce7f3; color: #be185d; }
@@ -125,51 +163,17 @@
   .badge.theater { background: #fef3c7; color: #b45309; }
   .badge.free { background: #d1fae5; color: #047857; }
 
-  .footer-note {
-    text-align: center;
-    font-size: 15px;
-    color: #9ca3af;
-    padding: 16px 0 8px 0;
-  }
-
-  .schedule-table {
-    margin: 6px 0 10px 0;
-    padding-left: 6px;
-    font-size: 14px;
-    border-left: 3px solid #e6e3dc;
-    padding-left: 12px;
-  }
-  .schedule-row {
-    display: flex;
-    align-items: flex-start;
-    padding: 2px 0;
-    color: #4b5563;
-  }
-  .schedule-time {
-    min-width: 82px;
-    font-weight: 500;
-    color: #6b7280;
-    font-size: 14px;
-    flex-shrink: 0;
-  }
-  .schedule-subj {
-    color: #374151;
-    font-size: 15px;
-    white-space: nowrap;
-  }
-  .schedule-label {
-    font-size: 13px;
-    font-weight: 600;
-    color: #9ca3af;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin: 4px 0 2px 12px;
-  }
-
   .divider-light {
     border: none;
     border-top: 1px dashed #e6e3dc;
     margin: 6px 0;
+  }
+
+  .footer-note {
+    text-align: center;
+    font-size: 14px;
+    color: #9ca3af;
+    padding: 16px 0 8px 0;
   }
 </style>
 </head>
@@ -196,21 +200,22 @@
     <hr class="divider-light">
 
     <div class="schedule-label">🎭 Дополнительные занятия</div>
+
     <div class="event">
-      <div class="event-top"><span class="time">16:30–17:15</span><span class="desc"><span class="emoji">💃</span> Эстрадный танец</span></div>
-      <div class="event-detail"><span class="detail-line teacher">Валерия Вячеславовна Гилевская</span></div>
+      <div class="event-top"><span class="time">16:30–17:15</span><span class="desc">Эстрадный танец</span></div>
+      <div class="event-detail"><span class="teacher">Валерия Вячеславовна Гилевская</span></div>
     </div>
     <div class="event">
-      <div class="event-top"><span class="time">17:30–18:15</span><span class="desc"><span class="emoji">🎤</span> Сценическая речь</span></div>
-      <div class="event-detail"><span class="detail-line teacher">Николай Павлович Воробей</span></div>
+      <div class="event-top"><span class="time">17:30–18:15</span><span class="desc">Сценическая речь</span></div>
+      <div class="event-detail"><span class="teacher">Николай Павлович Воробей</span></div>
     </div>
     <div class="event">
-      <div class="event-top"><span class="time">18:30–19:15</span><span class="desc"><span class="emoji">🎭</span> Актёрское мастерство</span></div>
-      <div class="event-detail"><span class="detail-line teacher">Николай Павлович Воробей</span></div>
+      <div class="event-top"><span class="time">18:30–19:15</span><span class="desc">Актёрское мастерство</span></div>
+      <div class="event-detail"><span class="teacher">Николай Павлович Воробей</span></div>
     </div>
     <div class="event">
-      <div class="event-top"><span class="time">19:30–20:15</span><span class="desc"><span class="emoji">💃</span> Хореография</span></div>
-      <div class="event-detail"><span class="detail-line teacher">Валерия Вячеславовна Гилевская</span></div>
+      <div class="event-top"><span class="time">19:30–20:15</span><span class="desc">Хореография</span></div>
+      <div class="event-detail"><span class="teacher">Валерия Вячеславовна Гилевская</span></div>
     </div>
   </div>
 
@@ -231,25 +236,26 @@
     <hr class="divider-light">
 
     <div class="schedule-label">🎨 Дополнительные занятия</div>
+
     <div class="event">
-      <div class="event-top"><span class="time">17:10–17:55</span><span class="desc"><span class="emoji">🖥️</span> Комп. графика</span></div>
+      <div class="event-top"><span class="time">17:10–17:55</span><span class="desc">Комп. графика</span></div>
       <div class="event-detail">
-        <span class="detail-line teacher">Марина Михайловна</span>
-        <span class="detail-line"><span class="cabinet">корп.2, каб.22</span></span>
+        <span class="teacher">Марина Михайловна</span>
+        <span class="cabinet">корп.2, каб.22</span>
       </div>
     </div>
     <div class="event">
-      <div class="event-top"><span class="time">18:00–18:45</span><span class="desc"><span class="emoji">🎨</span> Композиция</span></div>
+      <div class="event-top"><span class="time">18:00–18:45</span><span class="desc">Композиция</span></div>
       <div class="event-detail">
-        <span class="detail-line teacher">Марина Михайловна</span>
-        <span class="detail-line"><span class="cabinet">корп.1, каб.7</span></span>
+        <span class="teacher">Марина Михайловна</span>
+        <span class="cabinet">корп.1, каб.7</span>
       </div>
     </div>
     <div class="event">
-      <div class="event-top"><span class="time">18:50–19:35</span><span class="desc"><span class="emoji">✏️</span> Рисунок</span></div>
+      <div class="event-top"><span class="time">18:50–19:35</span><span class="desc">Рисунок</span></div>
       <div class="event-detail">
-        <span class="detail-line teacher">Марина Михайловна</span>
-        <span class="detail-line"><span class="cabinet">корп.1, каб.7</span></span>
+        <span class="teacher">Марина Михайловна</span>
+        <span class="cabinet">корп.1, каб.7</span>
       </div>
     </div>
   </div>
@@ -271,18 +277,19 @@
     <hr class="divider-light">
 
     <div class="schedule-label">🎵 Дополнительные занятия</div>
+
     <div class="event">
-      <div class="event-top"><span class="time">17:10–17:55</span><span class="desc"><span class="emoji">🎹</span> Фортепиано</span></div>
+      <div class="event-top"><span class="time">17:10–17:55</span><span class="desc">Фортепиано</span></div>
       <div class="event-detail">
-        <span class="detail-line teacher">Немцова Алла Михайловна</span>
-        <span class="detail-line"><span class="cabinet">каб. 305</span></span>
+        <span class="teacher">Немцова Алла Михайловна</span>
+        <span class="cabinet">каб. 305</span>
       </div>
     </div>
     <div class="event">
-      <div class="event-top"><span class="time">18:00–18:45</span><span class="desc"><span class="emoji">🎵</span> Сводная репетиция хора</span></div>
+      <div class="event-top"><span class="time">18:00–18:45</span><span class="desc">Сводная репетиция хора</span></div>
       <div class="event-detail">
-        <span class="detail-line teacher">Мария Михайловна Павлович</span>
-        <span class="detail-line"><span class="cabinet">каб. 113</span></span>
+        <span class="teacher">Мария Михайловна Павлович</span>
+        <span class="cabinet">каб. 113</span>
       </div>
     </div>
   </div>
@@ -305,7 +312,7 @@
 
     <div class="schedule-label">🟢 Дополнительные занятия</div>
     <div class="event">
-      <div class="event-top"><span class="time">–</span><span class="desc"><span class="emoji">🟢</span> Свободно</span></div>
+      <div class="event-top"><span class="time">–</span><span class="desc">Свободно</span></div>
     </div>
   </div>
 
@@ -325,22 +332,23 @@
     <hr class="divider-light">
 
     <div class="schedule-label">🎨 Дополнительные занятия</div>
+
     <div class="event">
-      <div class="event-top"><span class="time">15:30–16:15</span><span class="desc"><span class="emoji">🎤</span> Постановка голоса</span></div>
-      <div class="event-detail"><span class="detail-line teacher">Цветкова Анна Александровна</span></div>
+      <div class="event-top"><span class="time">15:30–16:15</span><span class="desc">Постановка голоса</span></div>
+      <div class="event-detail"><span class="teacher">Цветкова Анна Александровна</span></div>
     </div>
     <div class="event">
-      <div class="event-top"><span class="time">17:10–17:55</span><span class="desc"><span class="emoji">🎨</span> Живопись</span></div>
+      <div class="event-top"><span class="time">17:10–17:55</span><span class="desc">Живопись</span></div>
       <div class="event-detail">
-        <span class="detail-line teacher">Марина Михайловна</span>
-        <span class="detail-line"><span class="cabinet">корп.1, каб.7</span></span>
+        <span class="teacher">Марина Михайловна</span>
+        <span class="cabinet">корп.1, каб.7</span>
       </div>
     </div>
     <div class="event">
-      <div class="event-top"><span class="time">18:00–18:45</span><span class="desc"><span class="emoji">🎨</span> Живопись</span></div>
+      <div class="event-top"><span class="time">18:00–18:45</span><span class="desc">Живопись</span></div>
       <div class="event-detail">
-        <span class="detail-line teacher">Марина Михайловна</span>
-        <span class="detail-line"><span class="cabinet">корп.1, каб.7</span></span>
+        <span class="teacher">Марина Михайловна</span>
+        <span class="cabinet">корп.1, каб.7</span>
       </div>
     </div>
   </div>
@@ -350,23 +358,24 @@
     <div class="day-name sat">📅 СБ</div>
 
     <div class="schedule-label">🎵 Дополнительные занятия</div>
+
     <div class="event">
-      <div class="event-top"><span class="time">12:10–12:55</span><span class="desc"><span class="emoji">🎵</span> Хоровая группа (младший хор)</span></div>
+      <div class="event-top"><span class="time">12:10–12:55</span><span class="desc">Хоровая группа (младший хор)</span></div>
       <div class="event-detail">
-        <span class="detail-line teacher">Мария Михайловна Павлович</span>
-        <span class="detail-line"><span class="cabinet">каб. 113</span></span>
+        <span class="teacher">Мария Михайловна Павлович</span>
+        <span class="cabinet">каб. 113</span>
       </div>
     </div>
     <div class="event">
-      <div class="event-top"><span class="time">13:00–13:45</span><span class="desc"><span class="emoji">🎵</span> Сводная репетиция хора</span></div>
+      <div class="event-top"><span class="time">13:00–13:45</span><span class="desc">Сводная репетиция хора</span></div>
       <div class="event-detail">
-        <span class="detail-line teacher">Мария Михайловна Павлович</span>
-        <span class="detail-line"><span class="cabinet">каб. 113</span></span>
+        <span class="teacher">Мария Михайловна Павлович</span>
+        <span class="cabinet">каб. 113</span>
       </div>
     </div>
     <div class="event">
-      <div class="event-top"><span class="time">13:50–14:35</span><span class="desc"><span class="emoji">🎼</span> Сольфеджио</span></div>
-      <div class="event-detail"><span class="detail-line teacher">Татьяна Леонидовна Рогинская</span></div>
+      <div class="event-top"><span class="time">13:50–14:35</span><span class="desc">Сольфеджио</span></div>
+      <div class="event-detail"><span class="teacher">Татьяна Леонидовна Рогинская</span></div>
     </div>
   </div>
 
@@ -374,15 +383,13 @@
   <div class="day-block">
     <div class="day-name sun">📅 ВС</div>
     <div class="event">
-      <div class="event-top"><span class="time">–</span><span class="desc"><span class="emoji">🌟</span> Выходной</span></div>
+      <div class="event-top"><span class="time">–</span><span class="desc">🌟 Выходной</span></div>
     </div>
   </div>
 
 </div>
 
-<div class="footer-note">
-  📌 Проект · при изменении расписания обновим
-</div>
+<div class="footer-note">📌 Проект · при изменении расписания обновим</div>
 
 </body>
 </html>
