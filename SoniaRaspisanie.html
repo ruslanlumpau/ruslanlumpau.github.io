@@ -63,7 +63,7 @@
   .event {
     display: flex;
     flex-direction: column;
-    padding: 8px 0;
+    padding: 6px 0;
     border-bottom: 1px solid #f0ede8;
     font-size: 16px;
     line-height: 1.5;
@@ -100,6 +100,7 @@
     padding: 1px 10px;
     border-radius: 30px;
     display: inline-block;
+    width: auto;
   }
   .event-detail .teacher {
     font-size: 13px;
@@ -128,6 +129,46 @@
     color: #9ca3af;
     padding: 16px 0 8px 0;
   }
+
+  .schedule-table {
+    margin: 6px 0 10px 0;
+    padding-left: 6px;
+    font-size: 14px;
+    border-left: 3px solid #e6e3dc;
+    padding-left: 12px;
+  }
+  .schedule-row {
+    display: flex;
+    align-items: flex-start;
+    padding: 2px 0;
+    font-size: 13px;
+    color: #4b5563;
+  }
+  .schedule-time {
+    min-width: 82px;
+    font-weight: 500;
+    color: #6b7280;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+  .schedule-subj {
+    color: #374151;
+    font-size: 13px;
+  }
+  .schedule-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 4px 0 2px 12px;
+  }
+
+  .divider-light {
+    border: none;
+    border-top: 1px dashed #e6e3dc;
+    margin: 6px 0;
+  }
 </style>
 </head>
 <body>
@@ -139,9 +180,20 @@
   <!-- ПН -->
   <div class="day-block">
     <div class="day-name mon">📅 ПН</div>
-    <div class="event">
-      <div class="event-top"><span class="time">08:30–14:15</span><span class="desc"><span class="emoji">🏫</span> Школа <span class="badge school"></span></span></div>
+
+    <div class="schedule-label">📚 Уроки</div>
+    <div class="schedule-table">
+      <div class="schedule-row"><span class="schedule-time">8:30–9:15</span><span class="schedule-subj">Белорусская литература</span></div>
+      <div class="schedule-row"><span class="schedule-time">9:30–10:15</span><span class="schedule-subj">Белорусский язык</span></div>
+      <div class="schedule-row"><span class="schedule-time">10:30–11:15</span><span class="schedule-subj">Английский язык</span></div>
+      <div class="schedule-row"><span class="schedule-time">11:30–12:15</span><span class="schedule-subj">ОБЖ</span></div>
+      <div class="schedule-row"><span class="schedule-time">12:30–13:15</span><span class="schedule-subj">Физ-ра</span></div>
+      <div class="schedule-row"><span class="schedule-time">13:30–14:15</span><span class="schedule-subj">Классный час</span></div>
     </div>
+
+    <hr class="divider-light">
+
+    <div class="schedule-label">🎭 Дополнительные занятия</div>
     <div class="event">
       <div class="event-top"><span class="time">16:30–17:15</span><span class="desc"><span class="emoji">💃</span> Эстрадный танец</span></div>
       <div class="event-detail"><span class="detail-line teacher">Валерия Вячеславовна Гилевская</span></div>
@@ -163,28 +215,39 @@
   <!-- ВТ -->
   <div class="day-block">
     <div class="day-name tue">📅 ВТ</div>
-    <div class="event">
-      <div class="event-top"><span class="time">08:30–14:15</span><span class="desc"><span class="emoji">🏫</span> Школа <span class="badge school"></span></span></div>
+
+    <div class="schedule-label">📚 Уроки</div>
+    <div class="schedule-table">
+      <div class="schedule-row"><span class="schedule-time">8:30–9:15</span><span class="schedule-subj">Русская литература</span></div>
+      <div class="schedule-row"><span class="schedule-time">9:30–10:15</span><span class="schedule-subj">Русский язык</span></div>
+      <div class="schedule-row"><span class="schedule-time">10:30–11:15</span><span class="schedule-subj">Английский язык</span></div>
+      <div class="schedule-row"><span class="schedule-time">11:30–12:15</span><span class="schedule-subj">Математика</span></div>
+      <div class="schedule-row"><span class="schedule-time">12:30–13:15</span><span class="schedule-subj">Трудовое обучение</span></div>
+      <div class="schedule-row"><span class="schedule-time">13:30–14:15</span><span class="schedule-subj">Математика (кружок)</span></div>
     </div>
+
+    <hr class="divider-light">
+
+    <div class="schedule-label">🎨 Дополнительные занятия</div>
     <div class="event">
       <div class="event-top"><span class="time">17:10–17:55</span><span class="desc"><span class="emoji">🖥️</span> Комп. графика</span></div>
       <div class="event-detail">
         <span class="detail-line teacher">Марина Михайловна</span>
-        <span class="detail-line cabinet">корп.2, каб.22</span>
+        <span class="detail-line"><span class="cabinet">корп.2, каб.22</span></span>
       </div>
     </div>
     <div class="event">
       <div class="event-top"><span class="time">18:00–18:45</span><span class="desc"><span class="emoji">🎨</span> Композиция</span></div>
       <div class="event-detail">
         <span class="detail-line teacher">Марина Михайловна</span>
-        <span class="detail-line cabinet">корп.1, каб.7</span>
+        <span class="detail-line"><span class="cabinet">корп.1, каб.7</span></span>
       </div>
     </div>
     <div class="event">
       <div class="event-top"><span class="time">18:50–19:35</span><span class="desc"><span class="emoji">✏️</span> Рисунок</span></div>
       <div class="event-detail">
         <span class="detail-line teacher">Марина Михайловна</span>
-        <span class="detail-line cabinet">корп.1, каб.7</span>
+        <span class="detail-line"><span class="cabinet">корп.1, каб.7</span></span>
       </div>
     </div>
   </div>
@@ -192,21 +255,32 @@
   <!-- СР -->
   <div class="day-block">
     <div class="day-name wed">📅 СР</div>
-    <div class="event">
-      <div class="event-top"><span class="time">08:30–14:15</span><span class="desc"><span class="emoji">🏫</span> Школа <span class="badge school"></span></span></div>
+
+    <div class="schedule-label">📚 Уроки</div>
+    <div class="schedule-table">
+      <div class="schedule-row"><span class="schedule-time">8:30–9:15</span><span class="schedule-subj">Белорусская литература</span></div>
+      <div class="schedule-row"><span class="schedule-time">9:30–10:15</span><span class="schedule-subj">Белорусский язык</span></div>
+      <div class="schedule-row"><span class="schedule-time">10:30–11:15</span><span class="schedule-subj">Физ-ра</span></div>
+      <div class="schedule-row"><span class="schedule-time">11:30–12:15</span><span class="schedule-subj">Математика</span></div>
+      <div class="schedule-row"><span class="schedule-time">12:30–13:15</span><span class="schedule-subj">Человек и мир</span></div>
+      <div class="schedule-row"><span class="schedule-time">13:30–14:15</span><span class="schedule-subj">Математика (кружок)</span></div>
     </div>
+
+    <hr class="divider-light">
+
+    <div class="schedule-label">🎵 Дополнительные занятия</div>
     <div class="event">
       <div class="event-top"><span class="time">17:10–17:55</span><span class="desc"><span class="emoji">🎹</span> Фортепиано</span></div>
       <div class="event-detail">
         <span class="detail-line teacher">Немцова Алла Михайловна</span>
-        <span class="detail-line cabinet">каб. 305</span>
+        <span class="detail-line"><span class="cabinet">каб. 305</span></span>
       </div>
     </div>
     <div class="event">
       <div class="event-top"><span class="time">18:00–18:45</span><span class="desc"><span class="emoji">🎵</span> Сводная репетиция хора</span></div>
       <div class="event-detail">
         <span class="detail-line teacher">Мария Михайловна Павлович</span>
-        <span class="detail-line cabinet">каб. 113</span>
+        <span class="detail-line"><span class="cabinet">каб. 113</span></span>
       </div>
     </div>
   </div>
@@ -214,9 +288,20 @@
   <!-- ЧТ -->
   <div class="day-block">
     <div class="day-name thu">📅 ЧТ</div>
-    <div class="event">
-      <div class="event-top"><span class="time">08:30–14:15</span><span class="desc"><span class="emoji">🏫</span> Школа <span class="badge school"></span></span></div>
+
+    <div class="schedule-label">📚 Уроки</div>
+    <div class="schedule-table">
+      <div class="schedule-row"><span class="schedule-time">9:00–9:45</span><span class="schedule-subj">Русский язык</span></div>
+      <div class="schedule-row"><span class="schedule-time">10:00–10:45</span><span class="schedule-subj">Английский язык</span></div>
+      <div class="schedule-row"><span class="schedule-time">11:00–11:45</span><span class="schedule-subj">Математика</span></div>
+      <div class="schedule-row"><span class="schedule-time">12:00–12:45</span><span class="schedule-subj">Физическая культура и здоровье</span></div>
+      <div class="schedule-row"><span class="schedule-time">13:00–13:45</span><span class="schedule-subj">Изобразительное искусство</span></div>
+      <div class="schedule-row"><span class="schedule-time">14:00–14:45</span><span class="schedule-subj">Русский (кружок)</span></div>
     </div>
+
+    <hr class="divider-light">
+
+    <div class="schedule-label">🟢 Дополнительные занятия</div>
     <div class="event">
       <div class="event-top"><span class="time">–</span><span class="desc"><span class="emoji">🟢</span> Свободно</span></div>
     </div>
@@ -225,25 +310,35 @@
   <!-- ПТ -->
   <div class="day-block">
     <div class="day-name fri">📅 ПТ</div>
-    <div class="event">
-      <div class="event-top"><span class="time">08:30–14:15</span><span class="desc"><span class="emoji">🏫</span> Школа <span class="badge school"></span></span></div>
+
+    <div class="schedule-label">📚 Уроки</div>
+    <div class="schedule-table">
+      <div class="schedule-row"><span class="schedule-time">8:30–9:15</span><span class="schedule-subj">Математика</span></div>
+      <div class="schedule-row"><span class="schedule-time">9:30–10:15</span><span class="schedule-subj">Музыка</span></div>
+      <div class="schedule-row"><span class="schedule-time">10:30–11:15</span><span class="schedule-subj">Русский язык</span></div>
+      <div class="schedule-row"><span class="schedule-time">11:30–12:15</span><span class="schedule-subj">Русская литература</span></div>
+      <div class="schedule-row"><span class="schedule-time">12:30–13:15</span><span class="schedule-subj">Русский (кружок)</span></div>
     </div>
+
+    <hr class="divider-light">
+
+    <div class="schedule-label">🎨 Дополнительные занятия</div>
     <div class="event">
-      <div class="event-top"><span class="time">15:30–16:15</span><span class="desc"><span class="emoji">🎤</span> Постановка голоса <span class="badge music"></span></span></div>
+      <div class="event-top"><span class="time">15:30–16:15</span><span class="desc"><span class="emoji">🎤</span> Постановка голоса</span></div>
       <div class="event-detail"><span class="detail-line teacher">Цветкова Анна Александровна</span></div>
     </div>
     <div class="event">
       <div class="event-top"><span class="time">17:10–17:55</span><span class="desc"><span class="emoji">🎨</span> Живопись</span></div>
       <div class="event-detail">
         <span class="detail-line teacher">Марина Михайловна</span>
-        <span class="detail-line cabinet">корп.1, каб.7</span>
+        <span class="detail-line"><span class="cabinet">корп.1, каб.7</span></span>
       </div>
     </div>
     <div class="event">
       <div class="event-top"><span class="time">18:00–18:45</span><span class="desc"><span class="emoji">🎨</span> Живопись</span></div>
       <div class="event-detail">
         <span class="detail-line teacher">Марина Михайловна</span>
-        <span class="detail-line cabinet">корп.1, каб.7</span>
+        <span class="detail-line"><span class="cabinet">корп.1, каб.7</span></span>
       </div>
     </div>
   </div>
@@ -251,22 +346,24 @@
   <!-- СБ -->
   <div class="day-block">
     <div class="day-name sat">📅 СБ</div>
+
+    <div class="schedule-label">🎵 Дополнительные занятия</div>
     <div class="event">
       <div class="event-top"><span class="time">12:10–12:55</span><span class="desc"><span class="emoji">🎵</span> Хоровая группа (младший хор)</span></div>
       <div class="event-detail">
         <span class="detail-line teacher">Мария Михайловна Павлович</span>
-        <span class="detail-line cabinet">каб. 113</span>
+        <span class="detail-line"><span class="cabinet">каб. 113</span></span>
       </div>
     </div>
     <div class="event">
       <div class="event-top"><span class="time">13:00–13:45</span><span class="desc"><span class="emoji">🎵</span> Сводная репетиция хора</span></div>
       <div class="event-detail">
         <span class="detail-line teacher">Мария Михайловна Павлович</span>
-        <span class="detail-line cabinet">каб. 113</span>
+        <span class="detail-line"><span class="cabinet">каб. 113</span></span>
       </div>
     </div>
     <div class="event">
-      <div class="event-top"><span class="time">13:50–14:35</span><span class="desc"><span class="emoji">🎼</span> Сольфеджио <span class="badge music"></span></span></div>
+      <div class="event-top"><span class="time">13:50–14:35</span><span class="desc"><span class="emoji">🎼</span> Сольфеджио</span></div>
       <div class="event-detail"><span class="detail-line teacher">Татьяна Леонидовна Рогинская</span></div>
     </div>
   </div>
@@ -286,4 +383,4 @@
 </div>
 
 </body>
-</html>  
+</html>
