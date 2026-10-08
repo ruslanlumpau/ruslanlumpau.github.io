@@ -1,6 +1,19 @@
 {
-  "last_updated": "2026-10-08 17:32:58",
-  "overallAverage": 0.0,
-  "subjects": [],
+  "last_updated": "2026-10-08 17:37:08",
+  "overallAverage": 9.0,
+  "subjects": [
+    {
+      "name": "Общие оценки",
+      "average": 9.0,
+      "grades": [
+        9,
+        8,
+        10
+      ],
+      "count": 3,
+      "status": "Достаточно",
+      "color": "#00875A"
+    }
+  ],
   "weeks": []
 }
