@@ -4,17 +4,17 @@ on:
   schedule:
     # Запуск каждый день в 18:00 по минскому времени (15:00 UTC)
     - cron: '0 15 * * *'
-  workflow_dispatch: # Позволяет запускать вручную кнопкой
+  workflow_dispatch:
 
 jobs:
   update-data:
     runs-on: ubuntu-latest
     steps:
       - name: Чтение репозитория
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Настройка Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
