@@ -26,7 +26,6 @@
 
     .status-badge { background: #deebff; color: #0052cc; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-bottom: 12px; text-align: center; border: 1px solid #b3d4ff; }
 
-    /* Мобильные карточки предметов */
     .subject-card { background: #f8fafc; border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; border: 1px solid #e2e8f0; border-left: 4px solid #de350b; }
     .subject-card.sufficient { border-left-color: #00875a; }
     
@@ -59,12 +58,12 @@
 
 <div class="container">
   <h1>Успеваемость Тимура</h1>
-  <div class="subtitle">1 сентября — 2 октября 2026 г.</div>
+  <div class="subtitle" id="period-text">Загрузка данных...</div>
 
   <div class="stats-card">
-    <div class="stat-item"><div class="val">8.2</div><div class="lbl">Средний балл</div></div>
-    <div class="stat-item"><div class="val">21</div><div class="lbl">Всего оценок</div></div>
-    <div class="stat-item"><div class="val">4 / 15</div><div class="lbl">Аттестовано</div></div>
+    <div class="stat-item"><div class="val" id="overall-avg">0.0</div><div class="lbl">Средний балл</div></div>
+    <div class="stat-item"><div class="val" id="total-grades">0</div><div class="lbl">Всего оценок</div></div>
+    <div class="stat-item"><div class="val" id="accredited-count">0 / 0</div><div class="lbl">Аттестовано</div></div>
   </div>
 
   <div class="tabs">
@@ -74,60 +73,107 @@
 
   <!-- Вкладка 1: Предметы -->
   <div id="tab-subjects" class="tab-content active">
-    <div class="status-badge">Достаточно оценок для аттестации: 4 из 15</div>
+    <div class="status-badge" id="status-badge-text">Аттестация: обновление...</div>
     <div id="subjects-list"></div>
   </div>
 
-  <!-- Вкладка 2: Недели -->
+  <!-- Вкладка 2: Динамика -->
   <div id="tab-weekly" class="tab-content">
     <div class="chart-container-line">
       <canvas id="weeklyChart"></canvas>
     </div>
   </div>
 
-  <!-- Текстовая аналитика -->
-  <div class="caption-box">
+  <!-- Аналитика -->
+  <div class="caption-box" id="analytics-box">
     <h3>📋 Текстовая аналитика</h3>
-    <ul>
-      <li><b>Общие показатели:</b> 21 отметка, общий средний балл — <b>8.2</b>.</li>
-      <li><b>Аттестация:</b> Из 15 предметов аттестованы <b>4 предмета</b>: Беларуская літаратура (9.0), История Беларуси (8.33), Математика (7.33), Физика (6.6).</li>
-      <li><b>В зоне риска (менее 3 оценок):</b> 6 предметов (Английский 10.0, Информатика 10.0, Физкультура 10.0, Биология 9.0, Химия 8.0, Русский 8.0).</li>
-      <li><b>Без оценок:</b> 5 предметов.</li>
-    </ul>
+    <ul id="analytics-list"></ul>
   </div>
 </div>
 
 <script>
-  const subjectsData = [
-    { name: 'Английский язык', avg: 10.0, grades: [10], status: 'red' },
-    { name: 'Информатика', avg: 10.0, grades: [10], status: 'red' },
-    { name: 'Физкультура и здоровье', avg: 10.0, grades: [10], status: 'red' },
-    { name: 'Беларуская літаратура', avg: 9.0, grades: [7, 10, 10, 9], status: 'green' },
-    { name: 'Биология', avg: 9.0, grades: [9], status: 'red' },
-    { name: 'История Беларуси', avg: 8.33, grades: [9, 8, 8], status: 'green' },
-    { name: 'Химия', avg: 8.0, grades: [7, 9], status: 'red' },
-    { name: 'Русский язык', avg: 8.0, grades: [8], status: 'red' },
-    { name: 'Математика', avg: 7.33, grades: [9, 4, 9], status: 'green' },
-    { name: 'Физика', avg: 6.6, grades: [8, 5, 8, 7, 5], status: 'green' },
-    { name: 'Обществоведение', avg: 0.0, grades: [], status: 'red' },
-    { name: 'Русская литература', avg: 0.0, grades: [], status: 'red' },
-    { name: 'Беларуская мова', avg: 0.0, grades: [], status: 'red' },
-    { name: 'Черчение', avg: 0.0, grades: [], status: 'red' },
-    { name: 'География', avg: 0.0, grades: [], status: 'red' }
-  ];
+  let weeklyChartInstance = null;
 
-  function renderSubjects() {
+  async function loadDashboardData() {
+    try {
+      const response = await fetch('./data.json');
+      if (!response.ok) throw new Error('Не удалось загрузить data.json');
+      const data = await response.json();
+
+      document.getElementById('period-text').textContent = data.period || 'Текущий период';
+
+      let totalSum = 0;
+      let totalCount = 0;
+      let accreditedCount = 0;
+
+      const accreditedList = [];
+      const riskList = [];
+      const emptyList = [];
+
+      const processedSubjects = data.subjects.map(s => {
+        const grades = s.grades || [];
+        const count = grades.length;
+        const sum = grades.reduce((acc, val) => acc + val, 0);
+        const avg = count > 0 ? (sum / count) : 0;
+        const isAccredited = count >= 3;
+
+        totalSum += sum;
+        totalCount += count;
+
+        if (isAccredited) {
+          accreditedCount++;
+          accreditedList.push(`${s.name} (${avg.toFixed(2)})`);
+        } else if (count > 0) {
+          riskList.push(`${s.name} (${avg.toFixed(1)})`);
+        } else {
+          emptyList.push(s.name);
+        }
+
+        return {
+          name: s.name,
+          grades: grades,
+          avg: avg,
+          isAccredited: isAccredited
+        };
+      });
+
+      // Сортировка по убыванию среднего балла
+      processedSubjects.sort((a, b) => b.avg - a.avg);
+
+      const overallAvg = totalCount > 0 ? (totalSum / totalCount).toFixed(1) : '0.0';
+
+      // Обновление шапки
+      document.getElementById('overall-avg').textContent = overallAvg;
+      document.getElementById('total-grades').textContent = totalCount;
+      document.getElementById('accredited-count').textContent = `${accreditedCount} / ${data.subjects.length}`;
+      document.getElementById('status-badge-text').textContent = `Достаточно оценок для аттестации: ${accreditedCount} из ${data.subjects.length}`;
+
+      // Отрисовка списка предметов
+      renderSubjects(processedSubjects);
+
+      // Отрисовка текстовой аналитики
+      renderAnalytics(overallAvg, totalCount, accreditedCount, data.subjects.length, accreditedList, riskList, emptyList);
+
+      // Построение графика
+      renderChart(data.weekly, parseFloat(overallAvg));
+
+    } catch (error) {
+      console.error(error);
+      document.getElementById('period-text').textContent = 'Ошибка загрузки данных из data.json';
+    }
+  }
+
+  function renderSubjects(subjects) {
     const container = document.getElementById('subjects-list');
-    container.innerHTML = subjectsData.map(s => {
-      const isGreen = s.status === 'green';
-      const gradesHtml = s.grades.length > 0 
-        ? s.grades.map(g => `<span class="grade-badge ${isGreen ? 'green' : 'red'}">${g}</span>`).join('')
+    container.innerHTML = subjects.map(s => {
+      const gradesHtml = s.grades.length > 0
+        ? s.grades.map(g => `<span class="grade-badge ${s.isAccredited ? 'green' : 'red'}">${g}</span>`).join('')
         : `<span class="no-grades">Нет оценок</span>`;
       
       const barWidth = (s.avg / 10) * 100;
 
       return `
-        <div class="subject-card ${isGreen ? 'sufficient' : ''}">
+        <div class="subject-card ${s.isAccredited ? 'sufficient' : ''}">
           <div class="subject-header">
             <span class="subject-title">${s.name}</span>
             <span class="subject-score">${s.avg > 0 ? s.avg.toFixed(2) : '0.0'}</span>
@@ -135,12 +181,68 @@
           <div class="subject-body">
             <div class="grades-list">${gradesHtml}</div>
             <div class="bar-bg">
-              <div class="bar-fill ${isGreen ? 'green' : 'red'}" style="width: ${barWidth}%"></div>
+              <div class="bar-fill ${s.isAccredited ? 'green' : 'red'}" style="width: ${barWidth}%"></div>
             </div>
           </div>
         </div>
       `;
     }).join('');
+  }
+
+  function renderAnalytics(overallAvg, totalCount, accreditedCount, totalSubjects, accreditedList, riskList, emptyList) {
+    const list = document.getElementById('analytics-list');
+    list.innerHTML = `
+      <li><b>Общие показатели:</b> ${totalCount} отметок, средний балл — <b>${overallAvg}</b>.</li>
+      <li><b>Аттестовано (${accreditedCount} из ${totalSubjects}):</b> ${accreditedList.join(', ') || 'нет'}.</li>
+      <li><b>В зоне риска (менее 3 оценок):</b> ${riskList.join(', ') || 'нет'}.</li>
+      <li><b>Без оценок (${emptyList.length}):</b> ${emptyList.join(', ') || 'нет'}.</li>
+    `;
+  }
+
+  function renderChart(weeklyData, overallAvg) {
+    const ctx = document.getElementById('weeklyChart').getContext('2d');
+    
+    if (weeklyChartInstance) {
+      weeklyChartInstance.destroy();
+    }
+
+    const labels = weeklyData.map(w => w.label);
+    const dataPoints = weeklyData.map(w => w.avg);
+    const targetLine = weeklyData.map(() => overallAvg);
+
+    weeklyChartInstance = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Недельный балл',
+            data: dataPoints,
+            borderColor: '#0052cc',
+            backgroundColor: '#0052cc',
+            borderWidth: 2,
+            pointRadius: 5
+          },
+          {
+            label: `Средний балл (${overallAvg})`,
+            data: targetLine,
+            borderColor: '#d97706',
+            borderWidth: 2,
+            borderDash: [4, 4],
+            pointRadius: 0
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: '#334155' } } },
+        scales: {
+          x: { ticks: { color: '#64748b' }, grid: { color: '#e2e8f0' } },
+          y: { min: 5, max: 10, ticks: { color: '#64748b' }, grid: { color: '#e2e8f0' } }
+        }
+      }
+    });
   }
 
   function switchTab(tabName) {
@@ -156,43 +258,8 @@
     }
   }
 
-  renderSubjects();
-
-  // Chart.js для динамики
-  const ctxWeekly = document.getElementById('weeklyChart').getContext('2d');
-  new Chart(ctxWeekly, {
-    type: 'line',
-    data: {
-      labels: ['1-4 сен', '7-11 сен', '14-18 сен', '21-25 сен', '28 сен - 2 окт'],
-      datasets: [
-        {
-          label: 'Недельный балл',
-          data: [9.67, 7.67, 7.83, 8.75, 7.60],
-          borderColor: '#0052cc',
-          backgroundColor: '#0052cc',
-          borderWidth: 2,
-          pointRadius: 5
-        },
-        {
-          label: 'Средний балл (8.2)',
-          data: [8.2, 8.2, 8.2, 8.2, 8.2],
-          borderColor: '#d97706',
-          borderWidth: 2,
-          borderDash: [4, 4],
-          pointRadius: 0
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { labels: { color: '#334155' } } },
-      scales: {
-        x: { ticks: { color: '#64748b' }, grid: { color: '#e2e8f0' } },
-        y: { min: 5, max: 10, ticks: { color: '#64748b' }, grid: { color: '#e2e8f0' } }
-      }
-    }
-  });
+  // Запуск при загрузке страницы
+  loadDashboardData();
 </script>
 </body>
 </html>
