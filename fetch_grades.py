@@ -4,7 +4,6 @@ import sys
 from datetime import datetime
 import requests
 
-# 1. Получение логина и пароля из GitHub Secrets
 LOGIN = os.environ.get("ESCHOOLS_LOGIN")
 PASSWORD = os.environ.get("ESCHOOLS_PASSWORD")
 
@@ -12,37 +11,55 @@ if not LOGIN or not PASSWORD:
     print("Ошибка: Переменные окружения ESCHOOLS_LOGIN или ESCHOOLS_PASSWORD не найдены.")
     sys.exit(1)
 
-# 2. Настройка сессии
 session = requests.Session()
 session.headers.update({
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
     "Accept": "application/json, text/plain, */*",
     "Content-Type": "application/json;charset=UTF-8",
+    "Origin": "https://diary.e-schools.by",
     "Referer": "https://diary.e-schools.by/"
 })
 
+def get_week_name(date_str):
+    """Определяет учебную неделю I четверти по дате оценки."""
+    try:
+        dt = datetime.strptime(date_str, "%Y-%m-%d")
+        # Номера недель I четверти (сентябрь - октябрь)
+        day = dt.day
+        month = dt.month
+        if month == 9:
+            if 1 <= day <= 4: return "1–4 сен (1-я нед.)"
+            elif 7 <= day <= 11: return "7–11 сен (2-я нед.)"
+            elif 14 <= day <= 18: return "14–18 сен (3-я нед.)"
+            elif 21 <= day <= 25: return "21–25 сен (4-я нед.)"
+            elif 28 <= day <= 30: return "28 сен – 2 окт (5-я нед.)"
+        elif month == 10:
+            if 1 <= day <= 2: return "28 сен – 2 окт (5-я нед.)"
+            elif 5 <= day <= 9: return "5–9 окт (6-я нед.)"
+            elif 12 <= day <= 16: return "12–16 окт (7-я нед.)"
+            elif 19 <= day <= 23: return "19–23 окт (8-я нед.)"
+    except Exception:
+        pass
+    return "Прочие даты"
+
 def main():
-    print("Начало процесса получения оценок с e-schools.by...")
+    print("Начало процесса получения оценок...")
     
-    # Шаг А: Авторизация
-    login_url = "https://e-schools.by/login"
-    login_payload = {
-        "login": LOGIN,
-        "password": PASSWORD
-    }
+    # 1. Вход в систему
+    login_url = "https://diary.e-schools.by/api/v1/auth/login/parent"
+    login_payload = {"login": LOGIN, "password": PASSWORD}
     
     try:
         response = session.post(login_url, json=login_payload, timeout=15)
         if response.status_code not in (200, 201):
-            print(f"Ошибка авторизации. Статус: {response.status_code}")
+            print(f"Ошибка входа ({response.status_code}): {response.text}")
             sys.exit(1)
-        print("Успешная авторизация на e-schools.by")
+        print("Авторизация успешна!")
     except Exception as e:
-        print(f"Ошибка при подключении к серверу авторизации: {e}")
+        print(f"Ошибка подключения: {e}")
         sys.exit(1)
 
-    # Шаг Б: Запрос оценок за текущую четверть
-    # Используем API эндпоинт электронного дневника
+    # 2. Запрос всех оценок за I четверть
     grades_url = "https://diary.e-schools.by/api/v1/pupil/grades"
     try:
         res = session.get(grades_url, timeout=15)
@@ -50,78 +67,71 @@ def main():
             raw_data = res.json()
         else:
             print(f"Не удалось получить список оценок. Код: {res.status_code}")
-            raw_data = None
+            sys.exit(1)
     except Exception as e:
-        print(f"Сбой при запросе оценок: {e}")
-        raw_data = None
+        print(f"Ошибка запроса оценок: {e}")
+        sys.exit(1)
 
-    # Шаг В: Обработка данных предмета и формирование структуры для data.json
-    # (Если API временно недоступен, скрипт обновит время проверки без сбоя)
     subjects_list = []
-    
-    if raw_data and "subjects" in raw_data:
+    weekly_grades = {}  # { "1–4 сен (1-я нед.)": [9, 10, 10] }
+    all_flat_grades = []
+
+    if "subjects" in raw_data:
         for item in raw_data["subjects"]:
-            name = item.get("name", "Неизвестный предмет")
-            grades = item.get("grades", []) # Массив оценок, например [7, 10, 10, 9]
+            name = item.get("name", "Предмет")
+            raw_grades = item.get("grades", [])
             
-            count = len(grades)
-            avg = round(sum(grades) / count, 2) if count > 0 else 0.0
-            
-            # Правила аттестации: минимум 3 оценки за четверть
-            status = "Достаточно" if count >= 3 else "Не хватает"
-            color = "#00875A" if count >= 3 else "#DE350B"
+            num_grades = []
+            for g in raw_grades:
+                # Извлекаем числовое значение оценки и её дату
+                val = g.get("grade") if isinstance(g, dict) else g
+                date_val = g.get("date") if isinstance(g, dict) else None
+                
+                if isinstance(val, (int, float)):
+                    num_grades.append(val)
+                    all_flat_grades.append(val)
+                    
+                    if date_val:
+                        w_name = get_week_name(date_val)
+                        weekly_grades.setdefault(w_name, []).append(val)
+
+            count = len(num_grades)
+            avg = round(sum(num_grades) / count, 2) if count > 0 else 0.0
             
             subjects_list.append({
                 "name": name,
                 "average": avg,
-                "grades": grades if count > 0 else "Нет оценок",
+                "grades": num_grades if count > 0 else "Нет оценок",
                 "count": count,
-                "status": status,
-                "color": color
+                "status": "Достаточно" if count >= 3 else "Не хватает",
+                "color": "#00875A" if count >= 3 else "#DE350B"
             })
-    else:
-        print("Используется базовое заполнение/сохранение существующего формата...")
 
-    # Если API вернуло предметы — сортируем по среднему баллу (по убыванию)
-    if subjects_list:
-        subjects_list.sort(key=lambda x: x["average"], reverse=True)
+    # Общий средний балл за четверть с 1 сентября
+    overall_avg = round(sum(all_flat_grades) / len(all_flat_grades), 2) if all_flat_grades else 0.0
 
-    # Чтение существующего data.json для сохранения истории по неделям (динамики)
-    existing_data = {}
-    if os.path.exists("data.json"):
-        try:
-            with open("data.json", "r", encoding="utf-8") as f:
-                existing_data = json.load(f)
-        except Exception:
-            existing_data = {}
+    # Расчет динамики по неделям
+    weeks_list = []
+    for week_title, grades_arr in weekly_grades.items():
+        if week_title != "Прочие даты" and grades_arr:
+            w_avg = round(sum(grades_arr) / len(grades_arr), 2)
+            weeks_list.append({
+                "week": week_title,
+                "average": w_avg,
+                "overallAverage": overall_avg
+            })
 
-    # Рассчитываем общий средний балл
-    all_grades = []
-    for s in subjects_list:
-        if isinstance(s.get("grades"), list):
-            all_grades.extend(s["grades"])
-    
-    overall_avg = round(sum(all_grades) / len(all_grades), 2) if all_grades else existing_data.get("overallAverage", 8.2)
-
-    # Формируем итоговый JSON
     result_json = {
         "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "overallAverage": overall_avg,
-        "subjects": subjects_list if subjects_list else existing_data.get("subjects", []),
-        "weeks": existing_data.get("weeks", [
-            {"week": "1-4 сен", "average": 9.67},
-            {"week": "7-11 сен", "average": 7.67},
-            {"week": "14-18 сен", "average": 7.83},
-            {"week": "21-25 сен", "average": 8.75},
-            {"week": "28 сен - 2 окт", "average": 7.60}
-        ])
+        "subjects": subjects_list,
+        "weeks": weeks_list
     }
 
-    # Запись в файл data.json
     with open("data.json", "w", encoding="utf-8") as f:
         json.dump(result_json, f, ensure_ascii=False, indent=2)
 
-    print("Файл data.json успешно обновлён!")
+    print("Файл data.json успешно обновлен со всеми свежими данными!")
 
 if __name__ == "__main__":
     main()
