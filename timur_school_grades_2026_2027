@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Успеваемость: Тимур | I Четверть</title>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1"></script>
+  <style>
+    :root {
+      --bg-color: #121218;
+      --card-bg: #1E1E2A;
+      --card-border: #2C2C3E;
+      --text-main: #FFFFFF;
+      --text-muted: #A0A0B2;
+      --color-green: #00875A;
+      --bg-green-light: rgba(0, 135, 90, 0.2);
+      --color-red: #DE350B;
+      --bg-red-light: rgba(222, 53, 11, 0.2);
+      --color-target: #FFAB00;
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      display: flex;
+      justify-content: center;
+      padding: 12px;
+      min-height: 100vh;
+    }
+
+    .dashboard-container {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 8px 0;
+    }
+
+    .header h1 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .header .subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* KPI Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .kpi-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 10px 8px;
+      text-align: center;
+    }
+
+    .kpi-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .kpi-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      line-height: 1.2;
+    }
+
+    /* Navigation Tabs */
+    .tabs-nav {
+      display: flex;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 4px;
+      gap: 4px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: #2C2C3E;
+      color: var(--text-main);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    /* Tab Contents */
+    .tab-content {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .tab-content.active {
+      display: flex;
+    }
+
+    /* Subject Cards */
+    .subject-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .subject-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .subject-score {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .card-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chips-row {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .chip {
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .chip-green {
+      background-color: var(--color-green);
+    }
+
+    .chip-red {
+      background-color: var(--color-red);
+    }
+
+    .chip-empty {
+      background-color: #3A3A4C;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .status-badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+
+    .badge-green {
+      background: var(--bg-green-light);
+      color: #36B37E;
+    }
+
+    .badge-red {
+      background: var(--bg-red-light);
+      color: #FF5630;
+    }
+
+    /* Progress Bar */
+    .progress-track {
+      width: 100%;
+      height: 5px;
+      background: #2C2C3E;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 3px;
+    }
+
+    .fill-green {
+      background-color: var(--color-green);
+    }
+
+    .fill-red {
+      background-color: var(--color-red);
+    }
+
+    /* Dynamics Chart Wrapper */
+    .chart-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .chart-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+      text-align: center;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 280px;
+      width: 100%;
+    }
+
+    /* Caption Block Accordion */
+    .caption-accordion {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .caption-accordion summary {
+      padding: 12px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text-main);
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .caption-accordion summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .caption-accordion summary::after {
+      content: '▼';
+      font-size: 10px;
+      color: var(--text-muted);
+      transition: transform 0.2s ease;
+    }
+
+    .caption-accordion[open] summary::after {
+      transform: rotate(180deg);
+    }
+
+    .caption-content {
+      padding: 0 14px 14px 14px;
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border-top: 1px solid var(--card-border);
+    }
+
+    .caption-content p {
+      margin-top: 8px;
+    }
+
+    .caption-content strong {
+      color: var(--text-main);
+    }
+  </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+  <!-- Header -->
+  <header class="header">
+    <h1>Успеваемость: Тимур</h1>
+    <div class="subtitle">I четверть (1 сентября — 2 октября 2026 г.)</div>
+  </header>
+
+  <!-- KPI Cards -->
+  <section class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-value">8.2</div>
+      <div class="kpi-label">Общий средний балл</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">21</div>
+      <div class="kpi-label">Всего оценок</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">4 / 15</div>
+      <div class="kpi-label">Статус аттестации</div>
+    </div>
+  </section>
+
+  <!-- Navigation Tabs -->
+  <nav class="tabs-nav">
+    <button class="tab-btn active" onclick="switchTab('subjects', this)">Предметы</button>
+    <button class="tab-btn" onclick="switchTab('dynamics', this)">Динамика за I четверть</button>
+  </nav>
+
+  <!-- TAB 1: Subjects List -->
+  <main id="tab-subjects" class="tab-content active">
+    <!-- Subject Cards will be rendered via JS -->
+  </main>
+
+  <!-- TAB 2: Weekly Dynamics Chart -->
+  <main id="tab-dynamics" class="tab-content">
+    <div class="chart-card">
+      <div class="chart-title">Динамика среднего балла по неделям</div>
+      <div class="chart-container">
+        <canvas id="dynamicsChart"></canvas>
+      </div>
+    </div>
+  </main>
+
+  <!-- Caption Block -->
+  <details class="caption-accordion">
+    <summary>📌 Аналитическое резюме успеваемости</summary>
+    <div class="caption-content">
+      <p><strong>Сводка по аттестации:</strong> Из 15 предметов учебной программы официально аттестовано <strong>4 предмета</strong> (Беларуская літаратура, История Беларуси, Математика, Физика), по которым накоплено $\ge 3$ оценок. В зоне риска находятся <strong>6 предметов</strong> с высокими результатами (8.0–10.0), но недостаточным количеством оценок (&lt; 3). По <strong>5 предметам</strong> отметки пока не выставлены.</p>
+      <p><strong>Тренд четверти:</strong> Четверть началась с высокого старта на 1-й неделе (9.67), после чего показатель стабилизировался в диапазоне 7.60–7.83 с повторным подъемом на 4-й неделе (8.75). Общий средний балл зафиксирован на уровне <strong>8.2</strong>.</p>
+    </div>
+  </details>
+</div>
+
+<script>
+  // Subjects Dataset
+  const subjectsData = [
+    { name: "Английский язык", score: 10.0, grades: [10], status: "red" },
+    { name: "Информатика", score: 10.0, grades: [10], status: "red" },
+    { name: "Физическая культура и здоровье", score: 10.0, grades: [10], status: "red" },
+    { name: "Беларуская літаратура", score: 9.0, grades: [7, 10, 10, 9], status: "green" },
+    { name: "Биология", score: 9.0, grades: [9], status: "red" },
+    { name: "История Беларуси", score: 8.33, grades: [9, 8, 8], status: "green" },
+    { name: "Химия", score: 8.0, grades: [7, 9], status: "red" },
+    { name: "Русский язык", score: 8.0, grades: [8], status: "red" },
+    { name: "Математика", score: 7.33, grades: [9, 4, 9], status: "green" },
+    { name: "Физика", score: 6.6, grades: [8, 5, 8, 7, 5], status: "green" },
+    { name: "Обществоведение", score: 0.0, grades: [], status: "red" },
+    { name: "Русская литература", score: 0.0, grades: [], status: "red" },
+    { name: "Беларуская мова", score: 0.0, grades: [], status: "red" },
+    { name: "Черчение", score: 0.0, grades: [], status: "red" },
+    { name: "География", score: 0.0, grades: [], status: "red" }
+  ];
+
+  // Render Subject Cards
+  function renderSubjects() {
+    const container = document.getElementById('tab-subjects');
+    container.innerHTML = subjectsData.map(subject => {
+      const isGreen = subject.status === "green";
+      const statusColorClass = isGreen ? "green" : "red";
+      const fillPercentage = (subject.score / 10) * 100;
+      
+      let chipsHtml = "";
+      if (subject.grades.length > 0) {
+        chipsHtml = subject.grades.map(g => `<span class="chip chip-${statusColorClass}">${g}</span>`).join("");
+      } else {
+        chipsHtml = `<span class="chip chip-empty">Нет оценок</span>`;
+      }
+
+      const badgeText = isGreen 
+        ? `Достаточно (${subject.grades.length})` 
+        : (subject.grades.length > 0 ? `Не хватает (${subject.grades.length})` : `Не хватает (0)`);
+
+      return `
+        <div class="subject-card">
+          <div class="card-top">
+            <span class="subject-name">${subject.name}</span>
+            <span class="subject-score" style="color: ${isGreen ? '#36B37E' : (subject.score > 0 ? '#FF5630' : '#A0A0B2')}">
+              ${subject.score > 0 ? subject.score.toFixed(subject.score % 1 === 0 ? 1 : 2) : '0.0'}
+            </span>
+          </div>
+          <div class="card-bottom">
+            <div class="chips-row">
+              ${chipsHtml}
+            </div>
+            <span class="status-badge badge-${statusColorClass}">${badgeText}</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill fill-${statusColorClass}" style="width: ${fillPercentage}%;"></div>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  // Switch Tabs Logic
+  function switchTab(tabId, btnElement) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    
+    document.getElementById(`tab-${tabId}`).classList.add('active');
+    btnElement.classList.add('active');
+
+    if (tabId === 'dynamics' && !window.chartInitialized) {
+      initDynamicsChart();
+      window.chartInitialized = true;
+    }
+  }
+
+  // Initialize Chart.js
+  function initDynamicsChart() {
+    Chart.register(ChartDataLabels);
+
+    const ctx = document.getElementById('dynamicsChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['1-я нед\n(1–4 сен)', '2-я нед\n(7–11 сен)', '3-я нед\n(14–18 сен)', '4-я нед\n(21–25 сен)', '5-я нед\n(28–2 окт)'],
+        datasets: [{
+          data: [9.67, 7.67, 7.83, 8.75, 7.60],
+          borderColor: '#36A2EB',
+          backgroundColor: 'rgba(54, 162, 235, 0.15)',
+          borderWidth: 3,
+          pointBackgroundColor: '#FFFFFF',
+          pointBorderColor: '#36A2EB',
+          pointBorderWidth: 2,
+          pointRadius: 6,
+          pointHoverRadius: 8,
+          tension: 0.25,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: {
+          padding: { top: 25, bottom: 10, left: 10, right: 10 }
+        },
+        scales: {
+          y: {
+            min: 5.0,
+            max: 10.0,
+            ticks: {
+              color: '#A0A0B2',
+              stepSize: 1,
+              font: { size: 11 }
+            },
+            grid: { color: '#2C2C3E' }
+          },
+          x: {
+            ticks: {
+              color: '#A0A0B2',
+              font: { size: 10 }
+            },
+            grid: { display: false }
+          }
+        },
+        plugins: {
+          legend: { display: false },
+          datalabels: {
+            anchor: 'end',
+            align: 'top',
+            color: '#FFFFFF',
+            font: { weight: 'bold', size: 11 },
+            formatter: (val) => val.toFixed(2)
+          },
+          annotation: {
+            annotations: {
+              targetLine: {
+                type: 'line',
+                yMin: 8.2,
+                yMax: 8.2,
+                borderColor: '#FFAB00',
+                borderWidth: 2,
+                borderDash: [6, 4],
+                label: {
+                  display: true,
+                  content: 'Средний балл: 8.2',
+                  position: 'start',
+                  backgroundColor: '#FFAB00',
+                  color: '#121218',
+                  font: { size: 10, weight: 'bold' },
+                  padding: { top: 2, bottom: 2, left: 6, right: 6 }
+                }
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Initial Load
+  document.addEventListener('DOMContentLoaded', () => {
+    renderSubjects();
+  });
+</script>
+
+</body>
+</html>
