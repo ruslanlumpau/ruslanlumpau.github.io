@@ -1,6 +1,123 @@
 {
-  "last_updated": "2026-10-08 18:53:53",
+  "last_updated": "2026-10-09 20:53:23",
+  "period": "01.09.2026 — 09.10.2026",
+  "startDate": "2026-09-01",
+  "endDate": "2026-10-09",
   "overallAverage": 0.0,
   "subjects": [],
-  "weeks": []
+  "weekly": [
+    {
+      "label": "01.09",
+      "date": "2026-09-01",
+      "avg": null,
+      "count": 0
+    },
+    {
+      "label": "07.09",
+      "date": "2026-09-07",
+      "avg": null,
+      "count": 0
+    },
+    {
+      "label": "14.09",
+      "date": "2026-09-14",
+      "avg": null,
+      "count": 0
+    },
+    {
+      "label": "21.09",
+      "date": "2026-09-21",
+      "avg": null,
+      "count": 0
+    },
+    {
+      "label": "28.09",
+      "date": "2026-09-28",
+      "avg": null,
+      "count": 0
+    },
+    {
+      "label": "05.10",
+      "date": "2026-10-05",
+      "avg": null,
+      "count": 0
+    }
+  ],
+  "weeks": [
+    {
+      "label": "01.09",
+      "date": "2026-09-01",
+      "avg": null,
+      "count": 0
+    },
+    {
+      "label": "07.09",
+      "date": "2026-09-07",
+      "avg": null,
+      "count": 0
+    },
+    {
+      "label": "14.09",
+      "date": "2026-09-14",
+      "avg": null,
+      "count": 0
+    },
+    {
+      "label": "21.09",
+      "date": "2026-09-21",
+      "avg": null,
+      "count": 0
+    },
+    {
+      "label": "28.09",
+      "date": "2026-09-28",
+      "avg": null,
+      "count": 0
+    },
+    {
+      "label": "05.10",
+      "date": "2026-10-05",
+      "avg": null,
+      "count": 0
+    }
+  ],
+  "diagnostics": {
+    "apiWeeksFound": 36,
+    "weeksInPeriod": 6,
+    "missingWeeksInApi": [],
+    "freshGrades": 0,
+    "grades_from_history": 0,
+    "weekResults": [
+      {
+        "date": "2026-09-01",
+        "status": "empty",
+        "grades": 0
+      },
+      {
+        "date": "2026-09-07",
+        "status": "empty",
+        "grades": 0
+      },
+      {
+        "date": "2026-09-14",
+        "status": "empty",
+        "grades": 0
+      },
+      {
+        "date": "2026-09-21",
+        "status": "empty",
+        "grades": 0
+      },
+      {
+        "date": "2026-09-28",
+        "status": "empty",
+        "grades": 0
+      },
+      {
+        "date": "2026-10-05",
+        "status": "empty",
+        "grades": 0
+      }
+    ]
+  }
 }
