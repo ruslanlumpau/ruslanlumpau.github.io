@@ -9,10 +9,11 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
     body { background-color: #f4f5f7; color: #172b4d; padding: 12px; }
     .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 12px; padding: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-    
+
     h1 { font-size: 18px; font-weight: 700; text-align: center; color: #172b4d; margin-bottom: 4px; }
-    .subtitle { font-size: 12px; text-align: center; color: #6b7280; margin-bottom: 14px; }
-    
+    .subtitle { font-size: 12px; text-align: center; color: #6b7280; margin-bottom: 2px; }
+    .updated { font-size: 10px; text-align: center; color: #94a3b8; margin-bottom: 14px; }
+
     .stats-card { background: #f0f4f8; border-radius: 8px; padding: 10px; margin-bottom: 14px; display: flex; justify-content: space-around; text-align: center; }
     .stat-item .val { font-size: 16px; font-weight: bold; color: #0052cc; }
     .stat-item .lbl { font-size: 10px; color: #6b7280; }
@@ -26,23 +27,19 @@
 
     .status-badge { background: #deebff; color: #0052cc; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-bottom: 12px; text-align: center; border: 1px solid #b3d4ff; }
 
-    /* Трехстрочная карточка предмета */
     .subject-card { background: #f8fafc; border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; border: 1px solid #e2e8f0; border-left: 4px solid #de350b; }
     .subject-card.sufficient { border-left-color: #00875a; }
-    
-    /* Строка 1: Название + Средний балл */
-    .subject-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-    .subject-title { font-size: 13px; font-weight: 600; color: #1e293b; }
-    .subject-score { font-size: 14px; font-weight: 700; color: #0f172a; }
 
-    /* Строка 2: Оценки */
+    .subject-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; gap: 8px; }
+    .subject-title { font-size: 13px; font-weight: 600; color: #1e293b; }
+    .subject-score { font-size: 14px; font-weight: 700; color: #0f172a; white-space: nowrap; }
+
     .grades-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 8px; }
     .grade-badge { background: #e2e8f0; color: #1e293b; font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 4px; }
     .grade-badge.green { background: #e6f4ea; color: #00875a; border: 1px solid #b7eb8f; }
     .grade-badge.red { background: #ffe8e6; color: #de350b; border: 1px solid #ffccc7; }
     .no-grades { font-size: 11px; color: #94a3b8; font-style: italic; }
 
-    /* Строка 3: Индикатор (плашка прогресса во всю ширину) */
     .bar-bg { width: 100%; height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; }
     .bar-fill { height: 100%; border-radius: 3px; }
     .bar-fill.green { background: #00875a; }
@@ -60,10 +57,11 @@
 
 <div class="container">
   <h1>Успеваемость Тимура</h1>
-  <div class="subtitle" id="period-text">1 сентября — 2 октября 2026 г.</div>
+  <div class="subtitle" id="period-text">Загрузка...</div>
+  <div class="updated" id="updated-text"></div>
 
   <div class="stats-card">
-    <div class="stat-item"><div class="val" id="overall-avg">0.0</div><div class="lbl">Средний балл</div></div>
+    <div class="stat-item"><div class="val" id="overall-avg">–</div><div class="lbl">Средний балл</div></div>
     <div class="stat-item"><div class="val" id="total-grades">0</div><div class="lbl">Всего оценок</div></div>
     <div class="stat-item"><div class="val" id="accredited-count">0 / 0</div><div class="lbl">Аттестовано</div></div>
   </div>
@@ -73,20 +71,17 @@
     <button class="tab-btn" onclick="switchTab('weekly')">Динамика</button>
   </div>
 
-  <!-- Вкладка 1: Предметы -->
   <div id="tab-subjects" class="tab-content active">
     <div class="status-badge" id="status-badge-text">Достаточно оценок для аттестации: обновление...</div>
     <div id="subjects-list"></div>
   </div>
 
-  <!-- Вкладка 2: Динамика -->
   <div id="tab-weekly" class="tab-content">
     <div class="chart-container-line">
       <canvas id="weeklyChart"></canvas>
     </div>
   </div>
 
-  <!-- Текстовая аналитика -->
   <div class="caption-box" id="analytics-box">
     <h3>📋 Текстовая аналитика</h3>
     <ul id="analytics-list"></ul>
@@ -96,50 +91,56 @@
 <script>
   let weeklyChartInstance = null;
 
-  // Плагин Chart.js для вывода подписей над точками
+  function esc(text) {
+    return String(text).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+  }
+
+  // Подписи значений над точками основной линии (null-точки пропускаются)
   const dataLabelsPlugin = {
     id: 'dataLabelsPlugin',
     afterDatasetsDraw(chart) {
       const { ctx } = chart;
-      chart.data.datasets.forEach((dataset, datasetIndex) => {
-        if (datasetIndex !== 0) return;
-        const meta = chart.getDatasetMeta(datasetIndex);
-        meta.data.forEach((element, index) => {
-          const val = dataset.data[index];
-          if (val !== undefined && val !== null) {
-            ctx.save();
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 11px -apple-system, sans-serif';
-            ctx.textAlign = 'center';
-            ctx.fillText(val.toFixed(2), element.x, element.y - 8);
-            ctx.restore();
-          }
-        });
+      const dataset = chart.data.datasets[0];
+      if (!dataset) return;
+      chart.getDatasetMeta(0).data.forEach((element, index) => {
+        const val = dataset.data[index];
+        if (typeof val === 'number') {
+          ctx.save();
+          ctx.fillStyle = '#0f172a';
+          ctx.font = 'bold 11px -apple-system, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText(val.toFixed(2), element.x, element.y - 8);
+          ctx.restore();
+        }
       });
     }
   };
 
   async function loadDashboardData() {
     try {
-      const response = await fetch('./data.json');
-      if (!response.ok) throw new Error('Не удалось загрузить data.json');
+      // cache-buster: иначе браузер/GitHub Pages могут показать вчерашний data.json
+      const response = await fetch('./data.json?t=' + Date.now(), { cache: 'no-store' });
+      if (!response.ok) throw new Error('Не удалось загрузить data.json (HTTP ' + response.status + ')');
       const data = await response.json();
 
-      document.getElementById('period-text').textContent = data.period || '1 сентября — 2 октября 2026 г.';
+      const subjectsRaw = Array.isArray(data.subjects) ? data.subjects : [];
+      const weekly = Array.isArray(data.weekly) ? data.weekly : (Array.isArray(data.weeks) ? data.weeks : []);
+
+      document.getElementById('period-text').textContent = data.period || '';
+      document.getElementById('updated-text').textContent = data.last_updated ? 'Обновлено: ' + data.last_updated : '';
 
       let totalSum = 0;
       let totalCount = 0;
       let accreditedCount = 0;
-
       const accreditedList = [];
       const riskList = [];
       const emptyList = [];
 
-      const processedSubjects = data.subjects.map(s => {
-        const grades = s.grades || [];
+      const processedSubjects = subjectsRaw.map(s => {
+        const grades = Array.isArray(s.grades) ? s.grades : [];
         const count = grades.length;
         const sum = grades.reduce((acc, val) => acc + val, 0);
-        const avg = count > 0 ? (sum / count) : 0;
+        const avg = count > 0 ? sum / count : 0;
         const isAccredited = count >= 3;
 
         totalSum += sum;
@@ -153,27 +154,21 @@
         } else {
           emptyList.push(s.name);
         }
-
-        return {
-          name: s.name,
-          grades: grades,
-          avg: avg,
-          isAccredited: isAccredited
-        };
+        return { name: s.name, grades, avg, isAccredited };
       });
 
       processedSubjects.sort((a, b) => b.avg - a.avg);
 
-      const overallAvg = totalCount > 0 ? (totalSum / totalCount).toFixed(1) : '8.2';
+      const overallAvg = totalCount > 0 ? totalSum / totalCount : null;
 
-      document.getElementById('overall-avg').textContent = overallAvg;
+      document.getElementById('overall-avg').textContent = overallAvg !== null ? overallAvg.toFixed(2) : '–';
       document.getElementById('total-grades').textContent = totalCount;
-      document.getElementById('accredited-count').textContent = `${accreditedCount} / ${data.subjects.length}`;
-      document.getElementById('status-badge-text').textContent = `Достаточно оценок для аттестации: ${accreditedCount} из ${data.subjects.length}`;
+      document.getElementById('accredited-count').textContent = `${accreditedCount} / ${subjectsRaw.length}`;
+      document.getElementById('status-badge-text').textContent = `Достаточно оценок для аттестации: ${accreditedCount} из ${subjectsRaw.length}`;
 
       renderSubjects(processedSubjects);
-      renderAnalytics(overallAvg, totalCount, accreditedCount, data.subjects.length, accreditedList, riskList, emptyList, data.weekly);
-      renderChart(data.weekly, parseFloat(overallAvg));
+      renderAnalytics(overallAvg, totalCount, accreditedCount, subjectsRaw.length, accreditedList, riskList, emptyList, weekly);
+      renderChart(weekly, overallAvg);
 
     } catch (error) {
       console.error(error);
@@ -185,23 +180,18 @@
     const container = document.getElementById('subjects-list');
     container.innerHTML = subjects.map(s => {
       const gradesHtml = s.grades.length > 0
-        ? s.grades.map(g => `<span class="grade-badge ${s.isAccredited ? 'green' : 'red'}">${g}</span>`).join('')
+        ? s.grades.map(g => `<span class="grade-badge ${s.isAccredited ? 'green' : 'red'}">${esc(g)}</span>`).join('')
         : `<span class="no-grades">Нет оценок</span>`;
-      
-      const barWidth = (s.avg / 10) * 100;
+
+      const barWidth = Math.max(0, Math.min(100, (s.avg / 10) * 100));
 
       return `
         <div class="subject-card ${s.isAccredited ? 'sufficient' : ''}">
-          <!-- 1. Название предмета и балл -->
           <div class="subject-header">
-            <span class="subject-title">${s.name}</span>
-            <span class="subject-score">${s.avg > 0 ? s.avg.toFixed(2) : '0.0'}</span>
+            <span class="subject-title">${esc(s.name)}</span>
+            <span class="subject-score">${s.avg > 0 ? s.avg.toFixed(2) : '–'}</span>
           </div>
-          <!-- 2. Строка с оценками -->
-          <div class="grades-row">
-            ${gradesHtml}
-          </div>
-          <!-- 3. Плашка индикатора -->
+          <div class="grades-row">${gradesHtml}</div>
           <div class="bar-bg">
             <div class="bar-fill ${s.isAccredited ? 'green' : 'red'}" style="width: ${barWidth}%"></div>
           </div>
@@ -212,38 +202,46 @@
 
   function renderAnalytics(overallAvg, totalCount, accreditedCount, totalSubjects, accreditedList, riskList, emptyList, weeklyData) {
     const list = document.getElementById('analytics-list');
-    
+
+    // Только недели, в которых были оценки (avg может быть null)
+    const filled = (weeklyData || []).filter(w => typeof w.avg === 'number');
     let weeklySummary = '';
-    if (weeklyData && weeklyData.length > 0) {
-      const startAvg = weeklyData[0].avg.toFixed(2);
-      const endAvg = weeklyData[weeklyData.length - 1].avg.toFixed(2);
-      weeklySummary = `<li><b>Динамика четверти:</b> Стартовый пик на 1-й неделе (<b>${startAvg}</b>) сменился стабилизацией к 5-й неделе на уровне <b>${endAvg}</b>.</li>`;
+    if (filled.length >= 2) {
+      const first = filled[0];
+      const last = filled[filled.length - 1];
+      const best = filled.reduce((a, b) => (b.avg > a.avg ? b : a));
+      const worst = filled.reduce((a, b) => (b.avg < a.avg ? b : a));
+      weeklySummary = `<li><b>Динамика:</b> первая неделя (${esc(first.label)}) — <b>${first.avg.toFixed(2)}</b>, последняя (${esc(last.label)}) — <b>${last.avg.toFixed(2)}</b>. Лучшая неделя — ${esc(best.label)} (${best.avg.toFixed(2)}), слабая — ${esc(worst.label)} (${worst.avg.toFixed(2)}).</li>`;
+    } else if (filled.length === 1) {
+      weeklySummary = `<li><b>Динамика:</b> пока одна неделя с оценками (${esc(filled[0].label)}) — ${filled[0].avg.toFixed(2)}.</li>`;
     }
 
     list.innerHTML = `
-      <li><b>Общие показатели:</b> Всего ${totalCount} отметок, общий средний балл — <b>${overallAvg}</b>.</li>
-      <li><b>Аттестовано (${accreditedCount} из ${totalSubjects}):</b> ${accreditedList.join(', ') || 'нет'}.</li>
-      <li><b>В зоне риска (${riskList.length}):</b> ${riskList.join(', ') || 'нет'}.</li>
-      <li><b>Без оценок (${emptyList.length}):</b> ${emptyList.join(', ') || 'нет'}.</li>
+      <li><b>Общие показатели:</b> всего ${totalCount} отметок, общий средний балл — <b>${overallAvg !== null ? overallAvg.toFixed(2) : '–'}</b>.</li>
+      <li><b>Аттестовано (${accreditedCount} из ${totalSubjects}):</b> ${accreditedList.map(esc).join(', ') || 'нет'}.</li>
+      <li><b>В зоне риска (${riskList.length}):</b> ${riskList.map(esc).join(', ') || 'нет'}.</li>
+      <li><b>Без оценок (${emptyList.length}):</b> ${emptyList.map(esc).join(', ') || 'нет'}.</li>
       ${weeklySummary}
     `;
   }
 
   function renderChart(weeklyData, overallAvg) {
     const ctx = document.getElementById('weeklyChart').getContext('2d');
-    
-    if (weeklyChartInstance) {
-      weeklyChartInstance.destroy();
-    }
+    if (weeklyChartInstance) weeklyChartInstance.destroy();
 
     const labels = weeklyData.map(w => w.label);
-    const dataPoints = weeklyData.map(w => w.avg);
+    const dataPoints = weeklyData.map(w => (typeof w.avg === 'number' ? w.avg : null));
     const targetLine = weeklyData.map(() => overallAvg);
+
+    // Шкала подстраивается под данные, чтобы низкие недели не обрезались
+    const nums = dataPoints.filter(v => v !== null);
+    const lo = nums.length ? Math.min(...nums, overallAvg ?? 10) : 5;
+    const yMin = Math.max(1, Math.min(5, Math.floor(lo) - 1));
 
     weeklyChartInstance = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: labels,
+        labels,
         datasets: [
           {
             label: 'Недельный балл',
@@ -252,10 +250,11 @@
             backgroundColor: '#0052cc',
             borderWidth: 2,
             pointRadius: 5,
-            pointHoverRadius: 7
+            pointHoverRadius: 7,
+            spanGaps: true
           },
           {
-            label: `Средний балл (${overallAvg})`,
+            label: overallAvg !== null ? `Средний балл (${overallAvg.toFixed(2)})` : 'Средний балл',
             data: targetLine,
             borderColor: '#d97706',
             borderWidth: 2,
@@ -272,7 +271,7 @@
         plugins: { legend: { labels: { color: '#334155', font: { size: 11 } } } },
         scales: {
           x: { ticks: { color: '#64748b', font: { size: 11 } }, grid: { color: '#e2e8f0' } },
-          y: { min: 5, max: 10, ticks: { color: '#64748b', stepSize: 1 }, grid: { color: '#e2e8f0' } }
+          y: { min: yMin, max: 10, ticks: { color: '#64748b', stepSize: 1 }, grid: { color: '#e2e8f0' } }
         }
       }
     });
@@ -281,7 +280,7 @@
   function switchTab(tabName) {
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-    
+
     if (tabName === 'subjects') {
       document.querySelectorAll('.tab-btn')[0].classList.add('active');
       document.getElementById('tab-subjects').classList.add('active');
