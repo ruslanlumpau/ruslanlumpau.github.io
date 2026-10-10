@@ -34,10 +34,11 @@
     .subject-title { font-size: 13px; font-weight: 600; color: #1e293b; }
     .subject-score { font-size: 14px; font-weight: 700; color: #0f172a; white-space: nowrap; }
 
-    .grades-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 8px; }
-    .grade-badge { background: #e2e8f0; color: #1e293b; font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 4px; }
+    .grades-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 8px; min-height: 20px; }
+    .grade-badge { background: #e2e8f0; color: #1e293b; font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 4px; cursor: pointer; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; outline: none; }
     .grade-badge.green { background: #e6f4ea; color: #00875a; border: 1px solid #b7eb8f; }
     .grade-badge.red { background: #ffe8e6; color: #de350b; border: 1px solid #ffccc7; }
+    .grade-badge:hover, .grade-badge.active, .grade-badge:focus-visible { box-shadow: 0 0 0 2px rgba(0, 82, 204, 0.35); }
     .no-grades { font-size: 11px; color: #94a3b8; font-style: italic; }
 
     .bar-bg { width: 100%; height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; }
@@ -51,6 +52,9 @@
     .caption-box h3 { font-size: 13px; margin-bottom: 6px; color: #0f172a; }
     .caption-box ul { padding-left: 16px; }
     .caption-box li { margin-bottom: 6px; }
+
+    /* Всплывающая подсказка с датой оценки */
+    #grade-tip { position: fixed; z-index: 1000; display: none; pointer-events: none; background: #172b4d; color: #ffffff; font-size: 11px; font-weight: 600; line-height: 1.3; padding: 5px 9px; border-radius: 6px; white-space: nowrap; box-shadow: 0 4px 10px rgba(0,0,0,0.25); }
   </style>
 </head>
 <body>
@@ -88,11 +92,32 @@
   </div>
 </div>
 
+<div id="grade-tip" role="tooltip"></div>
+
 <script>
   let weeklyChartInstance = null;
 
   function esc(text) {
     return String(text).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+  }
+
+  const WEEKDAYS = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
+
+  // 'YYYY-MM-DD' -> '14.09.2026, пн'
+  function formatDate(iso) {
+    const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || '');
+    if (!m) return null;
+    const d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+    return `${m[3]}.${m[2]}.${m[1]}, ${WEEKDAYS[d.getDay()]}`;
+  }
+
+  function tipText(mark) {
+    const full = formatDate(mark.date);
+    if (full) return full;
+    // дата урока неизвестна - показываем хотя бы неделю
+    const w = /^(\d{4})-(\d{2})-(\d{2})/.exec(mark.week || '');
+    if (w) return `неделя с ${w[3]}.${w[2]}`;
+    return 'дата неизвестна';
   }
 
   // Подписи значений над точками основной линии (null-точки пропускаются)
@@ -137,9 +162,18 @@
       const emptyList = [];
 
       const processedSubjects = subjectsRaw.map(s => {
-        const grades = Array.isArray(s.grades) ? s.grades : [];
-        const count = grades.length;
-        const sum = grades.reduce((acc, val) => acc + val, 0);
+        // marks - оценки с датами (новый формат); grades - запасной вариант без дат
+        let marks = Array.isArray(s.marks) && s.marks.length
+          ? s.marks.filter(m => typeof m.grade === 'number')
+          : (Array.isArray(s.grades) ? s.grades.map(g => ({ grade: g, date: null, week: null })) : []);
+
+        // хронология: по дате, а без даты - по неделе (сортировка устойчивая)
+        marks = marks
+          .map((m, i) => ({ ...m, _i: i }))
+          .sort((a, b) => ((a.date || a.week || '').localeCompare(b.date || b.week || '')) || (a._i - b._i));
+
+        const count = marks.length;
+        const sum = marks.reduce((acc, m) => acc + m.grade, 0);
         const avg = count > 0 ? sum / count : 0;
         const isAccredited = count >= 3;
 
@@ -154,10 +188,15 @@
         } else {
           emptyList.push(s.name);
         }
-        return { name: s.name, grades, avg, isAccredited };
+        return { name: s.name, marks, count, avg, isAccredited };
       });
 
-      processedSubjects.sort((a, b) => b.avg - a.avg);
+      // сначала предметы с оценками (по убыванию среднего), в конце - без оценок по алфавиту
+      processedSubjects.sort((a, b) => {
+        if ((a.count > 0) !== (b.count > 0)) return a.count > 0 ? -1 : 1;
+        if (a.count === 0) return a.name.localeCompare(b.name, 'ru');
+        return (b.avg - a.avg) || a.name.localeCompare(b.name, 'ru');
+      });
 
       const overallAvg = totalCount > 0 ? totalSum / totalCount : null;
 
@@ -168,7 +207,14 @@
 
       renderSubjects(processedSubjects);
       renderAnalytics(overallAvg, totalCount, accreditedCount, subjectsRaw.length, accreditedList, riskList, emptyList, weekly);
-      renderChart(weekly, overallAvg);
+      // сбой графика (например, не загрузился Chart.js) не должен ломать остальную страницу
+      try {
+        renderChart(weekly, overallAvg);
+      } catch (chartError) {
+        console.error(chartError);
+        document.querySelector('.chart-container-line').innerHTML =
+          '<div class="no-grades" style="padding:24px 0;text-align:center">Не удалось построить график</div>';
+      }
 
     } catch (error) {
       console.error(error);
@@ -179,8 +225,11 @@
   function renderSubjects(subjects) {
     const container = document.getElementById('subjects-list');
     container.innerHTML = subjects.map(s => {
-      const gradesHtml = s.grades.length > 0
-        ? s.grades.map(g => `<span class="grade-badge ${s.isAccredited ? 'green' : 'red'}">${esc(g)}</span>`).join('')
+      const gradesHtml = s.marks.length > 0
+        ? s.marks.map(m => {
+            const tip = tipText(m);
+            return `<span class="grade-badge ${s.isAccredited ? 'green' : 'red'}" tabindex="0" data-tip="${esc(tip)}" aria-label="Оценка ${esc(m.grade)}, ${esc(tip)}">${esc(m.grade)}</span>`;
+          }).join('')
         : `<span class="no-grades">Нет оценок</span>`;
 
       const barWidth = Math.max(0, Math.min(100, (s.avg / 10) * 100));
@@ -189,7 +238,7 @@
         <div class="subject-card ${s.isAccredited ? 'sufficient' : ''}">
           <div class="subject-header">
             <span class="subject-title">${esc(s.name)}</span>
-            <span class="subject-score">${s.avg > 0 ? s.avg.toFixed(2) : '–'}</span>
+            <span class="subject-score">${s.count > 0 ? s.avg.toFixed(2) : '–'}</span>
           </div>
           <div class="grades-row">${gradesHtml}</div>
           <div class="bar-bg">
@@ -199,6 +248,79 @@
       `;
     }).join('');
   }
+
+  // ---------- Всплывающая подсказка: наведение (мышь), тап (телефон), фокус (клавиатура) ----------
+  const tipEl = document.getElementById('grade-tip');
+  let tipTarget = null;
+  let lastPointerType = 'mouse';
+
+  function showTip(el) {
+    if (tipTarget && tipTarget !== el) tipTarget.classList.remove('active');
+    tipTarget = el;
+    el.classList.add('active');
+    tipEl.textContent = el.dataset.tip || '';
+    tipEl.style.display = 'block';
+
+    const r = el.getBoundingClientRect();
+    const vw = document.documentElement.clientWidth;
+    const tw = tipEl.offsetWidth;
+    const th = tipEl.offsetHeight;
+    let left = r.left + r.width / 2 - tw / 2;
+    left = Math.max(6, Math.min(left, vw - tw - 6));
+    let top = r.top - th - 8;
+    if (top < 6) top = r.bottom + 8;   // не хватает места сверху - показываем снизу
+    tipEl.style.left = left + 'px';
+    tipEl.style.top = top + 'px';
+  }
+
+  function hideTip() {
+    if (tipTarget) tipTarget.classList.remove('active');
+    tipTarget = null;
+    tipEl.style.display = 'none';
+  }
+
+  function badgeFrom(e) {
+    return e.target && e.target.closest ? e.target.closest('.grade-badge') : null;
+  }
+
+  document.addEventListener('pointerdown', e => { lastPointerType = e.pointerType || 'mouse'; }, true);
+
+  const listEl = document.getElementById('subjects-list');
+
+  // мышь: показать при наведении, скрыть при уходе
+  listEl.addEventListener('mouseover', e => {
+    if (lastPointerType !== 'mouse') return;
+    const b = badgeFrom(e);
+    if (b) showTip(b);
+  });
+  listEl.addEventListener('mouseout', e => {
+    if (lastPointerType !== 'mouse') return;
+    if (badgeFrom(e)) hideTip();
+  });
+
+  // касание: тап по оценке показывает/скрывает подсказку, тап в любом другом месте закрывает её
+  document.addEventListener('click', e => {
+    const b = badgeFrom(e);
+    if (lastPointerType === 'mouse' && b) return;   // для мыши работает наведение
+    if (b) {
+      if (tipTarget === b) hideTip(); else showTip(b);
+    } else {
+      hideTip();
+    }
+  });
+
+  // клавиатура (Tab): показываем только при "клавиатурном" фокусе, чтобы не конфликтовать с тапом
+  listEl.addEventListener('focusin', e => {
+    const b = badgeFrom(e);
+    if (!b) return;
+    let kb = false;
+    try { kb = b.matches(':focus-visible'); } catch (err) { kb = false; }
+    if (kb) showTip(b);
+  });
+  listEl.addEventListener('focusout', e => { if (badgeFrom(e)) hideTip(); });
+
+  window.addEventListener('scroll', hideTip, { passive: true });
+  window.addEventListener('resize', hideTip);
 
   function renderAnalytics(overallAvg, totalCount, accreditedCount, totalSubjects, accreditedList, riskList, emptyList, weeklyData) {
     const list = document.getElementById('analytics-list');
@@ -278,6 +400,7 @@
   }
 
   function switchTab(tabName) {
+    hideTip();
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
 
