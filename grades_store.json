@@ -1,10 +1,31 @@
 {
- "updated": "2026-10-10 10:45:44",
+ "updated": "2026-10-10 11:07:58",
+ "subjects": [
+  "Английский язык",
+  "Беларуская літаратура (літаратурнае чытанне)",
+  "Беларуская мова",
+  "Биология",
+  "География",
+  "Информатика",
+  "Информационный час",
+  "История Беларуси в контексте всемирной истории",
+  "Классный час",
+  "Математика",
+  "Обществоведение",
+  "Русская литература (литературное чтение)",
+  "Русский язык",
+  "Физика",
+  "Физическая культура и здоровье",
+  "Химия",
+  "Черчение"
+ ],
  "grades": [
   {
    "key": "fallback|week:2026-09-01|subject:Английский язык|grade:10#1",
    "subject": "Английский язык",
    "grade": 10,
+   "date": "2026-09-01",
+   "date_src": "inherited",
    "week_uuid": "bc741659-86c6-4da8-ac9f-08ce65b7656e",
    "week_start": "2026-09-01"
   },
@@ -12,6 +33,8 @@
    "key": "fallback|week:2026-09-01|subject:Математика|grade:9#1",
    "subject": "Математика",
    "grade": 9,
+   "date": "2026-09-02",
+   "date_src": "inherited",
    "week_uuid": "bc741659-86c6-4da8-ac9f-08ce65b7656e",
    "week_start": "2026-09-01"
   },
@@ -19,6 +42,8 @@
    "key": "fallback|week:2026-09-01|subject:Физическая культура и здоровье|grade:10#1",
    "subject": "Физическая культура и здоровье",
    "grade": 10,
+   "date": "2026-09-03",
+   "date_src": "inherited",
    "week_uuid": "bc741659-86c6-4da8-ac9f-08ce65b7656e",
    "week_start": "2026-09-01"
   },
@@ -26,6 +51,8 @@
    "key": "fallback|week:2026-09-07|subject:Физика|grade:8#1",
    "subject": "Физика",
    "grade": 8,
+   "date": "2026-09-11",
+   "date_src": "inherited",
    "week_uuid": "b921de52-432f-49d9-adc9-0cfbcffe30f9",
    "week_start": "2026-09-07"
   },
@@ -33,6 +60,8 @@
    "key": "fallback|week:2026-09-07|subject:Русский язык|grade:8#1",
    "subject": "Русский язык",
    "grade": 8,
+   "date": "2026-09-11",
+   "date_src": "inherited",
    "week_uuid": "b921de52-432f-49d9-adc9-0cfbcffe30f9",
    "week_start": "2026-09-07"
   },
@@ -40,6 +69,8 @@
    "key": "fallback|week:2026-09-07|subject:Беларуская літаратура (літаратурнае чытанне)|grade:7#1",
    "subject": "Беларуская літаратура (літаратурнае чытанне)",
    "grade": 7,
+   "date": "2026-09-11",
+   "date_src": "inherited",
    "week_uuid": "b921de52-432f-49d9-adc9-0cfbcffe30f9",
    "week_start": "2026-09-07"
   },
@@ -47,6 +78,8 @@
    "key": "fallback|week:2026-09-14|subject:Обществоведение|grade:3#1",
    "subject": "Обществоведение",
    "grade": 3,
+   "date": "2026-09-14",
+   "date_src": "inherited",
    "week_uuid": "3d320ebf-f610-4e28-8278-089bfe461187",
    "week_start": "2026-09-14"
   },
@@ -54,6 +87,8 @@
    "key": "fallback|week:2026-09-14|subject:История Беларуси в контексте всемирной истории|grade:9#1",
    "subject": "История Беларуси в контексте всемирной истории",
    "grade": 9,
+   "date": "2026-09-14",
+   "date_src": "inherited",
    "week_uuid": "3d320ebf-f610-4e28-8278-089bfe461187",
    "week_start": "2026-09-14"
   },
@@ -61,6 +96,8 @@
    "key": "fallback|week:2026-09-14|subject:Математика|grade:4#1",
    "subject": "Математика",
    "grade": 4,
+   "date": "2026-09-14",
+   "date_src": "inherited",
    "week_uuid": "3d320ebf-f610-4e28-8278-089bfe461187",
    "week_start": "2026-09-14"
   },
@@ -68,13 +105,8 @@
    "key": "fallback|week:2026-09-14|subject:Биология|grade:9#1",
    "subject": "Биология",
    "grade": 9,
-   "week_uuid": "3d320ebf-f610-4e28-8278-089bfe461187",
-   "week_start": "2026-09-14"
-  },
-  {
-   "key": "fallback|week:2026-09-14|subject:Физика|grade:5#1",
-   "subject": "Физика",
-   "grade": 5,
+   "date": "2026-09-14",
+   "date_src": "inherited",
    "week_uuid": "3d320ebf-f610-4e28-8278-089bfe461187",
    "week_start": "2026-09-14"
   },
@@ -82,6 +114,17 @@
    "key": "fallback|week:2026-09-14|subject:Информатика|grade:10#1",
    "subject": "Информатика",
    "grade": 10,
+   "date": "2026-09-15",
+   "date_src": "inherited",
+   "week_uuid": "3d320ebf-f610-4e28-8278-089bfe461187",
+   "week_start": "2026-09-14"
+  },
+  {
+   "key": "fallback|week:2026-09-14|subject:Физика|grade:5#1",
+   "subject": "Физика",
+   "grade": 5,
+   "date": "2026-09-15",
+   "date_src": "inherited",
    "week_uuid": "3d320ebf-f610-4e28-8278-089bfe461187",
    "week_start": "2026-09-14"
   },
@@ -89,6 +132,8 @@
    "key": "fallback|week:2026-09-14|subject:Химия|grade:7#1",
    "subject": "Химия",
    "grade": 7,
+   "date": "2026-09-17",
+   "date_src": "inherited",
    "week_uuid": "3d320ebf-f610-4e28-8278-089bfe461187",
    "week_start": "2026-09-14"
   },
@@ -96,6 +141,8 @@
    "key": "fallback|week:2026-09-14|subject:Беларуская літаратура (літаратурнае чытанне)|grade:10#1",
    "subject": "Беларуская літаратура (літаратурнае чытанне)",
    "grade": 10,
+   "date": "2026-09-18",
+   "date_src": "inherited",
    "week_uuid": "3d320ebf-f610-4e28-8278-089bfe461187",
    "week_start": "2026-09-14"
   },
@@ -103,6 +150,8 @@
    "key": "fallback|week:2026-09-21|subject:История Беларуси в контексте всемирной истории|grade:8#1",
    "subject": "История Беларуси в контексте всемирной истории",
    "grade": 8,
+   "date": "2026-09-21",
+   "date_src": "inherited",
    "week_uuid": "f9dad77e-26a0-4de1-bf8d-f3592f3696cc",
    "week_start": "2026-09-21"
   },
@@ -110,6 +159,8 @@
    "key": "fallback|week:2026-09-21|subject:Физика|grade:8#1",
    "subject": "Физика",
    "grade": 8,
+   "date": "2026-09-22",
+   "date_src": "inherited",
    "week_uuid": "f9dad77e-26a0-4de1-bf8d-f3592f3696cc",
    "week_start": "2026-09-21"
   },
@@ -117,6 +168,8 @@
    "key": "fallback|week:2026-09-21|subject:Математика|grade:9#1",
    "subject": "Математика",
    "grade": 9,
+   "date": "2026-09-25",
+   "date_src": "inherited",
    "week_uuid": "f9dad77e-26a0-4de1-bf8d-f3592f3696cc",
    "week_start": "2026-09-21"
   },
@@ -124,6 +177,8 @@
    "key": "fallback|week:2026-09-21|subject:Беларуская літаратура (літаратурнае чытанне)|grade:10#1",
    "subject": "Беларуская літаратура (літаратурнае чытанне)",
    "grade": 10,
+   "date": "2026-09-25",
+   "date_src": "inherited",
    "week_uuid": "f9dad77e-26a0-4de1-bf8d-f3592f3696cc",
    "week_start": "2026-09-21"
   },
@@ -131,6 +186,8 @@
    "key": "fallback|week:2026-09-28|subject:Физика|grade:7#1",
    "subject": "Физика",
    "grade": 7,
+   "date": "2026-09-28",
+   "date_src": "inherited",
    "week_uuid": "ef457b6f-58a5-4f37-a6ef-2b18ad9e41e9",
    "week_start": "2026-09-28"
   },
@@ -138,6 +195,8 @@
    "key": "fallback|week:2026-09-28|subject:Химия|grade:9#1",
    "subject": "Химия",
    "grade": 9,
+   "date": "2026-09-28",
+   "date_src": "inherited",
    "week_uuid": "ef457b6f-58a5-4f37-a6ef-2b18ad9e41e9",
    "week_start": "2026-09-28"
   },
@@ -145,6 +204,8 @@
    "key": "fallback|week:2026-09-28|subject:Беларуская літаратура (літаратурнае чытанне)|grade:9#1",
    "subject": "Беларуская літаратура (літаратурнае чытанне)",
    "grade": 9,
+   "date": "2026-09-30",
+   "date_src": "inherited",
    "week_uuid": "ef457b6f-58a5-4f37-a6ef-2b18ad9e41e9",
    "week_start": "2026-09-28"
   },
@@ -152,6 +213,8 @@
    "key": "fallback|week:2026-09-28|subject:Физика|grade:5#1",
    "subject": "Физика",
    "grade": 5,
+   "date": "2026-09-30",
+   "date_src": "inherited",
    "week_uuid": "ef457b6f-58a5-4f37-a6ef-2b18ad9e41e9",
    "week_start": "2026-09-28"
   },
@@ -159,6 +222,8 @@
    "key": "fallback|week:2026-09-28|subject:История Беларуси в контексте всемирной истории|grade:8#1",
    "subject": "История Беларуси в контексте всемирной истории",
    "grade": 8,
+   "date": "2026-09-30",
+   "date_src": "inherited",
    "week_uuid": "ef457b6f-58a5-4f37-a6ef-2b18ad9e41e9",
    "week_start": "2026-09-28"
   },
@@ -166,6 +231,8 @@
    "key": "fallback|week:2026-09-28|subject:География|grade:8#1",
    "subject": "География",
    "grade": 8,
+   "date": "2026-10-01",
+   "date_src": "inherited",
    "week_uuid": "ef457b6f-58a5-4f37-a6ef-2b18ad9e41e9",
    "week_start": "2026-09-28"
   },
@@ -173,6 +240,8 @@
    "key": "fallback|week:2026-10-05|subject:Физика|grade:9#1",
    "subject": "Физика",
    "grade": 9,
+   "date": "2026-10-06",
+   "date_src": "inherited",
    "week_uuid": "31be080f-1cc0-42a5-a1f6-1cb5651e0d5a",
    "week_start": "2026-10-05"
   },
@@ -180,6 +249,8 @@
    "key": "fallback|week:2026-10-05|subject:История Беларуси в контексте всемирной истории|grade:8#1",
    "subject": "История Беларуси в контексте всемирной истории",
    "grade": 8,
+   "date": "2026-10-07",
+   "date_src": "inherited",
    "week_uuid": "31be080f-1cc0-42a5-a1f6-1cb5651e0d5a",
    "week_start": "2026-10-05"
   },
@@ -187,6 +258,8 @@
    "key": "fallback|week:2026-10-05|subject:География|grade:10#1",
    "subject": "География",
    "grade": 10,
+   "date": "2026-10-08",
+   "date_src": "inherited",
    "week_uuid": "31be080f-1cc0-42a5-a1f6-1cb5651e0d5a",
    "week_start": "2026-10-05"
   },
@@ -194,6 +267,8 @@
    "key": "fallback|week:2026-10-05|subject:Физика|grade:10#1",
    "subject": "Физика",
    "grade": 10,
+   "date": "2026-10-09",
+   "date_src": "inherited",
    "week_uuid": "31be080f-1cc0-42a5-a1f6-1cb5651e0d5a",
    "week_start": "2026-10-05"
   }
