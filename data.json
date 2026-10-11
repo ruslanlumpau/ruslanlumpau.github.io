@@ -1,9 +1,9 @@
 {
-  "last_updated": "2026-10-10 18:52:46",
-  "period": "01.09.2026 — 10.10.2026",
+  "last_updated": "2026-10-11 16:50:28",
+  "period": "01.09.2026 — 11.10.2026",
   "startDate": "2026-09-01",
-  "endDate": "2026-10-10",
-  "overallAverage": 8.11,
+  "endDate": "2026-10-11",
+  "overallAverage": 8.1,
   "subjects": [
     {
       "name": "Английский язык",
@@ -59,10 +59,18 @@
     },
     {
       "name": "Беларуская мова",
-      "average": 0.0,
-      "grades": [],
-      "marks": [],
-      "count": 0,
+      "average": 8.0,
+      "grades": [
+        8
+      ],
+      "marks": [
+        {
+          "grade": 8,
+          "date": "2026-10-07",
+          "week": "2026-10-05"
+        }
+      ],
+      "count": 1,
       "status": "Не хватает",
       "color": "#DE350B"
     },
@@ -385,8 +393,8 @@
     {
       "label": "05.10",
       "date": "2026-10-05",
-      "avg": 9.25,
-      "count": 4
+      "avg": 9.0,
+      "count": 5
     }
   ],
   "weeks": [
@@ -423,19 +431,19 @@
     {
       "label": "05.10",
       "date": "2026-10-05",
-      "avg": 9.25,
-      "count": 4
+      "avg": 9.0,
+      "count": 5
     }
   ],
   "diagnostics": {
     "apiWeeksFound": 36,
     "weeksInPeriod": 6,
     "missingWeeksInApi": [],
-    "freshGrades": 28,
+    "freshGrades": 29,
     "grades_from_history": 0,
-    "gradesWithDate": 28,
+    "gradesWithDate": 29,
     "subjectsTotal": 17,
-    "subjectsWithoutGrades": 5,
+    "subjectsWithoutGrades": 4,
     "weekResults": [
       {
         "date": "2026-09-01",
@@ -465,7 +473,7 @@
       {
         "date": "2026-10-05",
         "status": "ok",
-        "grades": 4
+        "grades": 5
       }
     ]
   }
