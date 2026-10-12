@@ -1,9 +1,9 @@
 {
-  "last_updated": "2026-10-11 16:50:28",
-  "period": "01.09.2026 — 11.10.2026",
+  "last_updated": "2026-10-12 10:14:36",
+  "period": "01.09.2026 — 12.10.2026",
   "startDate": "2026-09-01",
-  "endDate": "2026-10-11",
-  "overallAverage": 8.1,
+  "endDate": "2026-10-12",
+  "overallAverage": 8.03,
   "subjects": [
     {
       "name": "Английский язык",
@@ -142,10 +142,11 @@
     },
     {
       "name": "История Беларуси в контексте всемирной истории",
-      "average": 8.25,
+      "average": 7.8,
       "grades": [
         9,
         8,
+        6,
         8,
         8
       ],
@@ -161,6 +162,11 @@
           "week": "2026-09-21"
         },
         {
+          "grade": 6,
+          "date": "2026-09-28",
+          "week": "2026-09-28"
+        },
+        {
           "grade": 8,
           "date": "2026-09-30",
           "week": "2026-09-28"
@@ -171,7 +177,7 @@
           "week": "2026-10-05"
         }
       ],
-      "count": 4,
+      "count": 5,
       "status": "Достаточно",
       "color": "#00875A"
     },
@@ -387,14 +393,20 @@
     {
       "label": "28.09",
       "date": "2026-09-28",
-      "avg": 7.67,
-      "count": 6
+      "avg": 7.43,
+      "count": 7
     },
     {
       "label": "05.10",
       "date": "2026-10-05",
       "avg": 9.0,
       "count": 5
+    },
+    {
+      "label": "12.10",
+      "date": "2026-10-12",
+      "avg": null,
+      "count": 0
     }
   ],
   "weeks": [
@@ -425,23 +437,29 @@
     {
       "label": "28.09",
       "date": "2026-09-28",
-      "avg": 7.67,
-      "count": 6
+      "avg": 7.43,
+      "count": 7
     },
     {
       "label": "05.10",
       "date": "2026-10-05",
       "avg": 9.0,
       "count": 5
+    },
+    {
+      "label": "12.10",
+      "date": "2026-10-12",
+      "avg": null,
+      "count": 0
     }
   ],
   "diagnostics": {
     "apiWeeksFound": 36,
-    "weeksInPeriod": 6,
+    "weeksInPeriod": 7,
     "missingWeeksInApi": [],
-    "freshGrades": 29,
+    "freshGrades": 30,
     "grades_from_history": 0,
-    "gradesWithDate": 29,
+    "gradesWithDate": 30,
     "subjectsTotal": 17,
     "subjectsWithoutGrades": 4,
     "weekResults": [
@@ -468,12 +486,17 @@
       {
         "date": "2026-09-28",
         "status": "ok",
-        "grades": 6
+        "grades": 7
       },
       {
         "date": "2026-10-05",
         "status": "ok",
         "grades": 5
+      },
+      {
+        "date": "2026-10-12",
+        "status": "empty",
+        "grades": 0
       }
     ]
   }
