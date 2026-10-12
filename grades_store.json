@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-11 16:50:28",
+ "updated": "2026-10-12 10:14:36",
  "subjects": [
   "Английский язык",
   "Беларуская літаратура (літаратурнае чытанне)",
@@ -111,18 +111,18 @@
    "week_start": "2026-09-14"
   },
   {
-   "key": "fallback|week:2026-09-14|subject:Информатика|grade:10#1",
-   "subject": "Информатика",
-   "grade": 10,
+   "key": "fallback|week:2026-09-14|subject:Физика|grade:5#1",
+   "subject": "Физика",
+   "grade": 5,
    "date": "2026-09-15",
    "date_src": "inherited",
    "week_uuid": "3d320ebf-f610-4e28-8278-089bfe461187",
    "week_start": "2026-09-14"
   },
   {
-   "key": "fallback|week:2026-09-14|subject:Физика|grade:5#1",
-   "subject": "Физика",
-   "grade": 5,
+   "key": "fallback|week:2026-09-14|subject:Информатика|grade:10#1",
+   "subject": "Информатика",
+   "grade": 10,
    "date": "2026-09-15",
    "date_src": "inherited",
    "week_uuid": "3d320ebf-f610-4e28-8278-089bfe461187",
@@ -181,6 +181,15 @@
    "date_src": "inherited",
    "week_uuid": "f9dad77e-26a0-4de1-bf8d-f3592f3696cc",
    "week_start": "2026-09-21"
+  },
+  {
+   "key": "fallback|week:2026-09-28|subject:История Беларуси в контексте всемирной истории|grade:6#1",
+   "subject": "История Беларуси в контексте всемирной истории",
+   "grade": 6,
+   "date": "2026-09-28",
+   "date_src": "inherited",
+   "week_uuid": "ef457b6f-58a5-4f37-a6ef-2b18ad9e41e9",
+   "week_start": "2026-09-28"
   },
   {
    "key": "fallback|week:2026-09-28|subject:Физика|grade:7#1",
