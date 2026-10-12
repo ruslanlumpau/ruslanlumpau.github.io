@@ -1,9 +1,9 @@
 {
-  "last_updated": "2026-10-12 13:45:26",
+  "last_updated": "2026-10-12 16:11:09",
   "period": "01.09.2026 — 12.10.2026",
   "startDate": "2026-09-01",
   "endDate": "2026-10-12",
-  "overallAverage": 8.03,
+  "overallAverage": 8.06,
   "subjects": [
     {
       "name": "Английский язык",
@@ -78,6 +78,7 @@
       "name": "Биология",
       "average": 9.0,
       "grades": [
+        9,
         9
       ],
       "marks": [
@@ -85,9 +86,14 @@
           "grade": 9,
           "date": "2026-09-14",
           "week": "2026-09-14"
+        },
+        {
+          "grade": 9,
+          "date": "2026-10-12",
+          "week": "2026-10-12"
         }
       ],
-      "count": 1,
+      "count": 2,
       "status": "Не хватает",
       "color": "#DE350B"
     },
@@ -405,8 +411,8 @@
     {
       "label": "12.10",
       "date": "2026-10-12",
-      "avg": null,
-      "count": 0
+      "avg": 9.0,
+      "count": 1
     }
   ],
   "weeks": [
@@ -449,17 +455,17 @@
     {
       "label": "12.10",
       "date": "2026-10-12",
-      "avg": null,
-      "count": 0
+      "avg": 9.0,
+      "count": 1
     }
   ],
   "diagnostics": {
     "apiWeeksFound": 36,
     "weeksInPeriod": 7,
     "missingWeeksInApi": [],
-    "freshGrades": 30,
+    "freshGrades": 31,
     "grades_from_history": 0,
-    "gradesWithDate": 30,
+    "gradesWithDate": 31,
     "subjectsTotal": 17,
     "subjectsWithoutGrades": 4,
     "weekResults": [
@@ -495,8 +501,8 @@
       },
       {
         "date": "2026-10-12",
-        "status": "empty",
-        "grades": 0
+        "status": "ok",
+        "grades": 1
       }
     ]
   }
