@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-15 10:54:36",
+ "updated": "2026-10-15 15:00:05",
  "subjects": [
   "Английский язык",
   "Беларуская літаратура (літаратурнае чытанне)",
@@ -174,6 +174,15 @@
    "week_start": "2026-09-21"
   },
   {
+   "key": "fallback|week:2026-09-21|subject:Математика|grade:6#1",
+   "subject": "Математика",
+   "grade": 6,
+   "date": "2026-09-24",
+   "date_src": "inherited",
+   "week_uuid": "f9dad77e-26a0-4de1-bf8d-f3592f3696cc",
+   "week_start": "2026-09-21"
+  },
+  {
    "key": "fallback|week:2026-09-21|subject:Математика|grade:9#1",
    "subject": "Математика",
    "grade": 9,
@@ -246,6 +255,15 @@
    "week_start": "2026-09-28"
   },
   {
+   "key": "fallback|week:2026-09-28|subject:Химия|grade:8#1",
+   "subject": "Химия",
+   "grade": 8,
+   "date": "2026-10-01",
+   "date_src": "inherited",
+   "week_uuid": "ef457b6f-58a5-4f37-a6ef-2b18ad9e41e9",
+   "week_start": "2026-09-28"
+  },
+  {
    "key": "fallback|week:2026-09-28|subject:География|grade:8#1",
    "subject": "География",
    "grade": 8,
@@ -255,18 +273,18 @@
    "week_start": "2026-09-28"
   },
   {
-   "key": "fallback|week:2026-10-05|subject:Математика|grade:7#1",
-   "subject": "Математика",
-   "grade": 7,
+   "key": "fallback|week:2026-10-05|subject:Физика|grade:9#1",
+   "subject": "Физика",
+   "grade": 9,
    "date": "2026-10-06",
    "date_src": "inherited",
    "week_uuid": "31be080f-1cc0-42a5-a1f6-1cb5651e0d5a",
    "week_start": "2026-10-05"
   },
   {
-   "key": "fallback|week:2026-10-05|subject:Физика|grade:9#1",
-   "subject": "Физика",
-   "grade": 9,
+   "key": "fallback|week:2026-10-05|subject:Математика|grade:7#1",
+   "subject": "Математика",
+   "grade": 7,
    "date": "2026-10-06",
    "date_src": "inherited",
    "week_uuid": "31be080f-1cc0-42a5-a1f6-1cb5651e0d5a",
@@ -322,6 +340,15 @@
    "subject": "Биология",
    "grade": 9,
    "date": "2026-10-12",
+   "date_src": "inherited",
+   "week_uuid": "053bd1ec-873f-49d6-94c6-cf6960f39d22",
+   "week_start": "2026-10-12"
+  },
+  {
+   "key": "fallback|week:2026-10-12|subject:География|grade:9#1",
+   "subject": "География",
+   "grade": 9,
+   "date": "2026-10-15",
    "date_src": "inherited",
    "week_uuid": "053bd1ec-873f-49d6-94c6-cf6960f39d22",
    "week_start": "2026-10-12"
