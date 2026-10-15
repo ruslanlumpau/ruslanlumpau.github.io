@@ -1,9 +1,9 @@
 {
-  "last_updated": "2026-10-15 10:54:36",
+  "last_updated": "2026-10-15 15:00:05",
   "period": "01.09.2026 — 15.10.2026",
   "startDate": "2026-09-01",
   "endDate": "2026-10-15",
-  "overallAverage": 7.88,
+  "overallAverage": 7.86,
   "subjects": [
     {
       "name": "Английский язык",
@@ -108,7 +108,8 @@
       "average": 9.0,
       "grades": [
         8,
-        10
+        10,
+        9
       ],
       "marks": [
         {
@@ -120,11 +121,16 @@
           "grade": 10,
           "date": "2026-10-08",
           "week": "2026-10-05"
+        },
+        {
+          "grade": 9,
+          "date": "2026-10-15",
+          "week": "2026-10-12"
         }
       ],
-      "count": 2,
-      "status": "Не хватает",
-      "color": "#DE350B"
+      "count": 3,
+      "status": "Достаточно",
+      "color": "#00875A"
     },
     {
       "name": "Информатика",
@@ -204,10 +210,11 @@
     },
     {
       "name": "Математика",
-      "average": 6.6,
+      "average": 6.5,
       "grades": [
         9,
         4,
+        6,
         9,
         7,
         4
@@ -222,6 +229,11 @@
           "grade": 4,
           "date": "2026-09-14",
           "week": "2026-09-14"
+        },
+        {
+          "grade": 6,
+          "date": "2026-09-24",
+          "week": "2026-09-21"
         },
         {
           "grade": 9,
@@ -239,7 +251,7 @@
           "week": "2026-10-12"
         }
       ],
-      "count": 5,
+      "count": 6,
       "status": "Достаточно",
       "color": "#00875A"
     },
@@ -361,7 +373,8 @@
       "average": 8.0,
       "grades": [
         7,
-        9
+        9,
+        8
       ],
       "marks": [
         {
@@ -373,11 +386,16 @@
           "grade": 9,
           "date": "2026-09-28",
           "week": "2026-09-28"
+        },
+        {
+          "grade": 8,
+          "date": "2026-10-01",
+          "week": "2026-09-28"
         }
       ],
-      "count": 2,
-      "status": "Не хватает",
-      "color": "#DE350B"
+      "count": 3,
+      "status": "Достаточно",
+      "color": "#00875A"
     },
     {
       "name": "Черчение",
@@ -411,14 +429,14 @@
     {
       "label": "21.09",
       "date": "2026-09-21",
-      "avg": 8.75,
-      "count": 4
+      "avg": 8.2,
+      "count": 5
     },
     {
       "label": "28.09",
       "date": "2026-09-28",
-      "avg": 7.43,
-      "count": 7
+      "avg": 7.5,
+      "count": 8
     },
     {
       "label": "05.10",
@@ -429,8 +447,8 @@
     {
       "label": "12.10",
       "date": "2026-10-12",
-      "avg": 6.5,
-      "count": 2
+      "avg": 7.33,
+      "count": 3
     }
   ],
   "weeks": [
@@ -455,14 +473,14 @@
     {
       "label": "21.09",
       "date": "2026-09-21",
-      "avg": 8.75,
-      "count": 4
+      "avg": 8.2,
+      "count": 5
     },
     {
       "label": "28.09",
       "date": "2026-09-28",
-      "avg": 7.43,
-      "count": 7
+      "avg": 7.5,
+      "count": 8
     },
     {
       "label": "05.10",
@@ -473,17 +491,17 @@
     {
       "label": "12.10",
       "date": "2026-10-12",
-      "avg": 6.5,
-      "count": 2
+      "avg": 7.33,
+      "count": 3
     }
   ],
   "diagnostics": {
     "apiWeeksFound": 36,
     "weeksInPeriod": 7,
     "missingWeeksInApi": [],
-    "freshGrades": 34,
+    "freshGrades": 37,
     "grades_from_history": 0,
-    "gradesWithDate": 34,
+    "gradesWithDate": 37,
     "subjectsTotal": 17,
     "subjectsWithoutGrades": 4,
     "weekResults": [
@@ -505,12 +523,12 @@
       {
         "date": "2026-09-21",
         "status": "ok",
-        "grades": 4
+        "grades": 5
       },
       {
         "date": "2026-09-28",
         "status": "ok",
-        "grades": 7
+        "grades": 8
       },
       {
         "date": "2026-10-05",
@@ -520,7 +538,7 @@
       {
         "date": "2026-10-12",
         "status": "ok",
-        "grades": 2
+        "grades": 3
       }
     ]
   }
