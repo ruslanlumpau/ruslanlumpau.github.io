@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-16 09:06:50",
+ "updated": "2026-10-16 17:21:07",
  "subjects": [
   "Английский язык",
   "Беларуская літаратура (літаратурнае чытанне)",
@@ -340,6 +340,15 @@
    "subject": "Биология",
    "grade": 9,
    "date": "2026-10-12",
+   "date_src": "inherited",
+   "week_uuid": "053bd1ec-873f-49d6-94c6-cf6960f39d22",
+   "week_start": "2026-10-12"
+  },
+  {
+   "key": "fallback|week:2026-10-12|subject:Физика|grade:9#1",
+   "subject": "Физика",
+   "grade": 9,
+   "date": "2026-10-14",
    "date_src": "inherited",
    "week_uuid": "053bd1ec-873f-49d6-94c6-cf6960f39d22",
    "week_start": "2026-10-12"
