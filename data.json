@@ -1,9 +1,9 @@
 {
-  "last_updated": "2026-10-19 10:26:25",
+  "last_updated": "2026-10-19 12:04:26",
   "period": "01.09.2026 — 19.10.2026",
   "startDate": "2026-09-01",
   "endDate": "2026-10-19",
-  "overallAverage": 8.0,
+  "overallAverage": 8.16,
   "subjects": [
     {
       "name": "Английский язык",
@@ -210,13 +210,15 @@
     },
     {
       "name": "Математика",
-      "average": 6.5,
+      "average": 7.12,
       "grades": [
         9,
         4,
         6,
         9,
+        8,
         7,
+        10,
         4
       ],
       "marks": [
@@ -241,8 +243,18 @@
           "week": "2026-09-21"
         },
         {
+          "grade": 8,
+          "date": "2026-10-05",
+          "week": "2026-10-05"
+        },
+        {
           "grade": 7,
           "date": "2026-10-06",
+          "week": "2026-10-05"
+        },
+        {
+          "grade": 10,
+          "date": "2026-10-08",
           "week": "2026-10-05"
         },
         {
@@ -251,7 +263,7 @@
           "week": "2026-10-12"
         }
       ],
-      "count": 6,
+      "count": 8,
       "status": "Достаточно",
       "color": "#00875A"
     },
@@ -312,7 +324,7 @@
     },
     {
       "name": "Физика",
-      "average": 7.62,
+      "average": 8.18,
       "grades": [
         8,
         5,
@@ -321,6 +333,9 @@
         5,
         9,
         10,
+        10,
+        10,
+        9,
         9
       ],
       "marks": [
@@ -356,16 +371,31 @@
         },
         {
           "grade": 10,
+          "date": "2026-10-07",
+          "week": "2026-10-05"
+        },
+        {
+          "grade": 10,
           "date": "2026-10-09",
           "week": "2026-10-05"
+        },
+        {
+          "grade": 10,
+          "date": "2026-10-12",
+          "week": "2026-10-12"
         },
         {
           "grade": 9,
           "date": "2026-10-14",
           "week": "2026-10-12"
+        },
+        {
+          "grade": 9,
+          "date": "2026-10-16",
+          "week": "2026-10-12"
         }
       ],
-      "count": 8,
+      "count": 11,
       "status": "Достаточно",
       "color": "#00875A"
     },
@@ -459,14 +489,14 @@
     {
       "label": "05.10",
       "date": "2026-10-05",
-      "avg": 8.86,
-      "count": 7
+      "avg": 9.0,
+      "count": 10
     },
     {
       "label": "12.10",
       "date": "2026-10-12",
-      "avg": 8.2,
-      "count": 5
+      "avg": 8.57,
+      "count": 7
     },
     {
       "label": "19.10",
@@ -509,14 +539,14 @@
     {
       "label": "05.10",
       "date": "2026-10-05",
-      "avg": 8.86,
-      "count": 7
+      "avg": 9.0,
+      "count": 10
     },
     {
       "label": "12.10",
       "date": "2026-10-12",
-      "avg": 8.2,
-      "count": 5
+      "avg": 8.57,
+      "count": 7
     },
     {
       "label": "19.10",
@@ -529,9 +559,9 @@
     "apiWeeksFound": 36,
     "weeksInPeriod": 8,
     "missingWeeksInApi": [],
-    "freshGrades": 40,
+    "freshGrades": 45,
     "grades_from_history": 0,
-    "gradesWithDate": 40,
+    "gradesWithDate": 45,
     "subjectsTotal": 17,
     "subjectsWithoutGrades": 4,
     "weekResults": [
@@ -563,12 +593,12 @@
       {
         "date": "2026-10-05",
         "status": "ok",
-        "grades": 7
+        "grades": 10
       },
       {
         "date": "2026-10-12",
         "status": "ok",
-        "grades": 5
+        "grades": 7
       },
       {
         "date": "2026-10-19",
