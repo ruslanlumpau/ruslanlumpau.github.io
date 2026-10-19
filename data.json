@@ -1,8 +1,8 @@
 {
-  "last_updated": "2026-10-18 21:01:10",
-  "period": "01.09.2026 — 18.10.2026",
+  "last_updated": "2026-10-19 09:00:19",
+  "period": "01.09.2026 — 19.10.2026",
   "startDate": "2026-09-01",
-  "endDate": "2026-10-18",
+  "endDate": "2026-10-19",
   "overallAverage": 7.89,
   "subjects": [
     {
@@ -455,6 +455,12 @@
       "date": "2026-10-12",
       "avg": 7.75,
       "count": 4
+    },
+    {
+      "label": "19.10",
+      "date": "2026-10-19",
+      "avg": null,
+      "count": 0
     }
   ],
   "weeks": [
@@ -499,11 +505,17 @@
       "date": "2026-10-12",
       "avg": 7.75,
       "count": 4
+    },
+    {
+      "label": "19.10",
+      "date": "2026-10-19",
+      "avg": null,
+      "count": 0
     }
   ],
   "diagnostics": {
     "apiWeeksFound": 36,
-    "weeksInPeriod": 7,
+    "weeksInPeriod": 8,
     "missingWeeksInApi": [],
     "freshGrades": 38,
     "grades_from_history": 0,
@@ -545,6 +557,11 @@
         "date": "2026-10-12",
         "status": "ok",
         "grades": 4
+      },
+      {
+        "date": "2026-10-19",
+        "status": "empty",
+        "grades": 0
       }
     ]
   }
