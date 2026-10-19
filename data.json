@@ -1,9 +1,9 @@
 {
-  "last_updated": "2026-10-19 09:00:19",
+  "last_updated": "2026-10-19 10:26:25",
   "period": "01.09.2026 — 19.10.2026",
   "startDate": "2026-09-01",
   "endDate": "2026-10-19",
-  "overallAverage": 7.89,
+  "overallAverage": 8.0,
   "subjects": [
     {
       "name": "Английский язык",
@@ -257,20 +257,32 @@
     },
     {
       "name": "Обществоведение",
-      "average": 3.0,
+      "average": 7.67,
       "grades": [
-        3
+        3,
+        10,
+        10
       ],
       "marks": [
         {
           "grade": 3,
           "date": "2026-09-14",
           "week": "2026-09-14"
+        },
+        {
+          "grade": 10,
+          "date": "2026-10-05",
+          "week": "2026-10-05"
+        },
+        {
+          "grade": 10,
+          "date": "2026-10-12",
+          "week": "2026-10-12"
         }
       ],
-      "count": 1,
-      "status": "Не хватает",
-      "color": "#DE350B"
+      "count": 3,
+      "status": "Достаточно",
+      "color": "#00875A"
     },
     {
       "name": "Русская литература (литературное чтение)",
@@ -447,14 +459,14 @@
     {
       "label": "05.10",
       "date": "2026-10-05",
-      "avg": 8.67,
-      "count": 6
+      "avg": 8.86,
+      "count": 7
     },
     {
       "label": "12.10",
       "date": "2026-10-12",
-      "avg": 7.75,
-      "count": 4
+      "avg": 8.2,
+      "count": 5
     },
     {
       "label": "19.10",
@@ -497,14 +509,14 @@
     {
       "label": "05.10",
       "date": "2026-10-05",
-      "avg": 8.67,
-      "count": 6
+      "avg": 8.86,
+      "count": 7
     },
     {
       "label": "12.10",
       "date": "2026-10-12",
-      "avg": 7.75,
-      "count": 4
+      "avg": 8.2,
+      "count": 5
     },
     {
       "label": "19.10",
@@ -517,9 +529,9 @@
     "apiWeeksFound": 36,
     "weeksInPeriod": 8,
     "missingWeeksInApi": [],
-    "freshGrades": 38,
+    "freshGrades": 40,
     "grades_from_history": 0,
-    "gradesWithDate": 38,
+    "gradesWithDate": 40,
     "subjectsTotal": 17,
     "subjectsWithoutGrades": 4,
     "weekResults": [
@@ -551,12 +563,12 @@
       {
         "date": "2026-10-05",
         "status": "ok",
-        "grades": 6
+        "grades": 7
       },
       {
         "date": "2026-10-12",
         "status": "ok",
-        "grades": 4
+        "grades": 5
       },
       {
         "date": "2026-10-19",
