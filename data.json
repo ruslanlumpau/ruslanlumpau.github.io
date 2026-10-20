@@ -1,9 +1,9 @@
 {
-  "last_updated": "2026-10-20 13:07:38",
+  "last_updated": "2026-10-20 15:00:05",
   "period": "01.09.2026 — 20.10.2026",
   "startDate": "2026-09-01",
   "endDate": "2026-10-20",
-  "overallAverage": 8.19,
+  "overallAverage": 8.15,
   "subjects": [
     {
       "name": "Английский язык",
@@ -140,18 +140,24 @@
     },
     {
       "name": "Информатика",
-      "average": 10.0,
+      "average": 8.0,
       "grades": [
-        10
+        10,
+        6
       ],
       "marks": [
         {
           "grade": 10,
           "date": "2026-09-15",
           "week": "2026-09-14"
+        },
+        {
+          "grade": 6,
+          "date": "2026-09-29",
+          "week": "2026-09-28"
         }
       ],
-      "count": 1,
+      "count": 2,
       "status": "Не хватает",
       "color": "#DE350B"
     },
@@ -495,8 +501,8 @@
     {
       "label": "28.09",
       "date": "2026-09-28",
-      "avg": 7.5,
-      "count": 8
+      "avg": 7.33,
+      "count": 9
     },
     {
       "label": "05.10",
@@ -545,8 +551,8 @@
     {
       "label": "28.09",
       "date": "2026-09-28",
-      "avg": 7.5,
-      "count": 8
+      "avg": 7.33,
+      "count": 9
     },
     {
       "label": "05.10",
@@ -571,9 +577,9 @@
     "apiWeeksFound": 36,
     "weeksInPeriod": 8,
     "missingWeeksInApi": [],
-    "freshGrades": 47,
+    "freshGrades": 48,
     "grades_from_history": 0,
-    "gradesWithDate": 47,
+    "gradesWithDate": 48,
     "subjectsTotal": 17,
     "subjectsWithoutGrades": 4,
     "weekResults": [
@@ -600,7 +606,7 @@
       {
         "date": "2026-09-28",
         "status": "ok",
-        "grades": 8
+        "grades": 9
       },
       {
         "date": "2026-10-05",
