@@ -1,10 +1,10 @@
 {
-  "last_updated": "2026-10-20 21:13:10",
+  "last_updated": "2026-10-21 09:00:19",
   "quarter": "I четверть",
-  "period": "01.09.2026 — 20.10.2026",
+  "period": "01.09.2026 — 21.10.2026",
   "startDate": "2026-09-01",
-  "endDate": "2026-10-20",
-  "overallAverage": 8.15,
+  "endDate": "2026-10-21",
+  "overallAverage": 8.02,
   "subjects": [
     {
       "name": "Английский язык",
@@ -66,10 +66,11 @@
     },
     {
       "name": "Беларуская мова",
-      "average": 7.5,
+      "average": 5.67,
       "grades": [
         7,
-        8
+        8,
+        2
       ],
       "grades_detail": [
         {
@@ -81,11 +82,16 @@
           "value": 8,
           "date": "2026-10-07",
           "first_seen": null
+        },
+        {
+          "value": 2,
+          "date": "2026-10-21",
+          "first_seen": "2026-10-21T09:00"
         }
       ],
-      "count": 2,
-      "status": "Не хватает",
-      "color": "#DE350B"
+      "count": 3,
+      "status": "Достаточно",
+      "color": "#00875A"
     },
     {
       "name": "Биология",
@@ -502,8 +508,8 @@
     {
       "label": "19.10",
       "date": "2026-10-19",
-      "avg": null,
-      "count": 0
+      "avg": 2.0,
+      "count": 1
     }
   ],
   "weeks": [
@@ -552,17 +558,17 @@
     {
       "label": "19.10",
       "date": "2026-10-19",
-      "avg": null,
-      "count": 0
+      "avg": 2.0,
+      "count": 1
     }
   ],
   "diagnostics": {
     "apiWeeksFound": 36,
     "weeksInPeriod": 8,
     "missingWeeksInApi": [],
-    "freshGrades": 48,
+    "freshGrades": 49,
     "grades_from_history": 0,
-    "newGradesThisRun": 0,
+    "newGradesThisRun": 1,
     "weekResults": [
       {
         "date": "2026-09-01",
@@ -601,8 +607,8 @@
       },
       {
         "date": "2026-10-19",
-        "status": "empty",
-        "grades": 0
+        "status": "ok",
+        "grades": 1
       }
     ]
   }
