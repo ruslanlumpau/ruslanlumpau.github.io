@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-22 09:00:19",
+  "last_updated": "2026-10-22 10:29:48",
   "quarter": "I четверть",
   "period": "01.09.2026 — 22.10.2026",
   "startDate": "2026-09-01",
@@ -580,7 +580,7 @@
     "missingWeeksInApi": [],
     "freshGrades": 51,
     "grades_from_history": 0,
-    "newGradesThisRun": 3,
+    "newGradesThisRun": 0,
     "weekResults": [
       {
         "date": "2026-09-01",
