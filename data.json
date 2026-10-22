@@ -1,10 +1,10 @@
 {
-  "last_updated": "2026-10-21 17:45:14",
+  "last_updated": "2026-10-22 09:00:19",
   "quarter": "I четверть",
-  "period": "01.09.2026 — 21.10.2026",
+  "period": "01.09.2026 — 22.10.2026",
   "startDate": "2026-09-01",
-  "endDate": "2026-10-21",
-  "overallAverage": 8.02,
+  "endDate": "2026-10-22",
+  "overallAverage": 8.1,
   "subjects": [
     {
       "name": "Английский язык",
@@ -66,11 +66,11 @@
     },
     {
       "name": "Беларуская мова",
-      "average": 5.67,
+      "average": 7.33,
       "grades": [
         7,
         8,
-        2
+        7
       ],
       "grades_detail": [
         {
@@ -84,9 +84,9 @@
           "first_seen": null
         },
         {
-          "value": 2,
+          "value": 7,
           "date": "2026-10-21",
-          "first_seen": "2026-10-21T09:00"
+          "first_seen": "2026-10-22T09:00"
         }
       ],
       "count": 3,
@@ -170,11 +170,12 @@
     },
     {
       "name": "История Беларуси в контексте всемирной истории",
-      "average": 7.8,
+      "average": 7.83,
       "grades": [
         9,
         8,
         6,
+        8,
         8,
         8
       ],
@@ -203,9 +204,14 @@
           "value": 8,
           "date": "2026-10-07",
           "first_seen": null
+        },
+        {
+          "value": 8,
+          "date": "2026-10-21",
+          "first_seen": "2026-10-22T09:00"
         }
       ],
-      "count": 5,
+      "count": 6,
       "status": "Достаточно",
       "color": "#00875A"
     },
@@ -270,11 +276,12 @@
     },
     {
       "name": "Обществоведение",
-      "average": 7.67,
+      "average": 7.5,
       "grades": [
         3,
         10,
-        10
+        10,
+        7
       ],
       "grades_detail": [
         {
@@ -291,9 +298,14 @@
           "value": 10,
           "date": "2026-10-12",
           "first_seen": null
+        },
+        {
+          "value": 7,
+          "date": "2026-10-19",
+          "first_seen": "2026-10-22T09:00"
         }
       ],
-      "count": 3,
+      "count": 4,
       "status": "Достаточно",
       "color": "#00875A"
     },
@@ -508,8 +520,8 @@
     {
       "label": "19.10",
       "date": "2026-10-19",
-      "avg": 2.0,
-      "count": 1
+      "avg": 7.33,
+      "count": 3
     }
   ],
   "weeks": [
@@ -558,17 +570,17 @@
     {
       "label": "19.10",
       "date": "2026-10-19",
-      "avg": 2.0,
-      "count": 1
+      "avg": 7.33,
+      "count": 3
     }
   ],
   "diagnostics": {
     "apiWeeksFound": 36,
     "weeksInPeriod": 8,
     "missingWeeksInApi": [],
-    "freshGrades": 49,
+    "freshGrades": 51,
     "grades_from_history": 0,
-    "newGradesThisRun": 0,
+    "newGradesThisRun": 3,
     "weekResults": [
       {
         "date": "2026-09-01",
@@ -608,7 +620,7 @@
       {
         "date": "2026-10-19",
         "status": "ok",
-        "grades": 1
+        "grades": 3
       }
     ]
   }
