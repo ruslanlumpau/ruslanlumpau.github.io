@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-26 09:00:19",
+ "updated": "2026-10-26 11:34:20",
  "subjects": [
   "Английский язык",
   "Беларуская літаратура (літаратурнае чытанне)",
@@ -433,6 +433,15 @@
    "first_seen": null
   },
   {
+   "key": "fallback|week:2026-10-12|subject:Математика|grade:9#1",
+   "subject": "Математика",
+   "grade": 9,
+   "date": "2026-10-15",
+   "week_uuid": "053bd1ec-873f-49d6-94c6-cf6960f39d22",
+   "week_start": "2026-10-12",
+   "first_seen": "2026-10-26T11:34"
+  },
+  {
    "key": "fallback|week:2026-10-12|subject:География|grade:9#1",
    "subject": "География",
    "grade": 9,
@@ -494,6 +503,15 @@
    "week_uuid": "d2b97d58-5fc8-4b0c-9aba-f34b382af9d7",
    "week_start": "2026-10-19",
    "first_seen": "2026-10-25T18:57"
+  },
+  {
+   "key": "fallback|week:2026-10-26|subject:Обществоведение|grade:10#1",
+   "subject": "Обществоведение",
+   "grade": 10,
+   "date": "2026-10-26",
+   "week_uuid": "389f21a0-055a-4f92-9df5-b47e30ddcbcc",
+   "week_start": "2026-10-26",
+   "first_seen": "2026-10-26T11:34"
   }
  ]
 }
