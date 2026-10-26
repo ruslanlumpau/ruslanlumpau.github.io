@@ -1,10 +1,10 @@
 {
-  "last_updated": "2026-10-25 18:57:10",
+  "last_updated": "2026-10-26 09:00:19",
   "quarter": "I четверть",
-  "period": "01.09.2026 — 25.10.2026",
+  "period": "01.09.2026 — 26.10.2026",
   "startDate": "2026-09-01",
-  "endDate": "2026-10-25",
-  "overallAverage": 8.11,
+  "endDate": "2026-10-26",
+  "overallAverage": 8.15,
   "subjects": [
     {
       "name": "Английский язык",
@@ -294,23 +294,17 @@
     },
     {
       "name": "Обществоведение",
-      "average": 7.5,
+      "average": 8.0,
       "grades": [
-        3,
-        10,
+        7,
         10,
         7
       ],
       "grades_detail": [
         {
-          "value": 3,
+          "value": 7,
           "date": "2026-09-14",
-          "first_seen": null
-        },
-        {
-          "value": 10,
-          "date": "2026-10-05",
-          "first_seen": null
+          "first_seen": "2026-10-26T09:00"
         },
         {
           "value": 10,
@@ -323,7 +317,7 @@
           "first_seen": "2026-10-22T09:00"
         }
       ],
-      "count": 4,
+      "count": 3,
       "status": "Достаточно",
       "color": "#00875A"
     },
@@ -508,7 +502,7 @@
     {
       "label": "14.09",
       "date": "2026-09-14",
-      "avg": 7.11,
+      "avg": 7.56,
       "count": 9
     },
     {
@@ -526,8 +520,8 @@
     {
       "label": "05.10",
       "date": "2026-10-05",
-      "avg": 8.83,
-      "count": 12
+      "avg": 8.73,
+      "count": 11
     },
     {
       "label": "12.10",
@@ -540,6 +534,12 @@
       "date": "2026-10-19",
       "avg": 7.8,
       "count": 5
+    },
+    {
+      "label": "26.10",
+      "date": "2026-10-26",
+      "avg": null,
+      "count": 0
     }
   ],
   "weeks": [
@@ -558,7 +558,7 @@
     {
       "label": "14.09",
       "date": "2026-09-14",
-      "avg": 7.11,
+      "avg": 7.56,
       "count": 9
     },
     {
@@ -576,8 +576,8 @@
     {
       "label": "05.10",
       "date": "2026-10-05",
-      "avg": 8.83,
-      "count": 12
+      "avg": 8.73,
+      "count": 11
     },
     {
       "label": "12.10",
@@ -590,13 +590,19 @@
       "date": "2026-10-19",
       "avg": 7.8,
       "count": 5
+    },
+    {
+      "label": "26.10",
+      "date": "2026-10-26",
+      "avg": null,
+      "count": 0
     }
   ],
   "diagnostics": {
     "apiWeeksFound": 36,
-    "weeksInPeriod": 8,
+    "weeksInPeriod": 9,
     "missingWeeksInApi": [],
-    "freshGrades": 54,
+    "freshGrades": 53,
     "grades_from_history": 0,
     "newGradesThisRun": 1,
     "weekResults": [
@@ -628,7 +634,7 @@
       {
         "date": "2026-10-05",
         "status": "ok",
-        "grades": 12
+        "grades": 11
       },
       {
         "date": "2026-10-12",
@@ -639,6 +645,11 @@
         "date": "2026-10-19",
         "status": "ok",
         "grades": 5
+      },
+      {
+        "date": "2026-10-26",
+        "status": "empty",
+        "grades": 0
       }
     ]
   }
