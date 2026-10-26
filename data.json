@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-26 15:49:34",
+  "last_updated": "2026-10-26 17:45:15",
   "quarter": "I четверть",
   "period": "01.09.2026 — 26.10.2026",
   "startDate": "2026-09-01",
@@ -420,11 +420,6 @@
         },
         {
           "value": 10,
-          "date": "2026-10-07",
-          "first_seen": null
-        },
-        {
-          "value": 10,
           "date": "2026-10-09",
           "first_seen": null
         },
@@ -432,6 +427,11 @@
           "value": 10,
           "date": "2026-10-12",
           "first_seen": null
+        },
+        {
+          "value": 10,
+          "date": "2026-10-13",
+          "first_seen": "2026-10-26T17:45"
         },
         {
           "value": 9,
@@ -550,14 +550,14 @@
     {
       "label": "05.10",
       "date": "2026-10-05",
-      "avg": 8.67,
-      "count": 12
+      "avg": 8.55,
+      "count": 11
     },
     {
       "label": "12.10",
       "date": "2026-10-12",
-      "avg": 8.7,
-      "count": 10
+      "avg": 8.82,
+      "count": 11
     },
     {
       "label": "19.10",
@@ -606,14 +606,14 @@
     {
       "label": "05.10",
       "date": "2026-10-05",
-      "avg": 8.67,
-      "count": 12
+      "avg": 8.55,
+      "count": 11
     },
     {
       "label": "12.10",
       "date": "2026-10-12",
-      "avg": 8.7,
-      "count": 10
+      "avg": 8.82,
+      "count": 11
     },
     {
       "label": "19.10",
@@ -634,7 +634,7 @@
     "missingWeeksInApi": [],
     "freshGrades": 58,
     "grades_from_history": 0,
-    "newGradesThisRun": 0,
+    "newGradesThisRun": 1,
     "weekResults": [
       {
         "date": "2026-09-01",
@@ -664,12 +664,12 @@
       {
         "date": "2026-10-05",
         "status": "ok",
-        "grades": 12
+        "grades": 11
       },
       {
         "date": "2026-10-12",
         "status": "ok",
-        "grades": 10
+        "grades": 11
       },
       {
         "date": "2026-10-19",
