@@ -9,12 +9,12 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
     body { background-color: #f4f5f7; color: #172b4d; padding: 12px; }
     .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 12px; padding: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-    
+
     h1 { font-size: 18px; font-weight: 700; text-align: center; color: #172b4d; margin-bottom: 4px; }
     .subtitle { font-size: 12px; text-align: center; color: #6b7280; margin-bottom: 2px; }
     .updated { font-size: 12px; text-align: center; color: #6b7280; margin-bottom: 14px; }
     .updated b { color: #0052cc; font-weight: 600; }
-    
+
     .stats-card { background: #f0f4f8; border-radius: 8px; padding: 10px; margin-bottom: 14px; display: flex; justify-content: space-around; text-align: center; }
     .stat-item .val { font-size: 16px; font-weight: bold; color: #0052cc; }
     .stat-item .lbl { font-size: 10px; color: #6b7280; }
@@ -27,11 +27,12 @@
     .tab-content.active { display: block; }
 
     .status-badge { background: #deebff; color: #0052cc; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-bottom: 12px; text-align: center; border: 1px solid #b3d4ff; }
+    .status-badge.muted { background: #f1f5f9; color: #64748b; border-color: #e2e8f0; }
 
     /* Трехстрочная карточка предмета */
     .subject-card { background: #f8fafc; border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; border: 1px solid #e2e8f0; border-left: 4px solid #de350b; }
     .subject-card.sufficient { border-left-color: #00875a; }
-    
+
     /* Строка 1: Название + Средний балл */
     .subject-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
     .subject-title { font-size: 13px; font-weight: 600; color: #1e293b; }
@@ -57,6 +58,18 @@
     .bar-fill.red { background: #de350b; }
 
     .chart-container-line { position: relative; width: 100%; min-height: 280px; }
+    .empty-note { font-size: 12px; color: #94a3b8; text-align: center; padding: 40px 12px; }
+
+    /* Вкладка «Итоги» */
+    .final-table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 12px; }
+    .final-table th { background: #f0f4f8; color: #475569; font-weight: 700; font-size: 11px; padding: 8px 2px; text-align: center; border-bottom: 1px solid #e2e8f0; }
+    .final-table th.col-name { text-align: left; padding-left: 8px; width: 38%; }
+    .final-table td { padding: 8px 2px; text-align: center; border-bottom: 1px solid #eef2f6; color: #0f172a; font-weight: 600; }
+    .final-table td.col-name { text-align: left; padding-left: 8px; font-weight: 500; color: #1e293b; overflow-wrap: anywhere; line-height: 1.25; }
+    .final-table td.empty { color: #cbd5e1; font-weight: 400; }
+    .final-table th.cur, .final-table td.cur { background: #f5f9ff; }
+    .final-table td.year { font-weight: 700; }
+    .final-note { font-size: 11px; color: #94a3b8; text-align: center; margin-top: 10px; }
 
     .caption-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-top: 16px; font-size: 12px; line-height: 1.5; color: #334155; }
     .caption-box h3 { font-size: 13px; margin-bottom: 6px; color: #0f172a; }
@@ -68,11 +81,11 @@
 
 <div class="container">
   <h1>Успеваемость Тимура</h1>
-  <div class="subtitle" id="period-text">1 сентября — 2 октября 2026 г.</div>
+  <div class="subtitle" id="period-text">Загрузка...</div>
   <div class="updated" id="updated-text"></div>
 
   <div class="stats-card">
-    <div class="stat-item"><div class="val" id="overall-avg">0.0</div><div class="lbl">Средний балл</div></div>
+    <div class="stat-item"><div class="val" id="overall-avg">—</div><div class="lbl">Средний балл</div></div>
     <div class="stat-item"><div class="val" id="total-grades">0</div><div class="lbl">Всего оценок</div></div>
     <div class="stat-item"><div class="val" id="accredited-count">0 / 0</div><div class="lbl">Аттестовано</div></div>
   </div>
@@ -80,6 +93,7 @@
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('subjects')">Предметы</button>
     <button class="tab-btn" onclick="switchTab('weekly')">Динамика</button>
+    <button class="tab-btn" onclick="switchTab('final')">Итоги</button>
   </div>
 
   <!-- Вкладка 1: Предметы -->
@@ -93,9 +107,16 @@
     <div class="chart-container-line">
       <canvas id="weeklyChart"></canvas>
     </div>
+    <div class="empty-note" id="weekly-empty" style="display:none">В этой четверти оценок пока нет.</div>
   </div>
 
-  <!-- Текстовая аналитика -->
+  <!-- Вкладка 3: Итоги (четвертные, экзамен и годовые отметки - как выставила школа) -->
+  <div id="tab-final" class="tab-content">
+    <div class="status-badge muted" id="final-status">Загрузка...</div>
+    <div id="final-table-wrap"></div>
+  </div>
+
+  <!-- Текстовая аналитика (относится к текущей четверти) -->
   <div class="caption-box" id="analytics-box">
     <h3>📋 Текстовая аналитика</h3>
     <ul id="analytics-list"></ul>
@@ -107,6 +128,10 @@
 
   // Предметы, по которым отметок не бывает: в дашборде не показываются
   const EXCLUDED_SUBJECT = /(классный|информационный)\s+час|(класная|інфармацыйная)\s+гадзіна/i;
+
+  function esc(value) {
+    return String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
 
   // Сегодняшняя дата по Минску в формате YYYY-MM-DD (новая оценка подсвечивается до 24:00 этого дня)
   function todayInMinsk() {
@@ -144,12 +169,12 @@
       if (!response.ok) throw new Error('Не удалось загрузить data.json');
       const data = await response.json();
 
-      document.getElementById('period-text').textContent = data.period || '1 сентября — 2 октября 2026 г.';
+      document.getElementById('period-text').textContent = data.period || '';
 
       // «I четверть · обновлено 20.10.2026 в 16:05» (last_updated приходит как «YYYY-MM-DD HH:MM:SS» по Минску)
       const upd = String(data.last_updated || '').match(/^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}:\d{2})/);
       const updParts = [];
-      if (data.quarter) updParts.push(`<b>${data.quarter}</b>`);
+      if (data.quarter) updParts.push(`<b>${esc(data.quarter)}</b>`);
       if (upd) updParts.push(`обновлено ${upd[3]}.${upd[2]}.${upd[1]} в ${upd[4]}`);
       document.getElementById('updated-text').innerHTML = updParts.join(' · ');
 
@@ -163,7 +188,7 @@
       const newList = [];
 
       const today = todayInMinsk();
-      const subjectsData = data.subjects.filter(s => !EXCLUDED_SUBJECT.test(s.name || ''));
+      const subjectsData = (data.subjects || []).filter(s => !EXCLUDED_SUBJECT.test(s.name || ''));
 
       const processedSubjects = subjectsData.map(s => {
         // grades_detail: [{value, first_seen}] - есть в новых data.json; для старых берём просто grades
@@ -206,7 +231,8 @@
 
       processedSubjects.sort((a, b) => b.avg - a.avg);
 
-      const overallAvg = totalCount > 0 ? (totalSum / totalCount).toFixed(1) : '8.2';
+      // Оценок нет (например, сразу после начала новой четверти) - прочерк, а не выдуманное число
+      const overallAvg = totalCount > 0 ? (totalSum / totalCount).toFixed(1) : '—';
 
       document.getElementById('overall-avg').textContent = overallAvg;
       document.getElementById('total-grades').textContent = totalCount;
@@ -215,7 +241,8 @@
 
       renderSubjects(processedSubjects);
       renderAnalytics(overallAvg, totalCount, accreditedCount, subjectsData.length, accreditedList, riskList, emptyList, newList, data.weekly);
-      renderChart(data.weekly, parseFloat(overallAvg));
+      renderChart(data.weekly || [], totalCount > 0 ? parseFloat(overallAvg) : null);
+      renderFinal(data.final, data.quarterNumber);
 
     } catch (error) {
       console.error(error);
@@ -228,16 +255,16 @@
     container.innerHTML = subjects.map(s => {
       const colorClass = s.isAccredited ? 'green' : 'red';
       const gradesHtml = s.items.length > 0
-        ? s.items.map(it => `<span class="grade-badge ${colorClass}${it.isNew ? ' new' : ''}" data-date="${it.date}">${it.value}</span>`).join('')
+        ? s.items.map(it => `<span class="grade-badge ${colorClass}${it.isNew ? ' new' : ''}" data-date="${esc(it.date)}">${esc(it.value)}</span>`).join('')
         : `<span class="no-grades">Нет оценок</span>`;
-      
+
       const barWidth = (s.avg / 10) * 100;
 
       return `
         <div class="subject-card ${s.isAccredited ? 'sufficient' : ''}">
           <!-- 1. Название предмета и балл -->
           <div class="subject-header">
-            <span class="subject-title">${s.name}</span>
+            <span class="subject-title">${esc(s.name)}</span>
             <span class="subject-score">${s.avg > 0 ? s.avg.toFixed(2) : '0.0'}</span>
           </div>
           <!-- 2. Строка с оценками -->
@@ -255,37 +282,46 @@
 
   function renderAnalytics(overallAvg, totalCount, accreditedCount, totalSubjects, accreditedList, riskList, emptyList, newList, weeklyData) {
     const list = document.getElementById('analytics-list');
-    
+
     // недели без оценок (avg = null) в сравнении не участвуют
     const weeksWithAvg = (weeklyData || []).filter(w => w.avg !== null && w.avg !== undefined);
     let weeklySummary = '';
-    if (weeksWithAvg.length > 0) {
-      const startAvg = weeksWithAvg[0].avg.toFixed(2);
-      const endAvg = weeksWithAvg[weeksWithAvg.length - 1].avg.toFixed(2);
-      weeklySummary = `<li><b>Динамика четверти:</b> Стартовый пик на 1-й неделе (<b>${startAvg}</b>) сменился стабилизацией к 5-й неделе на уровне <b>${endAvg}</b>.</li>`;
+    if (weeksWithAvg.length >= 2) {
+      const first = weeksWithAvg[0];
+      const last = weeksWithAvg[weeksWithAvg.length - 1];
+      weeklySummary = `<li><b>Динамика четверти:</b> неделя ${esc(first.label)} — <b>${first.avg.toFixed(2)}</b>, последняя неделя с оценками (${esc(last.label)}) — <b>${last.avg.toFixed(2)}</b>.</li>`;
     }
 
     const newSummary = newList.length > 0
-      ? `<li><b>Новые сегодня (${newList.length}):</b> ${newList.join(', ')}.</li>`
+      ? `<li><b>Новые сегодня (${newList.length}):</b> ${esc(newList.join(', '))}.</li>`
       : '';
 
     list.innerHTML = `
       <li><b>Общие показатели:</b> Всего ${totalCount} отметок, общий средний балл — <b>${overallAvg}</b>.</li>
       ${newSummary}
-      <li><b>Аттестовано (${accreditedCount} из ${totalSubjects}):</b> ${accreditedList.join(', ') || 'нет'}.</li>
-      <li><b>В зоне риска (${riskList.length}):</b> ${riskList.join(', ') || 'нет'}.</li>
-      <li><b>Без оценок (${emptyList.length}):</b> ${emptyList.join(', ') || 'нет'}.</li>
+      <li><b>Аттестовано (${accreditedCount} из ${totalSubjects}):</b> ${esc(accreditedList.join(', ') || 'нет')}.</li>
+      <li><b>В зоне риска (${riskList.length}):</b> ${esc(riskList.join(', ') || 'нет')}.</li>
+      <li><b>Без оценок (${emptyList.length}):</b> ${esc(emptyList.join(', ') || 'нет')}.</li>
       ${weeklySummary}
     `;
   }
 
   function renderChart(weeklyData, overallAvg) {
-    const ctx = document.getElementById('weeklyChart').getContext('2d');
-    
+    const canvas = document.getElementById('weeklyChart');
+    const emptyNote = document.getElementById('weekly-empty');
+
     if (weeklyChartInstance) {
       weeklyChartInstance.destroy();
+      weeklyChartInstance = null;
     }
 
+    // В новой четверти оценок ещё нет - вместо пустого графика короткая подпись
+    const hasData = weeklyData.some(w => w.avg !== null && w.avg !== undefined);
+    canvas.style.display = hasData ? '' : 'none';
+    emptyNote.style.display = hasData ? 'none' : '';
+    if (!hasData) return;
+
+    const ctx = canvas.getContext('2d');
     const labels = weeklyData.map(w => w.label);
     const dataPoints = weeklyData.map(w => w.avg);
     const targetLine = weeklyData.map(() => overallAvg);
@@ -302,7 +338,8 @@
             backgroundColor: '#0052cc',
             borderWidth: 2,
             pointRadius: 5,
-            pointHoverRadius: 7
+            pointHoverRadius: 7,
+            spanGaps: true
           },
           {
             label: `Средний балл (${overallAvg})`,
@@ -328,17 +365,61 @@
     });
   }
 
-  function switchTab(tabName) {
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-    
-    if (tabName === 'subjects') {
-      document.querySelectorAll('.tab-btn')[0].classList.add('active');
-      document.getElementById('tab-subjects').classList.add('active');
-    } else {
-      document.querySelectorAll('.tab-btn')[1].classList.add('active');
-      document.getElementById('tab-weekly').classList.add('active');
+  // Итоговые отметки так, как их выставила школа (расчётный балл не показываем)
+  function renderFinal(finalData, quarterNumber) {
+    const status = document.getElementById('final-status');
+    const wrap = document.getElementById('final-table-wrap');
+
+    if (!finalData || !Array.isArray(finalData.subjects)) {
+      status.textContent = 'Итоговые отметки пока не загружены';
+      wrap.innerHTML = '';
+      return;
     }
+
+    const rows = finalData.subjects.filter(r => !EXCLUDED_SUBJECT.test(r.name || ''));
+    const hasExam = !!finalData.hasExam;   // колонка «Экз.» появляется, только когда там есть хоть одна отметка
+    const curNum = quarterNumber ? String(quarterNumber) : '';
+    const quarterCols = [['1', 'I'], ['2', 'II'], ['3', 'III'], ['4', 'IV']];
+
+    const issued = rows.reduce((n, r) => n + Object.keys(r.q || {}).length + (r.exam ? 1 : 0) + (r.year ? 1 : 0), 0);
+    status.textContent = issued > 0
+      ? `Выставлено итоговых отметок: ${issued}`
+      : 'Школа пока не выставила итоговых отметок';
+    if (finalData.stale) status.textContent += ' (данные могли устареть)';
+
+    const cell = (value, extra) => {
+      const empty = value === null || value === undefined || value === '';
+      return `<td class="${extra || ''}${empty ? ' empty' : ''}">${empty ? '–' : esc(value)}</td>`;
+    };
+
+    const head = `
+      <tr>
+        <th class="col-name">Предмет</th>
+        ${quarterCols.map(([k, label]) => `<th class="${k === curNum ? 'cur' : ''}">${label}</th>`).join('')}
+        ${hasExam ? '<th>Экз.</th>' : ''}
+        <th>Год</th>
+      </tr>`;
+
+    const body = rows.map(r => `
+      <tr>
+        <td class="col-name">${esc(r.name)}</td>
+        ${quarterCols.map(([k]) => cell((r.q || {})[k], k === curNum ? 'cur' : '')).join('')}
+        ${hasExam ? cell(r.exam) : ''}
+        ${cell(r.year, 'year')}
+      </tr>`).join('');
+
+    wrap.innerHTML = `<table class="final-table"><thead>${head}</thead><tbody>${body}</tbody></table>
+      <div class="final-note">Показаны отметки, выставленные школой</div>`;
+  }
+
+  const TAB_NAMES = ['subjects', 'weekly', 'final'];
+
+  function switchTab(tabName) {
+    document.querySelectorAll('.tab-btn').forEach((btn, i) => btn.classList.toggle('active', TAB_NAMES[i] === tabName));
+    TAB_NAMES.forEach(name => document.getElementById('tab-' + name).classList.toggle('active', name === tabName));
+    // Текстовая аналитика относится к текущей четверти - на вкладке «Итоги» её не показываем
+    document.getElementById('analytics-box').style.display = tabName === 'final' ? 'none' : '';
+    if (tabName === 'weekly' && weeklyChartInstance) weeklyChartInstance.resize();
   }
 
   // ---- Дата получения оценки: наведение мышью (компьютер) и тап (телефон) ----
