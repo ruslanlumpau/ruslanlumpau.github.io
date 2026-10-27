@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-27 15:00:06",
+ "updated": "2026-10-27 16:27:40",
  "subjects": [
   "Английский язык",
   "Беларуская літаратура (літаратурнае чытанне)",
@@ -109,18 +109,18 @@
    "first_seen": null
   },
   {
-   "key": "fallback|week:2026-09-14|subject:Информатика|grade:10#1",
-   "subject": "Информатика",
-   "grade": 10,
+   "key": "fallback|week:2026-09-14|subject:Физика|grade:5#1",
+   "subject": "Физика",
+   "grade": 5,
    "date": "2026-09-15",
    "week_uuid": "3d320ebf-f610-4e28-8278-089bfe461187",
    "week_start": "2026-09-14",
    "first_seen": null
   },
   {
-   "key": "fallback|week:2026-09-14|subject:Физика|grade:5#1",
-   "subject": "Физика",
-   "grade": 5,
+   "key": "fallback|week:2026-09-14|subject:Информатика|grade:10#1",
+   "subject": "Информатика",
+   "grade": 10,
    "date": "2026-09-15",
    "week_uuid": "3d320ebf-f610-4e28-8278-089bfe461187",
    "week_start": "2026-09-14",
