@@ -1,17 +1,18 @@
 {
-  "last_updated": "2026-10-27 12:21:27",
+  "last_updated": "2026-10-27 13:49:41",
   "quarter": "I четверть",
   "period": "01.09.2026 — 27.10.2026",
   "startDate": "2026-09-01",
   "endDate": "2026-10-27",
-  "overallAverage": 8.12,
+  "overallAverage": 8.13,
   "subjects": [
     {
       "name": "Английский язык",
-      "average": 10.0,
+      "average": 9.67,
       "grades": [
         10,
-        10
+        10,
+        9
       ],
       "grades_detail": [
         {
@@ -23,11 +24,16 @@
           "value": 10,
           "date": "2026-10-15",
           "first_seen": null
+        },
+        {
+          "value": 9,
+          "date": "2026-10-27",
+          "first_seen": "2026-10-27T13:49"
         }
       ],
-      "count": 2,
-      "status": "Не хватает",
-      "color": "#DE350B"
+      "count": 3,
+      "status": "Достаточно",
+      "color": "#00875A"
     },
     {
       "name": "Беларуская літаратура (літаратурнае чытанне)",
@@ -574,8 +580,8 @@
     {
       "label": "26.10",
       "date": "2026-10-26",
-      "avg": 9.5,
-      "count": 2
+      "avg": 9.33,
+      "count": 3
     }
   ],
   "weeks": [
@@ -630,15 +636,15 @@
     {
       "label": "26.10",
       "date": "2026-10-26",
-      "avg": 9.5,
-      "count": 2
+      "avg": 9.33,
+      "count": 3
     }
   ],
   "diagnostics": {
     "apiWeeksFound": 36,
     "weeksInPeriod": 9,
     "missingWeeksInApi": [],
-    "freshGrades": 59,
+    "freshGrades": 60,
     "grades_from_history": 0,
     "newGradesThisRun": 1,
     "weekResults": [
@@ -685,7 +691,7 @@
       {
         "date": "2026-10-26",
         "status": "ok",
-        "grades": 2
+        "grades": 3
       }
     ]
   }
