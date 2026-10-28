@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-28 14:44:54",
+  "last_updated": "2026-10-28 15:00:07",
   "quarter": "I четверть",
   "quarterNumber": 1,
   "quarterStart": "2026-09-01",
@@ -787,7 +787,7 @@
     "freshGrades": 64,
     "grades_from_history": 0,
     "quarterGrades": 64,
-    "newGradesThisRun": 1,
+    "newGradesThisRun": 0,
     "weekResults": [
       {
         "date": "2026-09-01",
