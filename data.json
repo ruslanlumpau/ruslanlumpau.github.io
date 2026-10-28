@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-28 11:02:14",
+  "last_updated": "2026-10-28 11:24:51",
   "quarter": "I четверть",
   "quarterNumber": 1,
   "quarterStart": "2026-09-01",
@@ -680,7 +680,9 @@
       },
       {
         "name": "Беларуская мова",
-        "q": {},
+        "q": {
+          "1": "7"
+        },
         "exam": null,
         "year": null
       },
@@ -775,7 +777,7 @@
     "freshGrades": 63,
     "grades_from_history": 0,
     "quarterGrades": 63,
-    "newGradesThisRun": 1,
+    "newGradesThisRun": 0,
     "weekResults": [
       {
         "date": "2026-09-01",
