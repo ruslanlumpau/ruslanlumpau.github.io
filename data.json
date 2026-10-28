@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-28 11:24:51",
+  "last_updated": "2026-10-28 14:44:54",
   "quarter": "I четверть",
   "quarterNumber": 1,
   "quarterStart": "2026-09-01",
@@ -8,7 +8,7 @@
   "period": "01.09.2026 — 28.10.2026",
   "startDate": "2026-09-01",
   "endDate": "2026-10-28",
-  "overallAverage": 8.16,
+  "overallAverage": 8.17,
   "subjects": [
     {
       "name": "Английский язык",
@@ -269,10 +269,11 @@
     },
     {
       "name": "Математика",
-      "average": 7.5,
+      "average": 7.64,
       "grades": [
         9,
         4,
+        9,
         6,
         9,
         8,
@@ -294,6 +295,11 @@
           "first_seen": null
         },
         {
+          "value": 9,
+          "date": "2026-09-22",
+          "first_seen": null
+        },
+        {
           "value": 6,
           "date": "2026-09-24",
           "first_seen": null
@@ -301,7 +307,7 @@
         {
           "value": 9,
           "date": "2026-09-25",
-          "first_seen": null
+          "first_seen": "2026-10-28T14:44"
         },
         {
           "value": 8,
@@ -334,7 +340,7 @@
           "first_seen": "2026-10-27T12:21"
         }
       ],
-      "count": 10,
+      "count": 11,
       "status": "Достаточно",
       "color": "#00875A"
     },
@@ -572,8 +578,8 @@
     {
       "label": "21.09",
       "date": "2026-09-21",
-      "avg": 7.33,
-      "count": 6
+      "avg": 7.57,
+      "count": 7
     },
     {
       "label": "28.09",
@@ -628,8 +634,8 @@
     {
       "label": "21.09",
       "date": "2026-09-21",
-      "avg": 7.33,
-      "count": 6
+      "avg": 7.57,
+      "count": 7
     },
     {
       "label": "28.09",
@@ -708,13 +714,17 @@
       },
       {
         "name": "История Беларуси в контексте всемирной истории",
-        "q": {},
+        "q": {
+          "1": "8"
+        },
         "exam": null,
         "year": null
       },
       {
         "name": "Математика",
-        "q": {},
+        "q": {
+          "1": "8"
+        },
         "exam": null,
         "year": null
       },
@@ -774,10 +784,10 @@
     "weeksInQuarter": 9,
     "weeksFetched": 9,
     "missingWeeksInApi": [],
-    "freshGrades": 63,
+    "freshGrades": 64,
     "grades_from_history": 0,
-    "quarterGrades": 63,
-    "newGradesThisRun": 0,
+    "quarterGrades": 64,
+    "newGradesThisRun": 1,
     "weekResults": [
       {
         "date": "2026-09-01",
@@ -797,7 +807,7 @@
       {
         "date": "2026-09-21",
         "status": "ok",
-        "grades": 6
+        "grades": 7
       },
       {
         "date": "2026-09-28",
