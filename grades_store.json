@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-28 15:00:07",
+ "updated": "2026-10-28 17:45:15",
  "subjects": [
   "Английский язык",
   "Беларуская літаратура (літаратурнае чытанне)",
@@ -325,15 +325,6 @@
    "first_seen": "2026-10-26T15:00"
   },
   {
-   "key": "fallback|week:2026-10-05|subject:Физика|grade:9#1",
-   "subject": "Физика",
-   "grade": 9,
-   "date": "2026-10-06",
-   "week_uuid": "31be080f-1cc0-42a5-a1f6-1cb5651e0d5a",
-   "week_start": "2026-10-05",
-   "first_seen": null
-  },
-  {
    "key": "fallback|week:2026-10-05|subject:Математика|grade:7#1",
    "subject": "Математика",
    "grade": 7,
@@ -350,6 +341,15 @@
    "week_uuid": "31be080f-1cc0-42a5-a1f6-1cb5651e0d5a",
    "week_start": "2026-10-05",
    "first_seen": "2026-10-27T15:00"
+  },
+  {
+   "key": "fallback|week:2026-10-05|subject:Физика|grade:9#1",
+   "subject": "Физика",
+   "grade": 9,
+   "date": "2026-10-06",
+   "week_uuid": "31be080f-1cc0-42a5-a1f6-1cb5651e0d5a",
+   "week_start": "2026-10-05",
+   "first_seen": null
   },
   {
    "key": "fallback|week:2026-10-05|subject:Беларуская мова|grade:8#1",
@@ -586,6 +586,15 @@
    "first_seen": "2026-10-27T15:00"
   },
   {
+   "key": "fallback|week:2026-10-26|subject:Физика|grade:10#1",
+   "subject": "Физика",
+   "grade": 10,
+   "date": "2026-10-28",
+   "week_uuid": "389f21a0-055a-4f92-9df5-b47e30ddcbcc",
+   "week_start": "2026-10-26",
+   "first_seen": "2026-10-28T17:45"
+  },
+  {
    "key": "fallback|week:2026-10-26|subject:Математика|grade:9#1",
    "subject": "Математика",
    "grade": 9,
@@ -593,6 +602,15 @@
    "week_uuid": "389f21a0-055a-4f92-9df5-b47e30ddcbcc",
    "week_start": "2026-10-26",
    "first_seen": "2026-10-27T12:21"
+  },
+  {
+   "key": "fallback|week:2026-10-26|subject:Физика|grade:10#2",
+   "subject": "Физика",
+   "grade": 10,
+   "date": "2026-10-30",
+   "week_uuid": "389f21a0-055a-4f92-9df5-b47e30ddcbcc",
+   "week_start": "2026-10-26",
+   "first_seen": "2026-10-28T17:45"
   }
  ]
 }
