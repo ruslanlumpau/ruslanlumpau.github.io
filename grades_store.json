@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-28 11:24:51",
+ "updated": "2026-10-28 14:44:54",
  "subjects": [
   "Английский язык",
   "Беларуская літаратура (літаратурнае чытанне)",
@@ -109,18 +109,18 @@
    "first_seen": null
   },
   {
-   "key": "fallback|week:2026-09-14|subject:Информатика|grade:10#1",
-   "subject": "Информатика",
-   "grade": 10,
+   "key": "fallback|week:2026-09-14|subject:Физика|grade:5#1",
+   "subject": "Физика",
+   "grade": 5,
    "date": "2026-09-15",
    "week_uuid": "3d320ebf-f610-4e28-8278-089bfe461187",
    "week_start": "2026-09-14",
    "first_seen": null
   },
   {
-   "key": "fallback|week:2026-09-14|subject:Физика|grade:5#1",
-   "subject": "Физика",
-   "grade": 5,
+   "key": "fallback|week:2026-09-14|subject:Информатика|grade:10#1",
+   "subject": "Информатика",
+   "grade": 10,
    "date": "2026-09-15",
    "week_uuid": "3d320ebf-f610-4e28-8278-089bfe461187",
    "week_start": "2026-09-14",
@@ -181,6 +181,15 @@
    "first_seen": null
   },
   {
+   "key": "fallback|week:2026-09-21|subject:Математика|grade:9#1",
+   "subject": "Математика",
+   "grade": 9,
+   "date": "2026-09-22",
+   "week_uuid": "f9dad77e-26a0-4de1-bf8d-f3592f3696cc",
+   "week_start": "2026-09-21",
+   "first_seen": null
+  },
+  {
    "key": "fallback|week:2026-09-21|subject:Математика|grade:6#1",
    "subject": "Математика",
    "grade": 6,
@@ -190,13 +199,13 @@
    "first_seen": null
   },
   {
-   "key": "fallback|week:2026-09-21|subject:Математика|grade:9#1",
+   "key": "fallback|week:2026-09-21|subject:Математика|grade:9#2",
    "subject": "Математика",
    "grade": 9,
    "date": "2026-09-25",
    "week_uuid": "f9dad77e-26a0-4de1-bf8d-f3592f3696cc",
    "week_start": "2026-09-21",
-   "first_seen": null
+   "first_seen": "2026-10-28T14:44"
   },
   {
    "key": "fallback|week:2026-09-21|subject:Беларуская літаратура (літаратурнае чытанне)|grade:10#1",
