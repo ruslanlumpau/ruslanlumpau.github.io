@@ -69,6 +69,10 @@
     .final-table td.empty { color: #cbd5e1; font-weight: 400; }
     .final-table th.cur, .final-table td.cur { background: #f5f9ff; }
     .final-table td.year { font-weight: 700; }
+    .final-table th:nth-child(6), .final-table td.avg { border-left: 1px solid #e2e8f0; color: #0052cc; }
+    .final-table td.avg.empty { color: #cbd5e1; }
+    .final-table tfoot td { border-top: 2px solid #e2e8f0; border-bottom: none; background: #f8fafc; font-weight: 700; }
+    .final-table tfoot td.col-name { font-weight: 700; }
     .final-note { font-size: 11px; color: #94a3b8; text-align: center; margin-top: 10px; }
 
     .caption-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-top: 16px; font-size: 12px; line-height: 1.5; color: #334155; }
@@ -365,7 +369,7 @@
     });
   }
 
-  // Итоговые отметки так, как их выставила школа (расчётный балл не показываем)
+  // Итоговые отметки, выставленные школой, и средние по ним (считаются из выставленных четвертных отметок)
   function renderFinal(finalData, quarterNumber) {
     const status = document.getElementById('final-status');
     const wrap = document.getElementById('final-table-wrap');
@@ -392,24 +396,50 @@
       return `<td class="${extra || ''}${empty ? ' empty' : ''}">${empty ? '–' : esc(value)}</td>`;
     };
 
+    // Среднее считается только по числовым отметкам («зачтено» и подобное в среднее не входит)
+    const numeric = v => {
+      const s = String(v === null || v === undefined ? '' : v).trim().replace(',', '.');
+      return /^\d+(\.\d+)?$/.test(s) ? parseFloat(s) : null;
+    };
+    const mean = list => {
+      const nums = list.map(numeric).filter(n => n !== null);
+      return nums.length ? nums.reduce((a, b) => a + b, 0) / nums.length : null;
+    };
+    const fmt = n => n === null ? null : n.toFixed(2);
+
+    // Средняя по выставленным четвертным отметкам каждого предмета
+    const subjectAvg = rows.map(r => mean(Object.values(r.q || {})));
+
     const head = `
       <tr>
         <th class="col-name">Предмет</th>
         ${quarterCols.map(([k, label]) => `<th class="${k === curNum ? 'cur' : ''}">${label}</th>`).join('')}
+        <th>Ср.</th>
         ${hasExam ? '<th>Экз.</th>' : ''}
         <th>Год</th>
       </tr>`;
 
-    const body = rows.map(r => `
+    const body = rows.map((r, i) => `
       <tr>
         <td class="col-name">${esc(r.name)}</td>
         ${quarterCols.map(([k]) => cell((r.q || {})[k], k === curNum ? 'cur' : '')).join('')}
+        ${cell(fmt(subjectAvg[i]), 'avg')}
         ${hasExam ? cell(r.exam) : ''}
         ${cell(r.year, 'year')}
       </tr>`).join('');
 
-    wrap.innerHTML = `<table class="final-table"><thead>${head}</thead><tbody>${body}</tbody></table>
-      <div class="final-note">Показаны отметки, выставленные школой</div>`;
+    // Итоговая строка: среднее по каждой четверти по всем предметам, среднее средних и среднее годовых отметок
+    const foot = `
+      <tr class="total-row">
+        <td class="col-name">Средний балл</td>
+        ${quarterCols.map(([k]) => cell(fmt(mean(rows.map(r => (r.q || {})[k]))), k === curNum ? 'cur' : '')).join('')}
+        ${cell(fmt(mean(subjectAvg)), 'avg')}
+        ${hasExam ? cell(fmt(mean(rows.map(r => r.exam)))) : ''}
+        ${cell(fmt(mean(rows.map(r => r.year))), 'year')}
+      </tr>`;
+
+    wrap.innerHTML = `<table class="final-table"><thead>${head}</thead><tbody>${body}</tbody><tfoot>${foot}</tfoot></table>
+      <div class="final-note">Отметки выставлены школой. «Ср.» — среднее выставленных четвертных отметок по предмету, нижняя строка — среднее по всем предметам.</div>`;
   }
 
   const TAB_NAMES = ['subjects', 'weekly', 'final'];
