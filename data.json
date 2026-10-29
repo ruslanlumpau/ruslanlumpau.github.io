@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-29 15:40:42",
+  "last_updated": "2026-10-29 16:58:02",
   "quarter": "I четверть",
   "quarterNumber": 1,
   "quarterStart": "2026-09-01",
@@ -8,15 +8,15 @@
   "period": "01.09.2026 — 29.10.2026",
   "startDate": "2026-09-01",
   "endDate": "2026-10-29",
-  "overallAverage": 8.22,
+  "overallAverage": 8.24,
   "subjects": [
     {
       "name": "Английский язык",
-      "average": 9.33,
+      "average": 9.67,
       "grades": [
         10,
         10,
-        8
+        9
       ],
       "grades_detail": [
         {
@@ -30,9 +30,9 @@
           "first_seen": null
         },
         {
-          "value": 8,
+          "value": 9,
           "date": "2026-10-27",
-          "first_seen": "2026-10-29T15:40"
+          "first_seen": "2026-10-29T16:58"
         }
       ],
       "count": 3,
@@ -626,7 +626,7 @@
     {
       "label": "26.10",
       "date": "2026-10-26",
-      "avg": 9.33,
+      "avg": 9.5,
       "count": 6
     }
   ],
@@ -682,7 +682,7 @@
     {
       "label": "26.10",
       "date": "2026-10-26",
-      "avg": 9.33,
+      "avg": 9.5,
       "count": 6
     }
   ],
@@ -691,7 +691,7 @@
       {
         "name": "Английский язык",
         "q": {
-          "1": "9"
+          "1": "10"
         },
         "exam": null,
         "year": null
@@ -811,7 +811,7 @@
     "freshGrades": 67,
     "grades_from_history": 0,
     "quarterGrades": 67,
-    "newGradesThisRun": 2,
+    "newGradesThisRun": 1,
     "weekResults": [
       {
         "date": "2026-09-01",
