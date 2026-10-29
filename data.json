@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-29 09:05:49",
+  "last_updated": "2026-10-29 15:39:27",
   "quarter": "I четверть",
   "quarterNumber": 1,
   "quarterStart": "2026-09-01",
@@ -791,62 +791,62 @@
     ],
     "hasExam": false,
     "unknownTypes": {},
-    "stale": false
+    "stale": true
   },
   "diagnostics": {
     "apiWeeksFound": 36,
     "weeksInQuarter": 9,
     "weeksFetched": 9,
     "missingWeeksInApi": [],
-    "freshGrades": 66,
-    "grades_from_history": 0,
+    "freshGrades": 0,
+    "grades_from_history": 66,
     "quarterGrades": 66,
     "newGradesThisRun": 0,
     "weekResults": [
       {
         "date": "2026-09-01",
-        "status": "ok",
-        "grades": 3
+        "status": "request_error",
+        "grades": 0
       },
       {
         "date": "2026-09-07",
-        "status": "ok",
-        "grades": 3
+        "status": "request_error",
+        "grades": 0
       },
       {
         "date": "2026-09-14",
-        "status": "ok",
-        "grades": 9
+        "status": "request_error",
+        "grades": 0
       },
       {
         "date": "2026-09-21",
-        "status": "ok",
-        "grades": 7
+        "status": "request_error",
+        "grades": 0
       },
       {
         "date": "2026-09-28",
-        "status": "ok",
-        "grades": 9
+        "status": "request_error",
+        "grades": 0
       },
       {
         "date": "2026-10-05",
-        "status": "ok",
-        "grades": 12
+        "status": "request_error",
+        "grades": 0
       },
       {
         "date": "2026-10-12",
-        "status": "ok",
-        "grades": 11
+        "status": "request_error",
+        "grades": 0
       },
       {
         "date": "2026-10-19",
-        "status": "ok",
-        "grades": 6
+        "status": "request_error",
+        "grades": 0
       },
       {
         "date": "2026-10-26",
-        "status": "ok",
-        "grades": 6
+        "status": "request_error",
+        "grades": 0
       }
     ]
   }
