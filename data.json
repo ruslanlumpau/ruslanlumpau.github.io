@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-30 11:41:40",
+  "last_updated": "2026-10-30 15:00:06",
   "quarter": "I четверть",
   "quarterNumber": 1,
   "quarterStart": "2026-09-01",
@@ -813,7 +813,7 @@
       {
         "name": "Русская литература (литературное чтение)",
         "q": {
-          "1": "7"
+          "1": "8"
         },
         "exam": null,
         "year": null
@@ -871,7 +871,7 @@
     "freshGrades": 75,
     "grades_from_history": 0,
     "quarterGrades": 75,
-    "newGradesThisRun": 2,
+    "newGradesThisRun": 0,
     "weekResults": [
       {
         "date": "2026-09-01",
