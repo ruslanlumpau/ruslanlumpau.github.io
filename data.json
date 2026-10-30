@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-30 09:00:19",
+  "last_updated": "2026-10-30 11:41:40",
   "quarter": "I четверть",
   "quarterNumber": 1,
   "quarterStart": "2026-09-01",
@@ -8,7 +8,7 @@
   "period": "01.09.2026 — 30.10.2026",
   "startDate": "2026-09-01",
   "endDate": "2026-10-30",
-  "overallAverage": 8.17,
+  "overallAverage": 8.2,
   "subjects": [
     {
       "name": "Английский язык",
@@ -73,13 +73,13 @@
         },
         {
           "value": 8,
-          "date": "2026-10-21",
-          "first_seen": "2026-10-23T15:00"
+          "date": "2026-10-16",
+          "first_seen": "2026-10-30T11:41"
         },
         {
           "value": 8,
-          "date": "2026-10-23",
-          "first_seen": "2026-10-28T11:02"
+          "date": "2026-10-21",
+          "first_seen": "2026-10-23T15:00"
         }
       ],
       "count": 6,
@@ -387,17 +387,17 @@
     },
     {
       "name": "Русская литература (литературное чтение)",
-      "average": 6.33,
+      "average": 7.0,
       "grades": [
-        5,
+        7,
         9,
         5
       ],
       "grades_detail": [
         {
-          "value": 5,
+          "value": 7,
           "date": "2026-09-15",
-          "first_seen": "2026-10-30T08:43"
+          "first_seen": "2026-10-30T11:41"
         },
         {
           "value": 9,
@@ -642,7 +642,7 @@
     {
       "label": "14.09",
       "date": "2026-09-14",
-      "avg": 7.3,
+      "avg": 7.5,
       "count": 10
     },
     {
@@ -666,14 +666,14 @@
     {
       "label": "12.10",
       "date": "2026-10-12",
-      "avg": 8.82,
-      "count": 11
+      "avg": 8.75,
+      "count": 12
     },
     {
       "label": "19.10",
       "date": "2026-10-19",
-      "avg": 7.78,
-      "count": 9
+      "avg": 7.75,
+      "count": 8
     },
     {
       "label": "26.10",
@@ -698,7 +698,7 @@
     {
       "label": "14.09",
       "date": "2026-09-14",
-      "avg": 7.3,
+      "avg": 7.5,
       "count": 10
     },
     {
@@ -722,14 +722,14 @@
     {
       "label": "12.10",
       "date": "2026-10-12",
-      "avg": 8.82,
-      "count": 11
+      "avg": 8.75,
+      "count": 12
     },
     {
       "label": "19.10",
       "date": "2026-10-19",
-      "avg": 7.78,
-      "count": 9
+      "avg": 7.75,
+      "count": 8
     },
     {
       "label": "26.10",
@@ -871,7 +871,7 @@
     "freshGrades": 75,
     "grades_from_history": 0,
     "quarterGrades": 75,
-    "newGradesThisRun": 0,
+    "newGradesThisRun": 2,
     "weekResults": [
       {
         "date": "2026-09-01",
@@ -906,12 +906,12 @@
       {
         "date": "2026-10-12",
         "status": "ok",
-        "grades": 11
+        "grades": 12
       },
       {
         "date": "2026-10-19",
         "status": "ok",
-        "grades": 9
+        "grades": 8
       },
       {
         "date": "2026-10-26",
