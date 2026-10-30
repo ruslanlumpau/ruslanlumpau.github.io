@@ -1,14 +1,14 @@
 {
-  "last_updated": "2026-10-29 21:38:19",
+  "last_updated": "2026-10-30 08:43:27",
   "quarter": "I четверть",
   "quarterNumber": 1,
   "quarterStart": "2026-09-01",
   "quarterEnd": "2026-10-31",
   "quarterFinished": false,
-  "period": "01.09.2026 — 29.10.2026",
+  "period": "01.09.2026 — 30.10.2026",
   "startDate": "2026-09-01",
-  "endDate": "2026-10-29",
-  "overallAverage": 8.24,
+  "endDate": "2026-10-30",
+  "overallAverage": 8.17,
   "subjects": [
     {
       "name": "Английский язык",
@@ -117,9 +117,10 @@
     },
     {
       "name": "Биология",
-      "average": 8.67,
+      "average": 8.5,
       "grades": [
         9,
+        8,
         8,
         9
       ],
@@ -128,6 +129,11 @@
           "value": 9,
           "date": "2026-09-14",
           "first_seen": null
+        },
+        {
+          "value": 8,
+          "date": "2026-09-25",
+          "first_seen": "2026-10-30T08:43"
         },
         {
           "value": 8,
@@ -140,7 +146,7 @@
           "first_seen": null
         }
       ],
-      "count": 3,
+      "count": 4,
       "status": "Достаточно",
       "color": "#00875A"
     },
@@ -381,17 +387,38 @@
     },
     {
       "name": "Русская литература (литературное чтение)",
-      "average": 0.0,
-      "grades": [],
-      "grades_detail": [],
-      "count": 0,
-      "status": "Не хватает",
-      "color": "#DE350B"
+      "average": 6.33,
+      "grades": [
+        5,
+        9,
+        5
+      ],
+      "grades_detail": [
+        {
+          "value": 5,
+          "date": "2026-09-15",
+          "first_seen": "2026-10-30T08:43"
+        },
+        {
+          "value": 9,
+          "date": "2026-10-06",
+          "first_seen": "2026-10-30T08:43"
+        },
+        {
+          "value": 5,
+          "date": "2026-10-20",
+          "first_seen": "2026-10-30T08:43"
+        }
+      ],
+      "count": 3,
+      "status": "Достаточно",
+      "color": "#00875A"
     },
     {
       "name": "Русский язык",
       "average": 8.0,
       "grades": [
+        8,
         8,
         8
       ],
@@ -405,11 +432,16 @@
           "value": 8,
           "date": "2026-10-09",
           "first_seen": null
+        },
+        {
+          "value": 8,
+          "date": "2026-10-27",
+          "first_seen": "2026-10-30T08:43"
         }
       ],
-      "count": 2,
-      "status": "Не хватает",
-      "color": "#DE350B"
+      "count": 3,
+      "status": "Достаточно",
+      "color": "#00875A"
     },
     {
       "name": "Физика",
@@ -566,12 +598,32 @@
     },
     {
       "name": "Черчение",
-      "average": 0.0,
-      "grades": [],
-      "grades_detail": [],
-      "count": 0,
-      "status": "Не хватает",
-      "color": "#DE350B"
+      "average": 8.67,
+      "grades": [
+        8,
+        9,
+        9
+      ],
+      "grades_detail": [
+        {
+          "value": 8,
+          "date": "2026-09-24",
+          "first_seen": "2026-10-30T08:43"
+        },
+        {
+          "value": 9,
+          "date": "2026-10-08",
+          "first_seen": "2026-10-30T08:43"
+        },
+        {
+          "value": 9,
+          "date": "2026-10-22",
+          "first_seen": "2026-10-30T08:43"
+        }
+      ],
+      "count": 3,
+      "status": "Достаточно",
+      "color": "#00875A"
     }
   ],
   "weekly": [
@@ -590,14 +642,14 @@
     {
       "label": "14.09",
       "date": "2026-09-14",
-      "avg": 7.56,
-      "count": 9
+      "avg": 7.3,
+      "count": 10
     },
     {
       "label": "21.09",
       "date": "2026-09-21",
-      "avg": 7.57,
-      "count": 7
+      "avg": 7.67,
+      "count": 9
     },
     {
       "label": "28.09",
@@ -608,8 +660,8 @@
     {
       "label": "05.10",
       "date": "2026-10-05",
-      "avg": 8.58,
-      "count": 12
+      "avg": 8.64,
+      "count": 14
     },
     {
       "label": "12.10",
@@ -620,14 +672,14 @@
     {
       "label": "19.10",
       "date": "2026-10-19",
-      "avg": 8.0,
-      "count": 7
+      "avg": 7.78,
+      "count": 9
     },
     {
       "label": "26.10",
       "date": "2026-10-26",
-      "avg": 9.5,
-      "count": 6
+      "avg": 9.29,
+      "count": 7
     }
   ],
   "weeks": [
@@ -646,14 +698,14 @@
     {
       "label": "14.09",
       "date": "2026-09-14",
-      "avg": 7.56,
-      "count": 9
+      "avg": 7.3,
+      "count": 10
     },
     {
       "label": "21.09",
       "date": "2026-09-21",
-      "avg": 7.57,
-      "count": 7
+      "avg": 7.67,
+      "count": 9
     },
     {
       "label": "28.09",
@@ -664,8 +716,8 @@
     {
       "label": "05.10",
       "date": "2026-10-05",
-      "avg": 8.58,
-      "count": 12
+      "avg": 8.64,
+      "count": 14
     },
     {
       "label": "12.10",
@@ -676,14 +728,14 @@
     {
       "label": "19.10",
       "date": "2026-10-19",
-      "avg": 8.0,
-      "count": 7
+      "avg": 7.78,
+      "count": 9
     },
     {
       "label": "26.10",
       "date": "2026-10-26",
-      "avg": 9.5,
-      "count": 6
+      "avg": 9.29,
+      "count": 7
     }
   ],
   "final": {
@@ -714,7 +766,9 @@
       },
       {
         "name": "Биология",
-        "q": {},
+        "q": {
+          "1": "9"
+        },
         "exam": null,
         "year": null
       },
@@ -758,13 +812,17 @@
       },
       {
         "name": "Русская литература (литературное чтение)",
-        "q": {},
+        "q": {
+          "1": "7"
+        },
         "exam": null,
         "year": null
       },
       {
         "name": "Русский язык",
-        "q": {},
+        "q": {
+          "1": "8"
+        },
         "exam": null,
         "year": null
       },
@@ -794,7 +852,9 @@
       },
       {
         "name": "Черчение",
-        "q": {},
+        "q": {
+          "1": "9"
+        },
         "exam": null,
         "year": null
       }
@@ -808,10 +868,10 @@
     "weeksInQuarter": 9,
     "weeksFetched": 9,
     "missingWeeksInApi": [],
-    "freshGrades": 67,
+    "freshGrades": 75,
     "grades_from_history": 0,
-    "quarterGrades": 67,
-    "newGradesThisRun": 0,
+    "quarterGrades": 75,
+    "newGradesThisRun": 8,
     "weekResults": [
       {
         "date": "2026-09-01",
@@ -826,12 +886,12 @@
       {
         "date": "2026-09-14",
         "status": "ok",
-        "grades": 9
+        "grades": 10
       },
       {
         "date": "2026-09-21",
         "status": "ok",
-        "grades": 7
+        "grades": 9
       },
       {
         "date": "2026-09-28",
@@ -841,7 +901,7 @@
       {
         "date": "2026-10-05",
         "status": "ok",
-        "grades": 12
+        "grades": 14
       },
       {
         "date": "2026-10-12",
@@ -851,12 +911,12 @@
       {
         "date": "2026-10-19",
         "status": "ok",
-        "grades": 7
+        "grades": 9
       },
       {
         "date": "2026-10-26",
         "status": "ok",
-        "grades": 6
+        "grades": 7
       }
     ]
   }
