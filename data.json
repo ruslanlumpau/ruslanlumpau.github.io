@@ -1,13 +1,13 @@
 {
-  "last_updated": "2026-10-30 17:45:16",
+  "last_updated": "2026-10-31 20:10:03",
   "quarter": "I четверть",
   "quarterNumber": 1,
   "quarterStart": "2026-09-01",
   "quarterEnd": "2026-10-31",
   "quarterFinished": false,
-  "period": "01.09.2026 — 30.10.2026",
+  "period": "01.09.2026 — 31.10.2026",
   "startDate": "2026-09-01",
-  "endDate": "2026-10-30",
+  "endDate": "2026-10-31",
   "overallAverage": 8.2,
   "subjects": [
     {
