@@ -1,10 +1,10 @@
 {
-  "last_updated": "2026-10-31 20:10:03",
+  "last_updated": "2026-11-02 09:18:12",
   "quarter": "I четверть",
   "quarterNumber": 1,
   "quarterStart": "2026-09-01",
   "quarterEnd": "2026-10-31",
-  "quarterFinished": false,
+  "quarterFinished": true,
   "period": "01.09.2026 — 31.10.2026",
   "startDate": "2026-09-01",
   "endDate": "2026-10-31",
