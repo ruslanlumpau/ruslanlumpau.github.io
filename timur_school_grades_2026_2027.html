@@ -2,32 +2,53 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Успеваемость Тимура</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Оценки Тимура</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.js"></script>
   <style>
+    html, body { overscroll-behavior-y: contain; }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-    body { background-color: #f4f5f7; color: #172b4d; padding: 12px; }
+    body { background-color: #f4f5f7; color: #172b4d; padding: 12px; min-height: 100vh;
+           /* место под нижнюю панель вкладок, чтобы она не закрывала конец страницы */
+           padding-bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px) + 12px); }
+    :root { --tabbar-h: 58px; }
     .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 12px; padding: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
 
     h1 { font-size: 18px; font-weight: 700; text-align: center; color: #172b4d; margin-bottom: 4px; }
-    .subtitle { font-size: 12px; text-align: center; color: #6b7280; margin-bottom: 2px; }
-    .updated { font-size: 12px; text-align: center; color: #6b7280; margin-bottom: 14px; }
-    .updated b { color: #0052cc; font-weight: 600; }
+    .subtitle { font-size: 12px; text-align: center; color: #6b7280; margin-bottom: 2px; min-height: 14px; }
+    .subtitle b { color: #0052cc; font-weight: 600; }
+    .updated { font-size: 12px; text-align: center; color: #6b7280; margin-bottom: 10px; min-height: 14px; }
+
+    /* Кнопки и строка состояния (в приложении данные обновляются прямо с телефона) */
+    .toolbar { display: flex; gap: 8px; margin-bottom: 8px; }
+    #status { font-size: 12px; text-align: center; color: #6b7280; margin-bottom: 12px; min-height: 16px; line-height: 1.4; }
+    #status:empty { display: none; }
+    #status.error { color: #de350b; }
+    #status.ok { color: #00875a; }
 
     .stats-card { background: #f0f4f8; border-radius: 8px; padding: 10px; margin-bottom: 14px; display: flex; justify-content: space-around; text-align: center; }
     .stat-item .val { font-size: 16px; font-weight: bold; color: #0052cc; }
     .stat-item .lbl { font-size: 10px; color: #6b7280; }
 
-    .tabs { display: flex; gap: 8px; margin-bottom: 14px; }
-    .tab-btn { flex: 1; padding: 8px 4px; border: none; background: #e5e7eb; color: #4b5563; font-weight: 600; font-size: 12px; border-radius: 6px; cursor: pointer; text-align: center; transition: background 0.2s, color 0.2s; }
-    .tab-btn.active { background: #0052cc; color: #ffffff; }
+    /* Нижняя панель разделов: всегда на виду у нижнего края экрана */
+    .tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; background: #ffffff; border-top: 1px solid #dfe1e6; box-shadow: 0 -2px 10px rgba(9, 30, 66, 0.08); padding-bottom: env(safe-area-inset-bottom, 0px); }
+    .tabbar-inner { display: flex; max-width: 600px; margin: 0 auto; }
+    .tab-btn { flex: 1; height: var(--tabbar-h); position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; border: none; background: transparent; color: #6b7280; font-weight: 600; font-size: 11px; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color 0.15s; }
+    .tab-btn svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .tab-btn::before { content: ''; position: absolute; top: 0; left: 24%; right: 24%; height: 3px; border-radius: 0 0 3px 3px; background: transparent; transition: background 0.15s; }
+    .tab-btn.active { color: #0052cc; }
+    .tab-btn.active::before { background: #0052cc; }
 
     .tab-content { display: none; }
     .tab-content.active { display: block; }
+    /* Короткий сдвиг содержимого при переключении: вперёд - справа, назад - слева */
+    .tab-content.active.enter-next { animation: tabInNext 0.18s ease-out; }
+    .tab-content.active.enter-prev { animation: tabInPrev 0.18s ease-out; }
+    @keyframes tabInNext { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: none; } }
+    @keyframes tabInPrev { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) { .tab-content.active.enter-next, .tab-content.active.enter-prev { animation: none; } }
 
     .status-badge { background: #deebff; color: #0052cc; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-bottom: 12px; text-align: center; border: 1px solid #b3d4ff; }
-    .status-badge.muted { background: #f1f5f9; color: #64748b; border-color: #e2e8f0; }
 
     /* Трехстрочная карточка предмета */
     .subject-card { background: #f8fafc; border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; border: 1px solid #e2e8f0; border-left: 4px solid #de350b; }
@@ -36,7 +57,11 @@
     /* Строка 1: Название + Средний балл */
     .subject-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
     .subject-title { font-size: 13px; font-weight: 600; color: #1e293b; }
-    .subject-score { font-size: 14px; font-weight: 700; color: #0f172a; }
+    .subject-score { font-size: 14px; font-weight: 700; color: #0f172a; border: 2px solid transparent; border-radius: 4px; padding: 0 6px; }
+    /* Четвертная отметка по предмету уже выставлена: средняя обведена прямоугольником */
+    .subject-score.has-final { border-color: #0052cc; background: #f5f9ff; cursor: pointer; }
+    .legend-final { font-size: 11px; color: #6b7280; text-align: center; margin: -4px 0 12px; }
+    .legend-final .sample { display: inline-block; border: 2px solid #0052cc; background: #f5f9ff; border-radius: 4px; padding: 0 5px; font-weight: 700; color: #0f172a; margin-right: 4px; }
 
     /* Строка 2: Оценки */
     .grades-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 8px; }
@@ -58,18 +83,21 @@
     .bar-fill.red { background: #de350b; }
 
     .chart-container-line { position: relative; width: 100%; min-height: 280px; }
+    .chart-missing { font-size: 12px; color: #6b7280; text-align: center; padding: 40px 12px; }
     .empty-note { font-size: 12px; color: #94a3b8; text-align: center; padding: 40px 12px; }
+    .status-badge.muted { background: #f1f5f9; color: #64748b; border-color: #e2e8f0; }
 
     /* Вкладка «Итоги» */
     .final-table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 12px; }
     .final-table th { background: #f0f4f8; color: #475569; font-weight: 700; font-size: 11px; padding: 8px 2px; text-align: center; border-bottom: 1px solid #e2e8f0; }
-    .final-table th.col-name { text-align: left; padding-left: 8px; width: 38%; }
+    .final-table th.col-name { text-align: left; padding-left: 8px; width: 31%; }
+    .final-table td:not(.col-name) { font-size: 11px; }
     .final-table td { padding: 8px 2px; text-align: center; border-bottom: 1px solid #eef2f6; color: #0f172a; font-weight: 600; }
     .final-table td.col-name { text-align: left; padding-left: 8px; font-weight: 500; color: #1e293b; overflow-wrap: anywhere; line-height: 1.25; }
     .final-table td.empty { color: #cbd5e1; font-weight: 400; }
     .final-table th.cur, .final-table td.cur { background: #f5f9ff; }
     .final-table td.year { font-weight: 700; }
-    .final-table th:nth-child(6), .final-table td.avg { border-left: 1px solid #e2e8f0; color: #0052cc; }
+    .final-table th.avg-col, .final-table td.avg { border-left: 1px solid #e2e8f0; color: #0052cc; }
     .final-table td.avg.empty { color: #cbd5e1; }
     .final-table tfoot td { border-top: 2px solid #e2e8f0; border-bottom: none; background: #f8fafc; font-weight: 700; }
     .final-table tfoot td.col-name { font-weight: 700; }
@@ -79,63 +107,92 @@
     .caption-box h3 { font-size: 13px; margin-bottom: 6px; color: #0f172a; }
     .caption-box ul { padding-left: 16px; }
     .caption-box li { margin-bottom: 6px; }
+
+    .empty-state { text-align: center; color: #6b7280; font-size: 13px; line-height: 1.5; padding: 24px 8px; }
+
+    /* Выбор четверти для просмотра */
+    .qsel { display: none; align-items: center; justify-content: center; gap: 6px; margin: 0 0 10px; }
+    .qsel-label { font-size: 12px; color: #6b7280; margin-right: 2px; }
+    .qsel-btn { min-width: 52px; padding: 7px 8px; border: 1px solid #dfe1e6; background: #f4f5f7; color: #42526e; font-weight: 600; font-size: 13px; border-radius: 6px; cursor: pointer; position: relative; }
+    .qsel-btn.active { background: #0052cc; border-color: #0052cc; color: #ffffff; }
+    .qsel-btn.current:not(.active)::after { content: ''; position: absolute; top: 3px; right: 3px; width: 6px; height: 6px; border-radius: 50%; background: #0052cc; }
+    .qsel-btn:disabled { opacity: 0.4; cursor: default; }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <h1>Успеваемость Тимура</h1>
-  <div class="subtitle" id="period-text">Загрузка...</div>
+  <h1 id="student-name">Оценки</h1>
   <div class="updated" id="updated-text"></div>
+  <div class="qsel" id="quarter-select" role="group" aria-label="Четверть"></div>
 
-  <div class="stats-card">
-    <div class="stat-item"><div class="val" id="overall-avg">—</div><div class="lbl">Средний балл</div></div>
-    <div class="stat-item"><div class="val" id="total-grades">0</div><div class="lbl">Всего оценок</div></div>
-    <div class="stat-item"><div class="val" id="accredited-count">0 / 0</div><div class="lbl">Аттестовано</div></div>
-  </div>
+  <div id="status"></div>
 
-  <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('subjects')">Предметы</button>
-    <button class="tab-btn" onclick="switchTab('weekly')">Динамика</button>
-    <button class="tab-btn" onclick="switchTab('final')">Итоги</button>
-  </div>
+  <div id="empty-state" class="empty-state">Загружаю оценки…</div>
 
-  <!-- Вкладка 1: Предметы -->
-  <div id="tab-subjects" class="tab-content active">
-    <div class="status-badge" id="status-badge-text">Достаточно оценок для аттестации: обновление...</div>
-    <div id="subjects-list"></div>
-  </div>
-
-  <!-- Вкладка 2: Динамика -->
-  <div id="tab-weekly" class="tab-content">
-    <div class="chart-container-line">
-      <canvas id="weeklyChart"></canvas>
+  <div id="dashboard" style="display:none">
+    <div class="stats-card" id="stats-card">
+      <div class="stat-item"><div class="val" id="overall-avg">0.0</div><div class="lbl">Ср. по всем оценкам</div></div>
+      <div class="stat-item"><div class="val" id="total-grades">0</div><div class="lbl">Всего оценок</div></div>
+      <div class="stat-item"><div class="val" id="accredited-count">0 / 0</div><div class="lbl">Аттестовано</div></div>
     </div>
-    <div class="empty-note" id="weekly-empty" style="display:none">В этой четверти оценок пока нет.</div>
+
+    <!-- Вкладка 1: Предметы -->
+    <div id="tab-subjects" class="tab-content active">
+      <div class="legend-final" id="legend-final" style="display:none"><span class="sample">8.50</span>четвертная отметка уже выставлена</div>
+      <div id="subjects-list"></div>
+    </div>
+
+    <!-- Вкладка 2: Динамика -->
+    <div id="tab-weekly" class="tab-content">
+      <div class="chart-container-line" data-noswipe>
+        <canvas id="weeklyChart"></canvas>
+      </div>
+      <div class="empty-note" id="weekly-empty" style="display:none">В этой четверти оценок пока нет.</div>
+    </div>
+
+    <!-- Вкладка 3: Итоги (четвертные, экзамен и годовые отметки - как выставила школа) -->
+    <div id="tab-final" class="tab-content">
+      <div class="status-badge muted" id="final-status">Загрузка...</div>
+      <div id="final-table-wrap"></div>
+    </div>
+
+    <!-- Текстовая аналитика -->
+    <div class="caption-box" id="analytics-box">
+      <h3>📋 Текстовая аналитика</h3>
+      <ul id="analytics-list"></ul>
+    </div>
+
   </div>
 
-  <!-- Вкладка 3: Итоги (четвертные, экзамен и годовые отметки - как выставила школа) -->
-  <div id="tab-final" class="tab-content">
-    <div class="status-badge muted" id="final-status">Загрузка...</div>
-    <div id="final-table-wrap"></div>
-  </div>
-
-  <!-- Текстовая аналитика (относится к текущей четверти) -->
-  <div class="caption-box" id="analytics-box">
-    <h3>📋 Текстовая аналитика</h3>
-    <ul id="analytics-list"></ul>
-  </div>
 </div>
 
+<!-- Нижняя панель разделов: видна всегда (в том числе до входа), последняя вкладка - настройки -->
+<nav class="tabbar" role="tablist" aria-label="Разделы">
+  <div class="tabbar-inner">
+    <button class="tab-btn active" type="button" role="tab" aria-selected="true" onclick="switchTab('subjects')">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="0.6"/><circle cx="3.5" cy="12" r="0.6"/><circle cx="3.5" cy="18" r="0.6"/></svg>
+      <span>Предметы</span>
+    </button>
+    <button class="tab-btn" type="button" role="tab" aria-selected="false" onclick="switchTab('weekly')">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l5-6 4 3 8-9"/><path d="M15 5h5v5"/></svg>
+      <span>Динамика</span>
+    </button>
+    <button class="tab-btn" type="button" role="tab" aria-selected="false" onclick="switchTab('final')">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4" width="17" height="16" rx="2"/><path d="M3.5 10h17M9.5 10v10"/></svg>
+      <span>Итоги</span>
+    </button>
+  </div>
+</nav>
+
+
 <script>
+  const statusEl = document.getElementById('status');
   let weeklyChartInstance = null;
+  let dataShown = false;   // дашборд отрисован (есть что показывать)
 
   // Предметы, по которым отметок не бывает: в дашборде не показываются
   const EXCLUDED_SUBJECT = /(классный|информационный)\s+час|(класная|інфармацыйная)\s+гадзіна/i;
-
-  function esc(value) {
-    return String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  }
 
   // Сегодняшняя дата по Минску в формате YYYY-MM-DD (новая оценка подсвечивается до 24:00 этого дня)
   function todayInMinsk() {
@@ -144,114 +201,173 @@
     }).format(new Date());
   }
 
-  // Плагин Chart.js для вывода подписей над точками
+  // Плагин Chart.js для подписей: у недельной средней - над каждой точкой,
+  // у нарастающей средней за четверть - только под последней точкой (чтобы подписи не налезали друг на друга)
   const dataLabelsPlugin = {
     id: 'dataLabelsPlugin',
     afterDatasetsDraw(chart) {
       const { ctx } = chart;
       chart.data.datasets.forEach((dataset, datasetIndex) => {
-        if (datasetIndex !== 0) return;
         const meta = chart.getDatasetMeta(datasetIndex);
+        let lastIdx = -1;
+        dataset.data.forEach((v, i) => { if (v !== undefined && v !== null) lastIdx = i; });
         meta.data.forEach((element, index) => {
           const val = dataset.data[index];
-          if (val !== undefined && val !== null) {
-            ctx.save();
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 11px -apple-system, sans-serif';
-            ctx.textAlign = 'center';
-            ctx.fillText(val.toFixed(2), element.x, element.y - 8);
-            ctx.restore();
-          }
+          if (val === undefined || val === null) return;
+          if (datasetIndex === 1 && index !== lastIdx) return;
+          ctx.save();
+          ctx.fillStyle = datasetIndex === 0 ? '#0f172a' : '#b45309';
+          ctx.font = 'bold 11px -apple-system, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText(val.toFixed(2), element.x, datasetIndex === 0 ? element.y - 8 : element.y + 17);
+          ctx.restore();
         });
       });
     }
   };
 
-  async function loadDashboardData() {
-    try {
-      const response = await fetch('./data.json');
-      if (!response.ok) throw new Error('Не удалось загрузить data.json');
-      const data = await response.json();
+  // Экранирование для вставки названий предметов в HTML
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
 
-      document.getElementById('period-text').textContent = data.period || '';
+  // ---------- Отрисовка дашборда по готовому data (то, что раньше читалось из data.json) ----------
+  function renderAll(data) {
+    dataShown = true;
+    syncView();
 
-      // «I четверть · обновлено 20.10.2026 в 16:05» (last_updated приходит как «YYYY-MM-DD HH:MM:SS» по Минску)
-      const upd = String(data.last_updated || '').match(/^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}:\d{2})/);
-      const updParts = [];
-      if (data.quarter) updParts.push(`<b>${esc(data.quarter)}</b>`);
-      if (upd) updParts.push(`обновлено ${upd[3]}.${upd[2]}.${upd[1]} в ${upd[4]}`);
-      document.getElementById('updated-text').innerHTML = updParts.join(' · ');
+    // Шапка: имя и фамилия ребёнка (из дневника; отчество не показываем), четверть и период, время обновления
+    document.getElementById('student-name').textContent = shortName(data.studentName) || 'Оценки';
+    // last_updated приходит как «YYYY-MM-DD HH:MM:SS» по Минску
+    const upd = String(data.last_updated || '').match(/^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}:\d{2})/);
+    document.getElementById('updated-text').textContent = upd ? `Обновлено ${upd[3]}.${upd[2]}.${upd[1]} в ${upd[4]}` : '';
 
-      let totalSum = 0;
-      let totalCount = 0;
-      let accreditedCount = 0;
-
-      const accreditedList = [];
-      const riskList = [];
-      const emptyList = [];
-      const newList = [];
-
-      const today = todayInMinsk();
-      const subjectsData = (data.subjects || []).filter(s => !EXCLUDED_SUBJECT.test(s.name || ''));
-
-      const processedSubjects = subjectsData.map(s => {
-        // grades_detail: [{value, first_seen}] - есть в новых data.json; для старых берём просто grades
-        const items = Array.isArray(s.grades_detail)
-          ? s.grades_detail.map(d => ({
-              value: d.value,
-              date: d.date || '',
-              isNew: !!d.first_seen && String(d.first_seen).slice(0, 10) === today
-            }))
-          : (s.grades || []).map(g => ({ value: g, date: '', isNew: false }));
-
-        const grades = items.map(it => it.value);
-        const count = grades.length;
-        const sum = grades.reduce((acc, val) => acc + val, 0);
-        const avg = count > 0 ? (sum / count) : 0;
-        const isAccredited = count >= 3;
-
-        totalSum += sum;
-        totalCount += count;
-
-        items.forEach(it => { if (it.isNew) newList.push(`${s.name} ${it.value}`); });
-
-        if (isAccredited) {
-          accreditedCount++;
-          accreditedList.push(`${s.name} (${avg.toFixed(2)})`);
-        } else if (count > 0) {
-          riskList.push(`${s.name} (${avg.toFixed(1)})`);
-        } else {
-          emptyList.push(s.name);
-        }
-
-        return {
-          name: s.name,
-          grades: grades,
-          items: items,
-          avg: avg,
-          isAccredited: isAccredited
-        };
+    // Четвертные отметки текущей четверти по предметам (для рамки вокруг средней)
+    const quarterKey = data.quarterNumber ? String(data.quarterNumber) : '';
+    const finalMarks = new Map();
+    if (quarterKey && data.final && Array.isArray(data.final.subjects)) {
+      data.final.subjects.forEach(r => {
+        const v = r.q ? r.q[quarterKey] : null;
+        if (v !== null && v !== undefined && v !== '') finalMarks.set(normName(r.name), v);
       });
-
-      processedSubjects.sort((a, b) => b.avg - a.avg);
-
-      // Оценок нет (например, сразу после начала новой четверти) - прочерк, а не выдуманное число
-      const overallAvg = totalCount > 0 ? (totalSum / totalCount).toFixed(1) : '—';
-
-      document.getElementById('overall-avg').textContent = overallAvg;
-      document.getElementById('total-grades').textContent = totalCount;
-      document.getElementById('accredited-count').textContent = `${accreditedCount} / ${subjectsData.length}`;
-      document.getElementById('status-badge-text').textContent = `Достаточно оценок для аттестации: ${accreditedCount} из ${subjectsData.length}`;
-
-      renderSubjects(processedSubjects);
-      renderAnalytics(overallAvg, totalCount, accreditedCount, subjectsData.length, accreditedList, riskList, emptyList, newList, data.weekly);
-      renderChart(data.weekly || [], totalCount > 0 ? parseFloat(overallAvg) : null);
-      renderFinal(data.final, data.quarterNumber);
-
-    } catch (error) {
-      console.error(error);
-      document.getElementById('period-text').textContent = 'Ошибка загрузки данных из data.json';
     }
+
+    let totalSum = 0;
+    let totalCount = 0;
+    let accreditedCount = 0;
+
+    const accreditedList = [];
+    const riskList = [];
+    const emptyList = [];
+    const newList = [];
+
+    const today = todayInMinsk();
+    const subjectsData = data.subjects.filter(s => !EXCLUDED_SUBJECT.test(s.name || ''));
+
+    const processedSubjects = subjectsData.map(s => {
+      // grades_detail: [{value, date, first_seen}] - есть в новых data.json; для старых берём просто grades
+      const items = Array.isArray(s.grades_detail)
+        ? s.grades_detail.map(d => ({
+            value: d.value,
+            date: d.date || '',
+            isNew: !!d.first_seen && String(d.first_seen).slice(0, 10) === today
+          }))
+        : (s.grades || []).map(g => ({ value: g, date: '', isNew: false }));
+
+      const grades = items.map(it => it.value);
+      const count = grades.length;
+      const sum = grades.reduce((acc, val) => acc + val, 0);
+      const avg = count > 0 ? (sum / count) : 0;
+      const isAccredited = count >= 3;
+
+      totalSum += sum;
+      totalCount += count;
+
+      items.forEach(it => { if (it.isNew) newList.push(`${s.name} ${it.value}`); });
+
+      if (isAccredited) {
+        accreditedCount++;
+        accreditedList.push(`${s.name} (${avg.toFixed(2)})`);
+      } else if (count > 0) {
+        riskList.push(`${s.name} (${avg.toFixed(1)})`);
+      } else {
+        emptyList.push(s.name);
+      }
+
+      return {
+        name: s.name,
+        grades: grades,
+        items: items,
+        avg: avg,
+        isAccredited: isAccredited,
+        finalMark: finalMarks.has(normName(s.name)) ? finalMarks.get(normName(s.name)) : null
+      };
+    });
+
+    processedSubjects.sort((a, b) => b.avg - a.avg);
+
+    // Оценок нет (например, сразу после начала новой четверти) - прочерк, а не выдуманное число
+    const overallAvg = totalCount > 0 ? (totalSum / totalCount).toFixed(1) : '—';
+
+    document.getElementById('overall-avg').textContent = overallAvg;
+    document.getElementById('total-grades').textContent = totalCount;
+    document.getElementById('accredited-count').textContent = `${accreditedCount} / ${subjectsData.length}`;
+    document.getElementById('legend-final').style.display = processedSubjects.some(s => s.finalMark !== null) ? '' : 'none';
+
+    renderSubjects(processedSubjects);
+    renderAnalytics(overallAvg, totalCount, accreditedCount, subjectsData.length, accreditedList, riskList, emptyList, newList);
+    renderChart(data.weekly || []);
+    renderFinal(data.final, data.quarterNumber);
+  }
+
+  // ---------- Выбор четверти ----------
+  // По умолчанию показывается текущая четверть (data.quarterNumber): с началом новой четверти выбор сбрасывается на неё.
+  // Прошлые четверти лежат в data.views[номер]. Выбор живёт, пока открыто приложение.
+  let lastData = null;
+  let viewQuarter = null;        // null = текущая четверть
+  let lastCurrentQuarter = null;
+
+  function composeView(data, q) {
+    if (!q || q === data.quarterNumber || !data.views || !data.views[q]) return data;
+    return Object.assign({}, data, data.views[q]);
+  }
+
+  function renderQuarterSelect(data) {
+    const box = document.getElementById('quarter-select');
+    const list = Array.isArray(data.quarters) ? data.quarters : [];
+    if (!list.length) { box.innerHTML = ''; syncView(); return; }
+    const sel = viewQuarter || data.quarterNumber;
+    box.innerHTML = '<span class="qsel-label">Четверть</span>' + list.map(q => {
+      const roman = String(q.name || '').split(' ')[0];
+      const cls = 'qsel-btn' + (q.number === sel ? ' active' : '') + (q.state === 'current' ? ' current' : '');
+      return `<button type="button" class="${cls}" data-q="${q.number}" aria-pressed="${q.number === sel}" ${q.state === 'future' ? 'disabled' : ''}>${esc(roman)}</button>`;
+    }).join('');
+    syncView();
+  }
+
+  function showData(data) {
+    if (data.quarterNumber !== lastCurrentQuarter) { viewQuarter = null; lastCurrentQuarter = data.quarterNumber; }
+    lastData = data;
+    renderQuarterSelect(data);
+    renderAll(composeView(data, viewQuarter));
+  }
+
+  document.getElementById('quarter-select').addEventListener('click', e => {
+    const b = e.target.closest && e.target.closest('.qsel-btn');
+    if (!b || b.disabled || !lastData) return;
+    const q = Number(b.dataset.q);
+    viewQuarter = q === lastData.quarterNumber ? null : q;
+    showData(lastData);
+  });
+
+  // Имя и фамилия: первые два слова из полного имени в дневнике (отчество отбрасывается)
+  function shortName(full) {
+    return String(full || '').trim().split(/\s+/).filter(Boolean).slice(0, 2).join(' ');
+  }
+
+  // Название предмета для сравнения между списком уроков и итоговыми отметками
+  function normName(s) {
+    return String(s || '').toLowerCase().replace(/ё/g, 'е').replace(/\s+/g, ' ').trim();
   }
 
   function renderSubjects(subjects) {
@@ -259,7 +375,7 @@
     container.innerHTML = subjects.map(s => {
       const colorClass = s.isAccredited ? 'green' : 'red';
       const gradesHtml = s.items.length > 0
-        ? s.items.map(it => `<span class="grade-badge ${colorClass}${it.isNew ? ' new' : ''}" data-date="${esc(it.date)}">${esc(it.value)}</span>`).join('')
+        ? s.items.map(it => `<span class="grade-badge ${colorClass}${it.isNew ? ' new' : ''}" data-date="${esc(it.date)}">${it.value}</span>`).join('')
         : `<span class="no-grades">Нет оценок</span>`;
 
       const barWidth = (s.avg / 10) * 100;
@@ -269,7 +385,7 @@
           <!-- 1. Название предмета и балл -->
           <div class="subject-header">
             <span class="subject-title">${esc(s.name)}</span>
-            <span class="subject-score">${s.avg > 0 ? s.avg.toFixed(2) : '0.0'}</span>
+            <span class="subject-score${s.finalMark !== null ? ' has-final' : ''}"${s.finalMark !== null ? ` data-tip="Четвертная отметка: ${esc(s.finalMark)}"` : ''}>${s.avg > 0 ? s.avg.toFixed(2) : '0.0'}</span>
           </div>
           <!-- 2. Строка с оценками -->
           <div class="grades-row">
@@ -284,35 +400,31 @@
     }).join('');
   }
 
-  function renderAnalytics(overallAvg, totalCount, accreditedCount, totalSubjects, accreditedList, riskList, emptyList, newList, weeklyData) {
+  function renderAnalytics(overallAvg, totalCount, accreditedCount, totalSubjects, accreditedList, riskList, emptyList, newList) {
     const list = document.getElementById('analytics-list');
-
-    // недели без оценок (avg = null) в сравнении не участвуют
-    const weeksWithAvg = (weeklyData || []).filter(w => w.avg !== null && w.avg !== undefined);
-    let weeklySummary = '';
-    if (weeksWithAvg.length >= 2) {
-      const first = weeksWithAvg[0];
-      const last = weeksWithAvg[weeksWithAvg.length - 1];
-      weeklySummary = `<li><b>Динамика четверти:</b> неделя ${esc(first.label)} — <b>${first.avg.toFixed(2)}</b>, последняя неделя с оценками (${esc(last.label)}) — <b>${last.avg.toFixed(2)}</b>.</li>`;
-    }
 
     const newSummary = newList.length > 0
       ? `<li><b>Новые сегодня (${newList.length}):</b> ${esc(newList.join(', '))}.</li>`
       : '';
 
     list.innerHTML = `
-      <li><b>Общие показатели:</b> Всего ${totalCount} отметок, общий средний балл — <b>${overallAvg}</b>.</li>
+      <li><b>Общие показатели:</b> всего ${totalCount} оценок за четверть, <b>среднее по всем оценкам — ${overallAvg}</b> (сумма всех оценок, делённая на их число). Среднее по четвертным отметкам смотрите на вкладке «Итоги».</li>
       ${newSummary}
       <li><b>Аттестовано (${accreditedCount} из ${totalSubjects}):</b> ${esc(accreditedList.join(', ') || 'нет')}.</li>
       <li><b>В зоне риска (${riskList.length}):</b> ${esc(riskList.join(', ') || 'нет')}.</li>
       <li><b>Без оценок (${emptyList.length}):</b> ${esc(emptyList.join(', ') || 'нет')}.</li>
-      ${weeklySummary}
     `;
   }
 
-  function renderChart(weeklyData, overallAvg) {
-    const canvas = document.getElementById('weeklyChart');
+  function renderChart(weeklyData) {
+    const holder = document.querySelector('.chart-container-line');
     const emptyNote = document.getElementById('weekly-empty');
+    if (typeof Chart === 'undefined') {
+      holder.innerHTML = '<div class="chart-missing">График недоступен: не загрузилась библиотека Chart.js (нужен интернет).</div>';
+      return;
+    }
+    if (!document.getElementById('weeklyChart')) holder.innerHTML = '<canvas id="weeklyChart"></canvas>';
+    const canvas = document.getElementById('weeklyChart');
 
     if (weeklyChartInstance) {
       weeklyChartInstance.destroy();
@@ -325,19 +437,28 @@
     emptyNote.style.display = hasData ? 'none' : '';
     if (!hasData) return;
 
-    const ctx = canvas.getContext('2d');
-    const labels = weeklyData.map(w => w.label);
-    const dataPoints = weeklyData.map(w => w.avg);
-    const targetLine = weeklyData.map(() => overallAvg);
+    // Нарастающая средняя за четверть: по всем оценкам от начала четверти до конца недели.
+    // core.js кладёт её в cumAvg; у старых сохранённых данных её нет - считаем по средним и числу оценок недель.
+    let runSum = 0, runCount = 0;
+    const cumulative = weeklyData.map(w => {
+      if (w.cumAvg !== undefined) return w.cumAvg;
+      if (w.avg !== null && w.avg !== undefined && w.count) { runSum += w.avg * w.count; runCount += w.count; }
+      return runCount ? Math.round(runSum / runCount * 100) / 100 : null;
+    });
 
-    weeklyChartInstance = new Chart(ctx, {
+    const labels = weeklyData.map(w => w.label);
+    const weekly = weeklyData.map(w => w.avg);
+    const all = weekly.concat(cumulative).filter(v => v !== null && v !== undefined);
+    const yMin = Math.min(5, Math.floor(Math.min.apply(null, all)));
+
+    weeklyChartInstance = new Chart(canvas.getContext('2d'), {
       type: 'line',
       data: {
         labels: labels,
         datasets: [
           {
-            label: 'Недельный балл',
-            data: dataPoints,
+            label: 'Средняя за неделю',
+            data: weekly,
             borderColor: '#0052cc',
             backgroundColor: '#0052cc',
             borderWidth: 2,
@@ -346,12 +467,15 @@
             spanGaps: true
           },
           {
-            label: `Средний балл (${overallAvg})`,
-            data: targetLine,
+            label: 'Среднее по всем оценкам (нарастающее)',
+            data: cumulative,
             borderColor: '#d97706',
+            backgroundColor: '#d97706',
             borderWidth: 2,
             borderDash: [4, 4],
-            pointRadius: 0
+            pointRadius: 3,
+            pointHoverRadius: 5,
+            spanGaps: true
           }
         ]
       },
@@ -359,11 +483,12 @@
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        layout: { padding: { top: 20 } },
+        layout: { padding: { top: 20, bottom: 8 } },
+        interaction: { mode: 'index', intersect: false },
         plugins: { legend: { labels: { color: '#334155', font: { size: 11 } } } },
         scales: {
           x: { ticks: { color: '#64748b', font: { size: 11 } }, grid: { color: '#e2e8f0' } },
-          y: { min: 5, max: 10, ticks: { color: '#64748b', stepSize: 1 }, grid: { color: '#e2e8f0' } }
+          y: { min: yMin, max: 10, ticks: { color: '#64748b', stepSize: 1 }, grid: { color: '#e2e8f0' } }
         }
       }
     });
@@ -388,7 +513,7 @@
     const issued = rows.reduce((n, r) => n + Object.keys(r.q || {}).length + (r.exam ? 1 : 0) + (r.year ? 1 : 0), 0);
     status.textContent = issued > 0
       ? `Выставлено итоговых отметок: ${issued}`
-      : 'Школа пока не выставила итоговых отметок';
+      : 'Итоговых отметок пока не найдено: возможно, их ещё не выставили';
     if (finalData.stale) status.textContent += ' (данные могли устареть)';
 
     const cell = (value, extra) => {
@@ -414,7 +539,7 @@
       <tr>
         <th class="col-name">Предмет</th>
         ${quarterCols.map(([k, label]) => `<th class="${k === curNum ? 'cur' : ''}">${label}</th>`).join('')}
-        <th>Ср.</th>
+        <th class="avg-col">Ср.</th>
         ${hasExam ? '<th>Экз.</th>' : ''}
         <th>Год</th>
       </tr>`;
@@ -431,7 +556,7 @@
     // Итоговая строка: среднее по каждой четверти по всем предметам, среднее средних и среднее годовых отметок
     const foot = `
       <tr class="total-row">
-        <td class="col-name">Средний балл</td>
+        <td class="col-name">Среднее четвертных</td>
         ${quarterCols.map(([k]) => cell(fmt(mean(rows.map(r => (r.q || {})[k]))), k === curNum ? 'cur' : '')).join('')}
         ${cell(fmt(mean(subjectAvg)), 'avg')}
         ${hasExam ? cell(fmt(mean(rows.map(r => r.exam)))) : ''}
@@ -439,18 +564,94 @@
       </tr>`;
 
     wrap.innerHTML = `<table class="final-table"><thead>${head}</thead><tbody>${body}</tbody><tfoot>${foot}</tfoot></table>
-      <div class="final-note">Отметки выставлены школой. «Ср.» — среднее выставленных четвертных отметок по предмету, нижняя строка — среднее по всем предметам.</div>`;
+      <div class="final-note">Отметки выставлены школой. «Ср.» — среднее выставленных четвертных отметок по предмету, нижняя строка — среднее четвертных отметок по всем предметам. Это не то же самое, что «Ср. по всем оценкам» на других вкладках: там учитываются все текущие оценки подряд.</div>`;
   }
 
   const TAB_NAMES = ['subjects', 'weekly', 'final'];
 
+  function currentTabIndex() {
+    return TAB_NAMES.findIndex(name => document.getElementById('tab-' + name).classList.contains('active'));
+  }
+
+  // Что видно на экране: пока данных нет - «Загружаю…» (или текст ошибки в #status), потом дашборд
+  function syncView() {
+    const tab = TAB_NAMES[currentTabIndex()] || 'subjects';
+    const failed = statusEl.classList.contains('error');
+    document.getElementById('dashboard').style.display = dataShown ? 'block' : 'none';
+    document.getElementById('empty-state').style.display = (!dataShown && !failed) ? 'block' : 'none';
+    const qs = document.getElementById('quarter-select');
+    qs.style.display = (dataShown && qs.innerHTML) ? 'flex' : 'none';
+    // Текстовая аналитика относится к текущей четверти - на вкладке «Итоги» её не показываем.
+    // Карточка со средним по всем оценкам на «Итогах» не нужна: там свои средние по четвертным отметкам.
+    document.getElementById('analytics-box').style.display = tab === 'final' ? 'none' : '';
+    document.getElementById('stats-card').style.display = tab === 'final' ? 'none' : '';
+  }
+
   function switchTab(tabName) {
-    document.querySelectorAll('.tab-btn').forEach((btn, i) => btn.classList.toggle('active', TAB_NAMES[i] === tabName));
-    TAB_NAMES.forEach(name => document.getElementById('tab-' + name).classList.toggle('active', name === tabName));
-    // Текстовая аналитика относится к текущей четверти - на вкладке «Итоги» её не показываем
-    document.getElementById('analytics-box').style.display = tabName === 'final' ? 'none' : '';
+    const prevIdx = currentTabIndex();
+    const nextIdx = TAB_NAMES.indexOf(tabName);
+    if (nextIdx === -1) return;
+    document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+      btn.classList.toggle('active', TAB_NAMES[i] === tabName);
+      btn.setAttribute('aria-selected', TAB_NAMES[i] === tabName ? 'true' : 'false');
+    });
+    TAB_NAMES.forEach(name => {
+      const el = document.getElementById('tab-' + name);
+      el.classList.remove('enter-next', 'enter-prev');
+      el.classList.toggle('active', name === tabName);
+    });
+    if (prevIdx !== nextIdx) {
+      if (prevIdx !== -1) document.getElementById('tab-' + tabName).classList.add(nextIdx > prevIdx ? 'enter-next' : 'enter-prev');
+      hideGradeTip();
+      window.scrollTo(0, 0);   // у каждого раздела своя длина: открываем сверху
+    }
+    syncView();
     if (tabName === 'weekly' && weeklyChartInstance) weeklyChartInstance.resize();
   }
+
+  // ---- Свайп влево-вправо между разделами ----
+  // Влево - следующий раздел, вправо - предыдущий, по кругу не крутится. Не работает: на области графика
+  // (data-noswipe), в полях ввода, в прокручиваемых по горизонтали блоках и в два пальца.
+  function swipeBlocked(el) {
+    for (let n = el; n && n !== document.documentElement; n = n.parentElement) {
+      if (n.hasAttribute && n.hasAttribute('data-noswipe')) return true;
+      const tag = n.tagName;
+      if (tag === 'CANVAS' || tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return true;
+      if (n.scrollWidth > n.clientWidth + 1) {
+        const ox = getComputedStyle(n).overflowX;
+        if (ox === 'auto' || ox === 'scroll') return true;
+      }
+    }
+    return false;
+  }
+
+  (function initSwipe() {
+    const MIN_DX = 60;        // минимум по горизонтали, px
+    const DIRECTNESS = 1.8;   // по горизонтали должно быть заметно больше, чем по вертикали (иначе это прокрутка)
+    const MAX_MS = 800;
+    let sx = 0, sy = 0, st = 0, tracking = false;
+
+    document.addEventListener('touchstart', e => {
+      tracking = false;
+      if (e.touches.length !== 1) return;
+      if (e.target.closest && e.target.closest('.tabbar')) return;
+      if (swipeBlocked(e.target)) return;
+      sx = e.touches[0].clientX; sy = e.touches[0].clientY; st = Date.now(); tracking = true;
+    }, { passive: true });
+
+    document.addEventListener('touchcancel', () => { tracking = false; }, { passive: true });
+
+    document.addEventListener('touchend', e => {
+      if (!tracking) return;
+      tracking = false;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - sx, dy = t.clientY - sy;
+      if (Date.now() - st > MAX_MS) return;
+      if (Math.abs(dx) < MIN_DX || Math.abs(dx) < Math.abs(dy) * DIRECTNESS) return;
+      const idx = currentTabIndex() + (dx < 0 ? 1 : -1);
+      if (idx >= 0 && idx < TAB_NAMES.length) switchTab(TAB_NAMES[idx]);
+    }, { passive: true });
+  })();
 
   // ---- Дата получения оценки: наведение мышью (компьютер) и тап (телефон) ----
   const gradeTip = document.createElement('div');
@@ -465,8 +666,11 @@
     return `${m[3]}.${m[2]}.${m[1]}, ${weekday}`;
   }
 
+  // Всплывающая подсказка: у плашки оценки - дата получения, у рамки четвертной (data-tip) - её текст
+  const TIP_TARGETS = '.grade-badge, .subject-score.has-final';
+
   function showGradeTip(badge) {
-    gradeTip.textContent = formatGradeDate(badge.dataset.date);
+    gradeTip.textContent = badge.dataset.tip || formatGradeDate(badge.dataset.date);
     gradeTip.style.display = 'block';
     const r = badge.getBoundingClientRect();
     const w = gradeTip.offsetWidth;
@@ -482,20 +686,46 @@
   function hideGradeTip() { gradeTip.style.display = 'none'; }
 
   document.addEventListener('mouseover', e => {
-    const b = e.target.closest && e.target.closest('.grade-badge');
+    const b = e.target.closest && e.target.closest(TIP_TARGETS);
     if (b) showGradeTip(b);
   });
   document.addEventListener('mouseout', e => {
-    const b = e.target.closest && e.target.closest('.grade-badge');
+    const b = e.target.closest && e.target.closest(TIP_TARGETS);
     if (b) hideGradeTip();
   });
   document.addEventListener('click', e => {
-    const b = e.target.closest && e.target.closest('.grade-badge');
+    const b = e.target.closest && e.target.closest(TIP_TARGETS);
     if (b) showGradeTip(b); else hideGradeTip();
   });
   window.addEventListener('scroll', hideGradeTip, { passive: true });
 
-  loadDashboardData();
+  // ============================================================
+  // Загрузка данных: страница только читает data.json рядом с собой и ничего никуда не отправляет.
+  // data.json кладёт приложение «Оценки» (или старый сборщик fetch_grades.py: формат понимаем оба).
+  // ============================================================
+  function setStatus(text, kind) {
+    statusEl.textContent = text || '';
+    statusEl.className = kind || '';
+  }
+
+  async function loadData() {
+    try {
+      // Время в адресе не даёт браузеру показать закэшированный старый файл
+      const resp = await fetch('./data.json?t=' + Date.now(), { cache: 'no-store' });
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      const data = await resp.json();
+      if (!data || !Array.isArray(data.subjects)) throw new Error('в файле нет списка предметов');
+      setStatus('');
+      showData(data);
+    } catch (e) {
+      console.error(e);
+      setStatus('Не удалось загрузить данные (' + ((e && e.message) || e) + '). Обновите страницу позже.', 'error');
+      syncView();
+    }
+  }
+
+  loadData();
+
 </script>
 </body>
 </html>
