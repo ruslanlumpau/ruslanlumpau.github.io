@@ -25,6 +25,13 @@
     #status:empty { display: none; }
     #status.error { color: #de350b; }
     #status.ok { color: #00875a; }
+    #ptr { position: fixed; top: 0; left: 50%; z-index: 30; width: 40px; height: 40px; margin-left: -20px; border-radius: 50%; background: #ffffff; box-shadow: 0 2px 10px rgba(9, 30, 66, 0.25); display: flex; align-items: center; justify-content: center; opacity: 0; transform: translateY(-56px); pointer-events: none; }
+    #ptr svg { width: 22px; height: 22px; fill: none; stroke: #0052cc; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.12s; }
+    #ptr.armed svg { transform: rotate(180deg); }
+    #ptr.settle { transition: transform 0.2s ease-out, opacity 0.2s; }
+    #ptr.busy svg { display: none; }
+    #ptr.busy::after { content: ''; width: 20px; height: 20px; border-radius: 50%; border: 3px solid #0052cc; border-top-color: transparent; animation: ptrSpin 0.8s linear infinite; }
+    @keyframes ptrSpin { to { transform: rotate(360deg); } }
 
     .stats-card { background: #f0f4f8; border-radius: 8px; padding: 10px; margin-bottom: 14px; display: flex; justify-content: space-around; text-align: center; }
     .stat-item .val { font-size: 16px; font-weight: bold; color: #0052cc; }
@@ -120,6 +127,7 @@
   </style>
 </head>
 <body>
+<div id="ptr" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg></div>
 
 <div class="container">
   <h1 id="student-name">Оценки</h1>
@@ -708,23 +716,97 @@
     statusEl.className = kind || '';
   }
 
-  async function loadData() {
+  let refreshing = false;
+  let statusTimer = null;
+
+  // Читает data.json заново. При обновлении (иначе первая загрузка) ошибка не стирает уже показанные данные.
+  async function loadData(isRefresh) {
+    if (refreshing) return;
+    refreshing = true;
+    if (isRefresh) ptrBusy(true);
+    clearTimeout(statusTimer);
+    const started = Date.now();
     try {
       // Время в адресе не даёт браузеру показать закэшированный старый файл
       const resp = await fetch('./data.json?t=' + Date.now(), { cache: 'no-store' });
       if (!resp.ok) throw new Error('HTTP ' + resp.status);
       const data = await resp.json();
       if (!data || !Array.isArray(data.subjects)) throw new Error('в файле нет списка предметов');
-      setStatus('');
+      const changed = !lastData || lastData.last_updated !== data.last_updated;
       showData(data);
+      if (isRefresh) {
+        setStatus(changed ? 'Обновлено' : 'Новых данных пока нет', 'ok');
+        statusTimer = setTimeout(() => setStatus(''), 2500);
+      } else {
+        setStatus('');
+      }
     } catch (e) {
       console.error(e);
-      setStatus('Не удалось загрузить данные (' + ((e && e.message) || e) + '). Обновите страницу позже.', 'error');
+      if (isRefresh && dataShown) {
+        setStatus('Не удалось обновить (' + ((e && e.message) || e) + '). Показаны прежние данные.', 'error');
+        statusTimer = setTimeout(() => setStatus(''), 4000);
+      } else {
+        setStatus('Не удалось загрузить данные (' + ((e && e.message) || e) + '). Потяните вниз, чтобы повторить.', 'error');
+      }
       syncView();
+    } finally {
+      // спиннер показываем не меньше полусекунды, чтобы было видно, что обновление прошло
+      const rest = Math.max(0, 500 - (Date.now() - started));
+      setTimeout(() => { refreshing = false; ptrBusy(false); }, isRefresh ? rest : 0);
     }
   }
 
-  loadData();
+  // ============================================================
+  // Обновление свайпом вниз (с самого верха страницы): заново читает data.json, страницу не перезагружает
+  // ============================================================
+  const ptr = document.getElementById('ptr');
+
+  function ptrBusy(on) {
+    ptr.classList.add('settle');
+    ptr.classList.toggle('busy', !!on);
+    ptr.classList.remove('armed');
+    ptr.style.transform = on ? 'translateY(10px)' : 'translateY(-56px)';
+    ptr.style.opacity = on ? '1' : '0';
+  }
+
+  (function initPull() {
+    const THRESHOLD = 62;     // насколько нужно потянуть (после сглаживания), px
+    const MAX = 100;
+    let sx = 0, sy = 0, tracking = false, pulling = false, dist = 0;
+
+    document.addEventListener('touchstart', e => {
+      tracking = false; pulling = false; dist = 0;
+      if (e.touches.length !== 1 || refreshing) return;
+      if (window.scrollY > 0) return;                                   // тянуть можно только с самого верха страницы
+      sx = e.touches[0].clientX; sy = e.touches[0].clientY; tracking = true;
+    }, { passive: true });
+
+    document.addEventListener('touchmove', e => {
+      if (!tracking) return;
+      const dy = e.touches[0].clientY - sy, dx = e.touches[0].clientX - sx;
+      if (!pulling) {
+        if (dy < -8 || (Math.abs(dx) > 14 && Math.abs(dx) > dy)) { tracking = false; return; }   // вверх или вбок - не обновление
+        if (dy > 12 && dy > Math.abs(dx) * 1.5 && window.scrollY <= 0) pulling = true; else return;
+      }
+      dist = Math.max(0, Math.min(MAX, (dy - 12) * 0.55));
+      ptr.classList.remove('settle');
+      ptr.style.opacity = String(Math.min(1, dist / 30));
+      ptr.style.transform = `translateY(${dist - 56}px)`;
+      ptr.classList.toggle('armed', dist >= THRESHOLD);
+    }, { passive: true });
+
+    function end(cancelled) {
+      const fire = pulling && !cancelled && dist >= THRESHOLD;
+      const wasPulling = pulling;
+      tracking = false; pulling = false;
+      if (!wasPulling) return;
+      if (fire) loadData(true); else ptrBusy(false);
+    }
+    document.addEventListener('touchend', () => end(false), { passive: true });
+    document.addEventListener('touchcancel', () => end(true), { passive: true });
+  })();
+
+  loadData(false);
 
 </script>
 </body>
